@@ -1,0 +1,6 @@
+>>> Hello
+
+>> This directory contains all helper modules
+>> for the program
+
+>> It also contains the file storage file <db.json> in ./Storage

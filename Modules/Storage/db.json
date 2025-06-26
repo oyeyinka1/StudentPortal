@@ -1,74 +1,39 @@
 {
     "admissionApplications": {
-        "UID4652": {
-            "firstName": "Temitayo",
-            "lastName": "Omoniyi",
-            "middleName": "Samson",
-            "email": "thatladtemod@example.com",
-            "stateOfOrigin": "Chicago",
-            "stateOfResidence": "Atlanta",
-            "dateOfBirth": "30303003",
-            "courseOfChoice": "Computer Science",
-            "jambScore": "350",
-            "password": "6295ebf27e0d3e9d1eedd16f0fa5131d",
-            "id": "UID4652"
+        "UID0406": {
+            "email": "falz@bahd.guy",
+            "lastName": "Falz",
+            "firstName": "Malik",
+            "jambScore": "234",
+            "middleName": "BahdGuy",
+            "password": "d58cea5c9b936828fc4796512e3c8f7f",
+            "dateOfBirth": "12-08-2000",
+            "stateOfOrigin": "Akura",
+            "courseOfChoice": "CSS",
+            "stateOfResidence": "Kogei",
+            "id": "UID0406"
         },
-        "UID3329": {
-            "firstName": "Jadon",
-            "lastName": "Sancho",
-            "middleName": "Malik",
-            "email": "something@something.com",
-            "stateOfOrigin": "Manchester",
-            "stateOfResidence": "London",
-            "dateOfBirth": "07082002",
-            "courseOfChoice": "Football",
-            "jambScore": "190",
-            "password": "6ac70f3156396e9f29dc52f8d8ce699a"
-        },
-        "UID0232": {
-            "firstName": "Ethan",
-            "lastName": "Inedu",
-            "middleName": "skidev",
-            "email": "skidev@futminna.com",
-            "stateOfOrigin": "kaduna",
-            "stateOfResidence": "Nasarawa",
-            "dateOfBirth": "23-04-2003",
-            "courseOfChoice": "Data Science",
-            "jambScore": "200",
-            "password": "d9732f8f00f987dfb28880e90f4bfe7c"
-        },
-        "UID3362": {
-            "firstName": "Melvin",
-            "lastName": "Melvin",
-            "middleName": "Something ",
-            "email": "mceessquare",
-            "stateOfOrigin": "Imo",
-            "stateOfResidence": "Niger",
-            "dateOfBirth": "13-08-2222",
-            "courseOfChoice": "Cyber Security Science",
-            "jambScore": "250",
-            "password": "35aed7372c4730105d6db26f04632e67"
-        },
-        "UID1279": {
-            "firstName": "Somebody",
-            "lastName": "Anybody",
-            "middleName": "",
-            "email": "body@sexy.com",
-            "stateOfOrigin": "Gombe",
-            "stateOfResidence": "eboyin",
-            "dateOfBirth": "30-04-2004",
-            "courseOfChoice": "Software Engineering",
-            "jambScore": "250",
-            "password": "ce275ed2111cf402d7dc559f8530b9d0"
+        "UID4981": {
+            "email": "baldy@cancer.uk",
+            "lastName": "Smith",
+            "firstName": "Jada",
+            "jambScore": "340",
+            "middleName": "Baldy",
+            "password": "ec2bf93e4f6318145e0e1b1073f38517",
+            "dateOfBirth": "30-05-1995",
+            "stateOfOrigin": "Hell",
+            "courseOfChoice": "Acting",
+            "stateOfResidence": "Fire",
+            "id": "UID4981"
         }
     },
-    "shell": true,
+    "shell": false,
     "user": "guest",
     "userInput": [
-        "apply"
+        "exit"
     ],
-    "loggedIn": false,
-    "prompt": "(pyShell | guest):   ",
+    "loggedIn": true,
+    "prompt": "  | UID4981 :>  ",
     "defaultPrompt": "(pyShell | guest):   ",
     "userPermissions": {
         "guest": {
@@ -94,67 +59,6 @@
         },
         "admin": []
     },
-    "command": "apply",
-    "args": [],
-    "UID4652": {
-        "firstName": "Temitayo",
-        "lastName": "Omoniyi",
-        "middleName": "Samson",
-        "email": "thatladtemod@example.com",
-        "stateOfOrigin": "Chicago",
-        "stateOfResidence": "Atlanta",
-        "dateOfBirth": "30303003",
-        "courseOfChoice": "Computer Science",
-        "jambScore": "350",
-        "password": "6295ebf27e0d3e9d1eedd16f0fa5131d",
-        "id": "UID4652"
-    },
-    "UID3329": {
-        "firstName": "Jadon",
-        "lastName": "Sancho",
-        "middleName": "Malik",
-        "email": "something@something.com",
-        "stateOfOrigin": "Manchester",
-        "stateOfResidence": "London",
-        "dateOfBirth": "07082002",
-        "courseOfChoice": "Football",
-        "jambScore": "190",
-        "password": "6ac70f3156396e9f29dc52f8d8ce699a"
-    },
-    "UID0232": {
-        "firstName": "Ethan",
-        "lastName": "Inedu",
-        "middleName": "skidev",
-        "email": "skidev@futminna.com",
-        "stateOfOrigin": "kaduna",
-        "stateOfResidence": "Nasarawa",
-        "dateOfBirth": "23-04-2003",
-        "courseOfChoice": "Data Science",
-        "jambScore": "200",
-        "password": "d9732f8f00f987dfb28880e90f4bfe7c"
-    },
-    "UID3362": {
-        "firstName": "Melvin",
-        "lastName": "Melvin",
-        "middleName": "Something ",
-        "email": "mceessquare",
-        "stateOfOrigin": "Imo",
-        "stateOfResidence": "Niger",
-        "dateOfBirth": "13-08-2222",
-        "courseOfChoice": "Cyber Security Science",
-        "jambScore": "250",
-        "password": "35aed7372c4730105d6db26f04632e67"
-    },
-    "UID1279": {
-        "firstName": "Somebody",
-        "lastName": "Anybody",
-        "middleName": "",
-        "email": "body@sexy.com",
-        "stateOfOrigin": "Gombe",
-        "stateOfResidence": "eboyin",
-        "dateOfBirth": "30-04-2004",
-        "courseOfChoice": "Software Engineering",
-        "jambScore": "250",
-        "password": "ce275ed2111cf402d7dc559f8530b9d0"
-    }
+    "command": "exit",
+    "args": []
 }

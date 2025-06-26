@@ -90,6 +90,7 @@ class Shell:
     """
     def exit(self):
         self.shell = False
+        self.saveStorage()
 
     """
     print all available shell native commands
@@ -134,11 +135,17 @@ class Shell:
     class __dict__ attribute
     """
     def unsetShellEssentials(self):
-        try:
-            del self.__dict__['userHandle']
-            del self.__dict__['shellNativeCommands']
-        except:
-            pass
+        unsetValues = [
+            'userHandle',
+            'shellNativeCommands',
+            'loggedInUser'
+        ]
+
+        for value in unsetValues:
+            try:
+                del self.__dict__[value]
+            except:
+                pass
 
 
     """

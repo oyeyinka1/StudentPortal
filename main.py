@@ -1,12 +1,17 @@
 from Modules.FileStorage import FileStorage
 from Modules.Guest import Guest
+
 import random, string, hashlib
 
 """
-User class
+shell class
+
+receives user commands, formats, parses and calls \
+corresponding methods/classes to handle user-given \
+command
 """
 
-class User:
+class Shell:
     """
     constructor class
     """
@@ -25,17 +30,16 @@ class User:
         self.shell = True
         self.user = 'guest'
         self.userInput = ""
+        self.loggedIn = False
         self.prompt = f"(pyShell | {self.user}):   "
+        self.defaultPrompt = f"(pyShell | {self.user}):   "
 
         """
-        self.setPermissions: set user permissions
         self.runShell: run the shell of the program
-        self.setAcceptedCommands: instantiates class attribute of \
-                                  accepted commands
+        self.setshellEssentialss: instantiates essential \
+                                  class attributes
         """
-        self.setPermissions()
-        self.setAcceptedCommands()
-
+        self.setShellEssentials()
         self.runShell()
 
 
@@ -44,12 +48,12 @@ class User:
     """
     def runShell(self):
         while self.shell:
-            self.userInput = input(self.prompt)
+            self.userInput = str(input(self.prompt))
 
-            # call method to handle user inpu
+            # call method to handle user input
             self.parseInput()
-            
 
+            
     """
     handle the user input and call appropriate command to handle
     """
@@ -57,89 +61,29 @@ class User:
         self.userInput = self.userInput.strip()
         self.userInput = self.userInput.split()
 
-        """
-        check if entered commands is in list of accepted commands \
-        then, check if current use has the permission to run entered \
-        command - if true, call function to handle entered command
+        # break string into command and args
+        self.command = self.userInput[0]
+        self.args = self.userInput[1:]
 
         """
-        if self.userInput[0] in self.acceptedCommands.keys():
-            if self.userInput[0] in self.userPermissions[self.user].keys():
-                self.acceptedCommands[self.userInput[0]]()
-            else:
-                print("Sorry, you don't have permissions to run this command!")
-        else:
+        run given command if it's a shell native command \
+        otherwise check command in user permissions list and \
+        run corresponding function for command
+        """
+        if self.command not in  self.shellNativeCommands.keys() and \
+           self.command not in self.userPermissions[self.user].keys():
             print("Invalid command entered!")
+            return
 
+        if self.command in self.shellNativeCommands.keys():
+            self.shellNativeCommands.get(self.command)()
+            return
 
-    """
-    log the user into the portal
-    """
-    def login(self):
-        # handle login for guest
-        if self.user == 'guest':
-            userId = input(f"Enter your application ID: ")
-            password = input("Enter your password: ")
-
-            hashedPassword = hashlib.md5(password.encode())
-            hashedPassword = hashedPassword.hexdigest()
-
-            if userId in self.admissionApplications.keys():
-                if hashedPassword == self.admissionApplications[userId]['password']:
-                    # instantiate guest class to handle curently logged in guest
-                    Guest(self.admissionApplications[userId], userId)
-                else:
-                    print("Invalid ID or Password")
-            else:
-                print("Invalid ID or Password")
-
-
-    """
-    handle admission application for guests
-    """
-    def applyAdmission(self):
-        id = f"UID{random.randint(0,9999):04}"
-
-        while id in self.admissionApplications.keys():
-            id = f"UID{random.randint(0,9999):04}"
-
-        # randomly generate and hash generated password for user
-        password = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
-        hashedPassword = hashlib.md5(password.encode())
-        hashedPassword = hashedPassword.hexdigest()
-
-        firstName = input("Enter your First Name: ")
-        lastName = input("Enter your Last name: ")
-        middleName = input("Enter your Middle Name (leave blank if not applicable): ")
-        email = input("Enter your email address: ")
-        stateOfOrigin = input("Enter your State of Origin: ")
-        stateOfResidence = input("Enter your State of Residence: ")
-        dateOfBirth = input("Enter your Date of Birth (DD|MM|YYYY): ")
-        courseOfChoice = input("Enter desired course of study: ")
-        jambScore = input("Enter your UTME score: ")
-
-        userApplication = {
-            id: {
-                'firstname': firstName,
-                'lastname': lastName,
-                'middlename': middleName,
-                'email': email,
-                'stateoforigin': stateOfOrigin,
-                'state of residence': stateOfResidence,
-                'dateofbirth': dateOfBirth,
-                'courseofchoice': courseOfChoice,
-                'jambscore': jambScore,
-                'password': hashedPassword
-                 }
-        }
-
-        self.admissionApplications.update(userApplication)
-
-        print("Congratulations, your application has been successfully received!")
-        print(f"Please, take note of your user id and password: \nID: {id}\nPASSWORD: {password}")
-
-        # save program state after application
-        self.save()
+        if self.command in self.userPermissions[self.user].keys():
+            self.userHandle.get(self.user)(self)
+        else:
+            print("Sorry, you don't have permissions to run this command!")
+            
 
     """
     exit the shell
@@ -148,46 +92,54 @@ class User:
         self.shell = False
 
     """
+    print all available shell native commands
     """
     def info(self):
         pass
 
 
     """
-    sets accepted commands as a class attribute
+    sets shell essential attributes
     """
-    def setAcceptedCommands(self):
-        self.acceptedCommands = {
-            'login': self.login,
+    def setShellEssentials(self):
+        # set shell native commands to be handled by this class
+        self.shellNativeCommands = {
             'exit': self.exit,
-            'apply': self.applyAdmission,
             'info': self.info
         }
 
-        
+        # set user native commands to be handled by user classes
+        self.userHandle = {
+            'guest': Guest
+        }
+
+        # set permissions for hierarchy of users
+        checkUserPermissions = self.__dict__.get('userPermissions')
+        if not checkUserPermissions:
+            self.userPermissions = {
+                'guest': {
+                    'view': ['students', 'schools', 'departments', 'cut-off'],
+                    'apply': ['admission'],
+                    'login': True,
+                    'logout': True
+                },
+                'student': {
+                    'view': ['students', 'schools', 'departments', 'results', ],
+                },
+                'admin': []
+            }
+
     """
-    set user permissions for guest, admin and student
+    deletes non-serializable class attributes from the \
+    class __dict__ attribute
     """
-    def setPermissions(self):
+    def unsetShellEssentials(self):
         try:
-            if self.userPermissions:
-                return
+            del self.__dict__['userHandle']
+            del self.__dict__['shellNativeCommands']
         except:
             pass
 
-        self.userPermissions = {
-            'guest': {
-                'view': ['students', 'schools', 'departments', 'cut-off'],
-                'apply': ['admission'],
-                'login': True,
-                'exit': True,
-                'info': True
-            },
-            'student': {
-                'view': ['students', 'schools', 'departments', 'results', ],
-            },
-            'admin': []
-        }
 
     """
     load data from file storage
@@ -199,24 +151,23 @@ class User:
             self.__dict__.update(load)
 
     """
-    strip unwanted values in <self> and save state
+    strip unwanted values in <self> and save to storage
     """
-    def save(self):
-        """
-        delete acceptedCommands from instance \
-        because it's not json serializable
-        """
-        del self.__dict__['acceptedCommands']
+    def saveStorage(self):
+        # unset shell essentials
+        self.unsetShellEssentials()
+
+        # save to file storage
         FileStorage.save(self)
 
-        # set accepted commands after saving
-        self.setAcceptedCommands()
+        # set shell essentials
+        self.setShellEssentials()
 
     """
     save to file storage upon exit of program
     """
     def __del__(self):
-        self.save()
+        self.saveStorage()
 
 #initialize class
-User()
+Shell()

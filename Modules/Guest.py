@@ -37,7 +37,9 @@ class Guest:
     """
     def parseInput(self):
         self.userInput = self.userInput.strip()
+        """
         self.userInput = self.userInput.split()
+        """
 
         """
         check if entered commands is in list of accepted commands \
@@ -57,7 +59,7 @@ class Guest:
 
         if confirm.upper() == "Y":
             self.shell = False
-        elif confirm.upper == "N":
+        elif confirm.upper() == "N":
             return
         else:
             print("Invalid option chosen!")
@@ -65,7 +67,7 @@ class Guest:
     """
     """
     def checkStatus(self):
-        pass
+        print(f"Application status for {self.id}")
 
     """
     """

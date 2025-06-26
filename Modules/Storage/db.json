@@ -50,10 +50,10 @@
             "password": "35aed7372c4730105d6db26f04632e67"
         }
     },
-    "shell": true,
+    "shell": false,
     "user": "guest",
     "userInput": [
-        "apply"
+        "exit"
     ],
     "loggedIn": false,
     "prompt": "(pyShell | guest):   ",
@@ -82,7 +82,7 @@
         },
         "admin": []
     },
-    "command": "apply",
+    "command": "exit",
     "args": [],
     "UID4652": {
         "firstName": "Temitayo",

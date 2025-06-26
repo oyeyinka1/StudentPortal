@@ -1,1 +1,160 @@
-{"admissionApplications": {"UID9922": {"firstName": "Faruq", "lastName": "Faroush", "middleName": "asdfasd", "email": "dryty", "stateOfOrigin": "sdfg", "stateOfResidence": "cvsdfg", "dateOfBirth": "dsfgsdf", "courseOfChoice": "sdfgsf", "jambScore": "asdf", "password": "c2ca798444e026f292e77723c2c28bfc"}}, "shell": false, "user": "guest", "userInput": ["exit"], "loggedIn": false, "prompt": "(pyShell | guest):   ", "defaultPrompt": "(pyShell | guest):   ", "userPermissions": {"guest": {"view": ["students", "schools", "departments", "cut-off"], "apply": ["admission"], "login": true, "logout": true}, "student": {"view": ["students", "schools", "departments", "results"]}, "admin": []}, "command": "exit", "args": [], "UID9922": {"firstName": "Faruq", "lastName": "Faroush", "middleName": "asdfasd", "email": "dryty", "stateOfOrigin": "sdfg", "stateOfResidence": "cvsdfg", "dateOfBirth": "dsfgsdf", "courseOfChoice": "sdfgsf", "jambScore": "asdf", "password": "c2ca798444e026f292e77723c2c28bfc", "id": "UID9922"}}
+{
+    "admissionApplications": {
+        "UID4652": {
+            "firstName": "Temitayo",
+            "lastName": "Omoniyi",
+            "middleName": "Samson",
+            "email": "thatladtemod@example.com",
+            "stateOfOrigin": "Chicago",
+            "stateOfResidence": "Atlanta",
+            "dateOfBirth": "30303003",
+            "courseOfChoice": "Computer Science",
+            "jambScore": "350",
+            "password": "6295ebf27e0d3e9d1eedd16f0fa5131d",
+            "id": "UID4652"
+        },
+        "UID3329": {
+            "firstName": "Jadon",
+            "lastName": "Sancho",
+            "middleName": "Malik",
+            "email": "something@something.com",
+            "stateOfOrigin": "Manchester",
+            "stateOfResidence": "London",
+            "dateOfBirth": "07082002",
+            "courseOfChoice": "Football",
+            "jambScore": "190",
+            "password": "6ac70f3156396e9f29dc52f8d8ce699a"
+        },
+        "UID0232": {
+            "firstName": "Ethan",
+            "lastName": "Inedu",
+            "middleName": "skidev",
+            "email": "skidev@futminna.com",
+            "stateOfOrigin": "kaduna",
+            "stateOfResidence": "Nasarawa",
+            "dateOfBirth": "23-04-2003",
+            "courseOfChoice": "Data Science",
+            "jambScore": "200",
+            "password": "d9732f8f00f987dfb28880e90f4bfe7c"
+        },
+        "UID3362": {
+            "firstName": "Melvin",
+            "lastName": "Melvin",
+            "middleName": "Something ",
+            "email": "mceessquare",
+            "stateOfOrigin": "Imo",
+            "stateOfResidence": "Niger",
+            "dateOfBirth": "13-08-2222",
+            "courseOfChoice": "Cyber Security Science",
+            "jambScore": "250",
+            "password": "35aed7372c4730105d6db26f04632e67"
+        },
+        "UID1279": {
+            "firstName": "Somebody",
+            "lastName": "Anybody",
+            "middleName": "",
+            "email": "body@sexy.com",
+            "stateOfOrigin": "Gombe",
+            "stateOfResidence": "eboyin",
+            "dateOfBirth": "30-04-2004",
+            "courseOfChoice": "Software Engineering",
+            "jambScore": "250",
+            "password": "ce275ed2111cf402d7dc559f8530b9d0"
+        }
+    },
+    "shell": true,
+    "user": "guest",
+    "userInput": [
+        "apply"
+    ],
+    "loggedIn": false,
+    "prompt": "(pyShell | guest):   ",
+    "defaultPrompt": "(pyShell | guest):   ",
+    "userPermissions": {
+        "guest": {
+            "view": [
+                "students",
+                "schools",
+                "departments",
+                "cut-off"
+            ],
+            "apply": [
+                "admission"
+            ],
+            "login": true,
+            "logout": true
+        },
+        "student": {
+            "view": [
+                "students",
+                "schools",
+                "departments",
+                "results"
+            ]
+        },
+        "admin": []
+    },
+    "command": "apply",
+    "args": [],
+    "UID4652": {
+        "firstName": "Temitayo",
+        "lastName": "Omoniyi",
+        "middleName": "Samson",
+        "email": "thatladtemod@example.com",
+        "stateOfOrigin": "Chicago",
+        "stateOfResidence": "Atlanta",
+        "dateOfBirth": "30303003",
+        "courseOfChoice": "Computer Science",
+        "jambScore": "350",
+        "password": "6295ebf27e0d3e9d1eedd16f0fa5131d",
+        "id": "UID4652"
+    },
+    "UID3329": {
+        "firstName": "Jadon",
+        "lastName": "Sancho",
+        "middleName": "Malik",
+        "email": "something@something.com",
+        "stateOfOrigin": "Manchester",
+        "stateOfResidence": "London",
+        "dateOfBirth": "07082002",
+        "courseOfChoice": "Football",
+        "jambScore": "190",
+        "password": "6ac70f3156396e9f29dc52f8d8ce699a"
+    },
+    "UID0232": {
+        "firstName": "Ethan",
+        "lastName": "Inedu",
+        "middleName": "skidev",
+        "email": "skidev@futminna.com",
+        "stateOfOrigin": "kaduna",
+        "stateOfResidence": "Nasarawa",
+        "dateOfBirth": "23-04-2003",
+        "courseOfChoice": "Data Science",
+        "jambScore": "200",
+        "password": "d9732f8f00f987dfb28880e90f4bfe7c"
+    },
+    "UID3362": {
+        "firstName": "Melvin",
+        "lastName": "Melvin",
+        "middleName": "Something ",
+        "email": "mceessquare",
+        "stateOfOrigin": "Imo",
+        "stateOfResidence": "Niger",
+        "dateOfBirth": "13-08-2222",
+        "courseOfChoice": "Cyber Security Science",
+        "jambScore": "250",
+        "password": "35aed7372c4730105d6db26f04632e67"
+    },
+    "UID1279": {
+        "firstName": "Somebody",
+        "lastName": "Anybody",
+        "middleName": "",
+        "email": "body@sexy.com",
+        "stateOfOrigin": "Gombe",
+        "stateOfResidence": "eboyin",
+        "dateOfBirth": "30-04-2004",
+        "courseOfChoice": "Software Engineering",
+        "jambScore": "250",
+        "password": "ce275ed2111cf402d7dc559f8530b9d0"
+    }
+}

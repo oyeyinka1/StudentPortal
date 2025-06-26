@@ -1,1 +1,88 @@
-{"admissionApplications": {"UID9922": {"firstName": "Faruq", "lastName": "Faroush", "middleName": "asdfasd", "email": "dryty", "stateOfOrigin": "sdfg", "stateOfResidence": "cvsdfg", "dateOfBirth": "dsfgsdf", "courseOfChoice": "sdfgsf", "jambScore": "asdf", "password": "c2ca798444e026f292e77723c2c28bfc"}}, "shell": false, "user": "guest", "userInput": ["exit"], "loggedIn": false, "prompt": "(pyShell | guest):   ", "defaultPrompt": "(pyShell | guest):   ", "userPermissions": {"guest": {"view": ["students", "schools", "departments", "cut-off"], "apply": ["admission"], "login": true, "logout": true}, "student": {"view": ["students", "schools", "departments", "results"]}, "admin": []}, "command": "exit", "args": [], "UID9922": {"firstName": "Faruq", "lastName": "Faroush", "middleName": "asdfasd", "email": "dryty", "stateOfOrigin": "sdfg", "stateOfResidence": "cvsdfg", "dateOfBirth": "dsfgsdf", "courseOfChoice": "sdfgsf", "jambScore": "asdf", "password": "c2ca798444e026f292e77723c2c28bfc", "id": "UID9922"}}
+{
+    "admissionApplications": {
+        "UID4652": {
+            "firstName": "Temitayo",
+            "lastName": "Omoniyi",
+            "middleName": "Samson",
+            "email": "thatladtemod@example.com",
+            "stateOfOrigin": "Chicago",
+            "stateOfResidence": "Atlanta",
+            "dateOfBirth": "30303003",
+            "courseOfChoice": "Computer Science",
+            "jambScore": "350",
+            "password": "6295ebf27e0d3e9d1eedd16f0fa5131d",
+            "id": "UID4652"
+        },
+        "UID3329": {
+            "firstName": "Jadon",
+            "lastName": "Sancho",
+            "middleName": "Malik",
+            "email": "something@something.com",
+            "stateOfOrigin": "Manchester",
+            "stateOfResidence": "London",
+            "dateOfBirth": "07082002",
+            "courseOfChoice": "Football",
+            "jambScore": "190",
+            "password": "6ac70f3156396e9f29dc52f8d8ce699a"
+        }
+    },
+    "shell": true,
+    "user": "guest",
+    "userInput": [
+        "apply"
+    ],
+    "loggedIn": false,
+    "prompt": "(pyShell | guest):   ",
+    "defaultPrompt": "(pyShell | guest):   ",
+    "userPermissions": {
+        "guest": {
+            "view": [
+                "students",
+                "schools",
+                "departments",
+                "cut-off"
+            ],
+            "apply": [
+                "admission"
+            ],
+            "login": true,
+            "logout": true
+        },
+        "student": {
+            "view": [
+                "students",
+                "schools",
+                "departments",
+                "results"
+            ]
+        },
+        "admin": []
+    },
+    "command": "apply",
+    "args": [],
+    "UID4652": {
+        "firstName": "Temitayo",
+        "lastName": "Omoniyi",
+        "middleName": "Samson",
+        "email": "thatladtemod@example.com",
+        "stateOfOrigin": "Chicago",
+        "stateOfResidence": "Atlanta",
+        "dateOfBirth": "30303003",
+        "courseOfChoice": "Computer Science",
+        "jambScore": "350",
+        "password": "6295ebf27e0d3e9d1eedd16f0fa5131d",
+        "id": "UID4652"
+    },
+    "UID3329": {
+        "firstName": "Jadon",
+        "lastName": "Sancho",
+        "middleName": "Malik",
+        "email": "something@something.com",
+        "stateOfOrigin": "Manchester",
+        "stateOfResidence": "London",
+        "dateOfBirth": "07082002",
+        "courseOfChoice": "Football",
+        "jambScore": "190",
+        "password": "6ac70f3156396e9f29dc52f8d8ce699a"
+    }
+}

@@ -48,12 +48,24 @@
             "courseOfChoice": "Cyber Security Science",
             "jambScore": "250",
             "password": "35aed7372c4730105d6db26f04632e67"
+        },
+        "UID1279": {
+            "firstName": "Somebody",
+            "lastName": "Anybody",
+            "middleName": "",
+            "email": "body@sexy.com",
+            "stateOfOrigin": "Gombe",
+            "stateOfResidence": "eboyin",
+            "dateOfBirth": "30-04-2004",
+            "courseOfChoice": "Software Engineering",
+            "jambScore": "250",
+            "password": "ce275ed2111cf402d7dc559f8530b9d0"
         }
     },
-    "shell": false,
+    "shell": true,
     "user": "guest",
     "userInput": [
-        "exit"
+        "apply"
     ],
     "loggedIn": false,
     "prompt": "(pyShell | guest):   ",
@@ -82,7 +94,7 @@
         },
         "admin": []
     },
-    "command": "exit",
+    "command": "apply",
     "args": [],
     "UID4652": {
         "firstName": "Temitayo",
@@ -132,5 +144,17 @@
         "courseOfChoice": "Cyber Security Science",
         "jambScore": "250",
         "password": "35aed7372c4730105d6db26f04632e67"
+    },
+    "UID1279": {
+        "firstName": "Somebody",
+        "lastName": "Anybody",
+        "middleName": "",
+        "email": "body@sexy.com",
+        "stateOfOrigin": "Gombe",
+        "stateOfResidence": "eboyin",
+        "dateOfBirth": "30-04-2004",
+        "courseOfChoice": "Software Engineering",
+        "jambScore": "250",
+        "password": "ce275ed2111cf402d7dc559f8530b9d0"
     }
 }

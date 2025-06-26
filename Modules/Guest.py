@@ -1,4 +1,4 @@
-import random, string, hashlib
+import random, string, hashlib, datetime
 
 """
 guest class to handle guest native commands
@@ -67,7 +67,22 @@ class Guest:
         email = input("Enter your email address: ")
         stateOfOrigin = input("Enter your State of Origin: ")
         stateOfResidence = input("Enter your State of Residence: ")
-        dateOfBirth = input("Enter your Date of Birth (DD|MM|YYYY): ")
+        dayOfBirth = int(input("Enter your Date of Birth (DD): "))
+        monthOfBirth = int(input("Enter your Date of Birth (MM): "))
+        yearOfBirth = int(input("Enter your Date of Birth (YYYY): "))
+
+        """" validating date of birth input """
+        while True:
+            try:
+                dateOfBirth = datetime.date(yearOfBirth, monthOfBirth, dayOfBirth)
+                break
+            except ValueError:
+                print("Invalid date. Please enter a valid date of birth.")
+                dayOfBirth = int(input("Enter your Date of Birth (DD): "))
+                monthOfBirth = int(input("Enter your Date of Birth (MM): "))
+                yearOfBirth = int(input("Enter your Date of Birth (YYYY): "))
+
+        dateOfBirth = f"{dayOfBirth:02}-{monthOfBirth:02}-{yearOfBirth}"
         courseOfChoice = input("Enter desired course of study: ")
         jambScore = input("Enter your UTME score: ")
 

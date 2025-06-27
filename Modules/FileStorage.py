@@ -41,7 +41,7 @@ class FileStorage:
         # get dictionary representation of saveObject
         saveObject = saveObject.__dict__
 
-        self.file = json.dumps(saveObject)
+        self.file = json.dumps(saveObject, indent=4)
 
         with open(self.filePath, 'w') as f:
             f.write(self.file)

@@ -141,6 +141,12 @@ class Guest:
                 return []
             
         self.states = loadStates()
+
+        # print states
+        console.print("\n[blue]Here are the valid states:[/blue]")
+        for state in self.states:
+            console.print(f"\t- {state}")
+
         stateOfOrigin = input("Enter your State of Origin: ").capitalize()
         stateOfResidence = input("Enter your State of Residence: ").capitalize()
 
@@ -195,6 +201,12 @@ class Guest:
                 return []
             
         self.availableCourses = loadAvailableCourses()
+
+        # print available courses
+        console.print("\n[blue]Available courses for admission:[/blue]")
+        for course in self.availableCourses:
+            console.print(f"\t- {course}")
+
         courseOfChoice = input("Enter desired course of study: ").title().strip()
 
 

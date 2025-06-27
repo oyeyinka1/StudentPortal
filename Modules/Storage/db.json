@@ -41,7 +41,7 @@
             "applicationStatus": "Pending"
         }
     },
-    "shell": true,
+    "shell": false,
     "user": "guest",
     "userInput": "apply",
     "loggedIn": false,

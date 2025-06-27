@@ -1,8 +1,10 @@
-from Modules.FileStorage import FileStorage
+from rich.console import Console
+from Modules.FileStorage import storage
 from Modules.Guest import Guest
 
 import random, string, hashlib
 
+console = Console()
 """
 shell class
 
@@ -31,8 +33,8 @@ class Shell:
         self.user = 'guest'
         self.userInput = ""
         self.loggedIn = False
-        self.prompt = f"(pyShell | {self.user}):   "
-        self.defaultPrompt = f"(pyShell | {self.user}):   "
+        self.prompt = f"[blue](pyShell | {self.user}):   [/blue]"
+        self.defaultPrompt = f"[blue](pyShell | {self.user}):   [/blue]"
 
         """
         self.runShell: run the shell of the program
@@ -47,12 +49,16 @@ class Shell:
     start up the python shell for input
     """
     def runShell(self):
-        while self.shell:
-            self.userInput = str(input(self.prompt))
+        try:
+            while self.shell:
+                self.userInput = str(console.input(self.prompt))
+                 # call method to handle user input
+                self.parseInput()
 
-            # call method to handle user input
-            self.parseInput()
-
+        except KeyboardInterrupt:
+            console.print("\n[red]Exiting shell...[/red]")
+            # set shell to false to exit shell
+            self.shell = False
             
     """
     handle the user input and call appropriate command to handle
@@ -72,7 +78,7 @@ class Shell:
         """
         if self.command not in  self.shellNativeCommands.keys() and \
            self.command not in self.userPermissions[self.user].keys():
-            print("Invalid command entered!")
+            console.print("[red]Invalid command entered![/red]")
             return
 
         if self.command in self.shellNativeCommands.keys():
@@ -145,7 +151,7 @@ class Shell:
     load data from file storage
     """
     def loadStorage(self):
-        load = FileStorage.load()
+        load = storage.load()
 
         if load:    
             self.__dict__.update(load)
@@ -158,7 +164,7 @@ class Shell:
         self.unsetShellEssentials()
 
         # save to file storage
-        FileStorage.save(self)
+        storage.save(self)
 
         # set shell essentials
         self.setShellEssentials()

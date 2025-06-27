@@ -47,4 +47,4 @@ class FileStorage:
             f.write(self.file)
             
         
-FileStorage = FileStorage()
+storage = FileStorage()

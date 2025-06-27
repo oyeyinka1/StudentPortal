@@ -1,17 +1,20 @@
-# Ignore the virtual environment folder
+#ignore the virtual environment folder
 venv/
 
-# Ignore Python cache files
+#ignore python cache files
 __pycache__/
 *.pyc
 
-# Ignore IDE/editor settings 
+#ignore IDE/editor settings 
 .vscode/
 .idea/
 
-# Ignore OS files
+#ignore OS files
 .DS_Store
 Thumbs.db
 
-# Ignore log files
+#ignore log files
 *.log
+
+#ignore temp files
+main2.py

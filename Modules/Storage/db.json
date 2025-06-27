@@ -17,7 +17,7 @@
     },
     "shell": false,
     "user": "guest",
-    "userInput": "exit",
+    "userInput": "apply",
     "loggedIn": false,
     "prompt": "[blue](pyShell | guest):   [/blue]",
     "defaultPrompt": "[blue](pyShell | guest):   [/blue]",
@@ -47,5 +47,5 @@
         },
         "admin": []
     },
-    "command": "exit"
+    "command": "apply"
 }

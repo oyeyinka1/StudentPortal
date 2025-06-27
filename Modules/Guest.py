@@ -1,5 +1,5 @@
 from rich.console import Console
-import random, string, hashlib, datetime
+import random, string, hashlib, datetime, re
 
 console = Console()
 
@@ -128,22 +128,21 @@ class Guest:
         firstName = input("Enter your First Name: ")
         lastName = input("Enter your Last name: ")
         middleName = input("Enter your Middle Name (leave blank if not applicable): ")
+
+        """defining a regex pattern to validate emails"""
+
+        def is_valid_email(email):
+            emailPattern = r'^[a-z0-9._%+-]{5,}@[a-z0-9.-]+\.[a-z]{2,}$'
+            return re.match(emailPattern, email) is not None
+        
         email = input("Enter your email address: ").strip()
 
         # validating email input
         while True:
-            if email == email.lower():
-                if '@' in email and '.' in email:
-                    if len(email) > 5:
-                        break
-                    else:
-                        print("Invalid email address. Please enter a valid email address.")
-                        email = input("Enter your email address: ").strip()
-                else:
-                    print("Invalid email address. Please enter a valid email address.")
-                    email = input("Enter your email address: ").strip()
+            if is_valid_email(email):
+                break
             else:
-                print("Invalid email address. Email cannot be have capital letters")
+                print("Invalid email address. Please enter a valid email.")
                 email = input("Enter your email address: ").strip()
 
             

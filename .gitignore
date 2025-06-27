@@ -17,4 +17,4 @@ Thumbs.db
 *.log
 
 #ignore emacs temporary files
-rm *.~
+rm *~

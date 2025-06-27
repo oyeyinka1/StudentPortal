@@ -1,26 +1,25 @@
 {
     "admissionApplications": {
-        "UID6659": {
-            "email": "melvin@gmail.com",
-            "lastName": "Enwerem",
-            "firstName": "Melvin",
-            "jambScore": 230,
-            "middleName": "Confidence",
-            "password": "94e410d143c1a4fe28107603f2a424a7",
-            "dateOfBirth": "12-03-2000",
-            "stateOfOrigin": "Abj",
-            "courseOfChoice": "Computer Science",
-            "stateOfResidence": "Abj",
-            "id": "UID6659"
+        "UID1868": {
+            "email": "wal@.com",
+            "lastName": "Hernandez",
+            "firstName": "Theo",
+            "jambScore": 300,
+            "middleName": "Walcott",
+            "password": "6698237b872cd63d44da32cda3d4d197",
+            "dateOfBirth": "30-07-1995",
+            "stateOfOrigin": "Abia",
+            "courseOfChoice": "Cyber Security",
+            "stateOfResidence": "Rivers",
+            "applicationStatus": "Pending",
+            "id": "UID1868"
         }
     },
     "shell": false,
     "user": "guest",
-    "userInput": [
-        "login"
-    ],
-    "loggedIn": true,
-    "prompt": "  | UID6659 :>  ",
+    "userInput": "exit",
+    "loggedIn": false,
+    "prompt": "[blue](pyShell | guest):   [/blue]",
     "defaultPrompt": "[blue](pyShell | guest):   [/blue]",
     "userPermissions": {
         "guest": {
@@ -34,7 +33,9 @@
                 "admission"
             ],
             "login": true,
-            "logout": true
+            "logout": true,
+            "check status": true,
+            "cancel application": true
         },
         "student": {
             "view": [
@@ -46,6 +47,5 @@
         },
         "admin": []
     },
-    "command": "login",
-    "args": []
+    "command": "exit"
 }

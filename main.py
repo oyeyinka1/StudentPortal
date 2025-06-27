@@ -63,18 +63,14 @@ class Shell:
     handle the user input and call appropriate command to handle
     """
     def parseInput(self):
-        self.userInput = self.userInput.strip()
-        self.userInput = self.userInput.split()
-
-        # break string into command and args
-        self.command = self.userInput[0]
-        self.args = self.userInput[1:]
+        self.command = self.userInput.strip()
 
         """
         run given command if it's a shell native command \
         otherwise check command in user permissions list and \
         run corresponding function for command
         """
+
         if self.command not in  self.shellNativeCommands.keys() and \
            self.command not in self.userPermissions[self.user].keys():
             console.print("[red]Invalid command entered![/red]")
@@ -120,20 +116,20 @@ class Shell:
         }
 
         # set permissions for hierarchy of users
-        checkUserPermissions = self.__dict__.get('userPermissions')
-        if not checkUserPermissions:
-            self.userPermissions = {
-                'guest': {
-                    'view': ['students', 'schools', 'departments', 'cut-off'],
-                    'apply': ['admission'],
-                    'login': True,
-                    'logout': True
-                },
-                'student': {
-                    'view': ['students', 'schools', 'departments', 'results', ],
-                },
-                'admin': []
-            }
+        self.userPermissions = {
+            'guest': {
+                'view': ['students', 'schools', 'departments', 'cut-off'],
+                'apply': ['admission'],
+                'login': True,
+                'logout': True,
+                'check status': True,
+                'cancel application': True
+            },
+            'student': {
+                'view': ['students', 'schools', 'departments', 'results', ],
+            },
+            'admin': []
+        }
 
     """
     deletes non-serializable class attributes from the \

@@ -15,7 +15,9 @@ class Guest:
         self.guestCommands = {
             'apply': self.applyAdmission,
             'login': self.login,
-            'logout': self.logout
+            'logout': self.logout,
+            'check status': self.checkStatus,
+            'cancel application': self.cancelApplication
         }
 
         self.states = [
@@ -36,11 +38,9 @@ class Guest:
         ]
 
         self.mainHandle = mainHandle
-        self.mainHandleDict = mainHandle.__dict__
-        
+        self.mainHandleDict = mainHandle.__dict__        
         self.loginCheck = self.mainHandleDict.get('loggedIn')
         self.command = self.mainHandleDict.get('command')
-        self.commandArgs = self.mainHandleDict.get('commandArgs')
         self.admissionApplications = self.mainHandleDict.get('admissionApplications')
 
         # check if there is a logged in user and set user data
@@ -58,21 +58,65 @@ class Guest:
             self.guestCommands.get(self.command)()
 
     """
+    check application status
     """
     def checkStatus(self):
-        print(f"Application status for {self.id}")
+        # check if user is logged in first
+        if not self.loginCheck:
+            console.print("[red]Oops, you need to be logged in to do that![/red]")
+            return
+
+        print(f"Hello, {self.firstName}! \nYour application status is: {self.applicationStatus}")
 
     """
+    cancel application to school
     """
     def cancelApplication(self):
-        pass
+        # check if user is logged in first
+        if not self.loginCheck:
+            console.print("[red]Oops, you need to be logged in to do that![/red]")
+            return
+
+        confirmationKeys = ['y', 'n', 'yes', 'no']
+
+        while True:
+            confirmation = input(f"Are you sure you want to cancel "
+            f"your application? [Y (Yes) | N (No)]:  ")
+
+            try:
+                confirmation = str(confirmation).lower()
+                
+                if confirmation in confirmationKeys:
+                    if confirmation == 'y' or confirmation == 'yes':
+                        # print goodbye message
+                        console.print(f"Sorry to see you go, {self.firstName}.\n[blue]"\
+                                      f"Goodluck with future applications.[/blue]\n")
+
+                        # delete application from application dictionary and save storage
+                        del self.mainHandleDict.get('admissionApplications')[self.id]
+                        self.cleanMainHandle()
+                        break
+                    else:
+                        console.print(f"[yellow]Operation Cancelled![/yellow]")
+                        break
+                else:
+                    console.print("[yellow]Invalid value![/yellow]")
+            except:
+                console.print("[yellow]Invalid value![/yellow]")
+                continue            
 
     """
     handle admission application for guests
     """
     def applyAdmission(self):
+        # check and stop user from applying if logged in
+        if self.loginCheck:
+            console.print(f"[red]Oops, you can't apply while logged in![/red]")
+            return
+
         id = f"UID{random.randint(0,9999):04}"
 
+        # ensure generated ID is unique
         while id in self.admissionApplications.keys():
             id = f"UID{random.randint(0,9999):04}"
 
@@ -184,14 +228,15 @@ class Guest:
                 'dateOfBirth': dateOfBirth,
                 'stateOfOrigin': stateOfOrigin,
                 'courseOfChoice': courseOfChoice,
-                'stateOfResidence': stateOfResidence
+                'stateOfResidence': stateOfResidence,
+                'applicationStatus': "Pending"
                  }
         }
 
         self.admissionApplications.update(userApplication)
 
-        console.print("[green]Congratulations, your application has been successfully received![/green]")
-        console.print(f"Please, take note of your user id and password: \nID: [yellow]{id}[/yellow]\nPASSWORD: [yellow]{password}[/yellow]")
+        console.print("\n[green]Congratulations, your application has been successfully received![/green]\n")
+        console.print(f"Please, take note of your user id and password: \nID: [yellow]{id}[/yellow]\nPASSWORD: [yellow]{password}[/yellow]\n")
 
         # save program state after application
         self.mainHandleDict.update(userApplication)
@@ -227,7 +272,7 @@ class Guest:
     log the current user out of the portal
     """
     def logout(self):
-        if not self.mainHandle.loggedIn:
+        if not self.loginCheck:
             console.print("[yellow]Oops, you need to be logged in to log out[/yellow]")
         else:
             self.cleanMainHandle()
@@ -238,16 +283,25 @@ class Guest:
     state to file storage
     """
     def cleanMainHandle(self):
+        cleanList = ['loggedInUser']
+
+        # fail silently if self.id doesn't exist
         try:
-            del self.mainHandleDict['loggedInUser']
-            del self.mainHandleDict[self.id]
-
-            self.mainHandle.loggedIn = False
-            self.mainHandle.prompt = self.mainHandle.defaultPrompt
-
-            self.mainHandle.saveStorage()
+            cleanList.append(self.id)
         except:
             pass
+
+        for i in cleanList:
+            try:
+                del self.mainHandleDict[i]
+            except:
+                pass
+
+        self.mainHandle.loggedIn = False
+        self.mainHandle.prompt = self.mainHandle.defaultPrompt
+
+        # save storage
+        self.mainHandle.saveStorage()
 
     """
     refresh data if user is logged in
@@ -272,6 +326,7 @@ class Guest:
             self.courseOfChoice = user.get('courseOfChoice')
             self.jambScore = user.get('jambScore')
             self.password = user.get('password')
+            self.applicationStatus = user.get('applicationStatus')
 
             # set main handle class attributes
             self.mainHandle.loggedIn = True

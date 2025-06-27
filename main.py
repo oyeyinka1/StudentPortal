@@ -1,5 +1,5 @@
 from rich.console import Console
-from Modules.FileStorage import storage
+from Modules.FileStorage import Storage
 from Modules.Guest import Guest
 
 import random, string, hashlib
@@ -18,7 +18,7 @@ class Shell:
     constructor class
     """
     def __init__(self):
-        # attributes that should rely solely on file storage
+        # attributes that should rely solely on file Storage
         self.admissionApplications = {}
 
         """
@@ -54,10 +54,9 @@ class Shell:
                 self.userInput = str(console.input(self.prompt))
                  # call method to handle user input
                 self.parseInput()
-
         except KeyboardInterrupt:
+            # catch keyboard interrupt before exiting shell
             console.print("\n[red]Exiting shell...[/red]")
-            # set shell to false to exit shell
             self.shell = False
             
     """
@@ -153,31 +152,30 @@ class Shell:
             except:
                 pass
 
-
     """
-    load data from file storage
+    load data from file Storage
     """
     def loadStorage(self):
-        load = storage.load()
+        load = Storage.load()
 
         if load:    
             self.__dict__.update(load)
 
     """
-    strip unwanted values in <self> and save to storage
+    strip unwanted values in <self> and save to Storage
     """
     def saveStorage(self):
         # unset shell essentials
         self.unsetShellEssentials()
 
-        # save to file storage
-        storage.save(self)
+        # save to file Storage
+        Storage.save(self)
 
         # set shell essentials
         self.setShellEssentials()
 
     """
-    save to file storage upon exit of program
+    save to file Storage upon exit of program
     """
     def __del__(self):
         self.saveStorage()

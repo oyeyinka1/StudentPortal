@@ -13,9 +13,22 @@
             "stateOfResidence": "Rivers",
             "applicationStatus": "Pending",
             "id": "UID1868"
+        },
+        "UID3013": {
+            "email": "temod@futm.com.ng",
+            "lastName": "Omoniyi",
+            "firstName": "Temitayo",
+            "jambScore": 260,
+            "middleName": "Samson",
+            "password": "d3a12d985fc0c0b051e986269f83521d",
+            "dateOfBirth": "30-04-2004",
+            "stateOfOrigin": "Osun",
+            "courseOfChoice": "Computer Science",
+            "stateOfResidence": "Lagos",
+            "applicationStatus": "Pending"
         }
     },
-    "shell": false,
+    "shell": true,
     "user": "guest",
     "userInput": "apply",
     "loggedIn": false,
@@ -47,5 +60,18 @@
         },
         "admin": []
     },
-    "command": "apply"
+    "command": "apply",
+    "UID3013": {
+        "email": "temod@futm.com.ng",
+        "lastName": "Omoniyi",
+        "firstName": "Temitayo",
+        "jambScore": 260,
+        "middleName": "Samson",
+        "password": "d3a12d985fc0c0b051e986269f83521d",
+        "dateOfBirth": "30-04-2004",
+        "stateOfOrigin": "Osun",
+        "courseOfChoice": "Computer Science",
+        "stateOfResidence": "Lagos",
+        "applicationStatus": "Pending"
+    }
 }

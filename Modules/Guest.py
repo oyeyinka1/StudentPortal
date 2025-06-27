@@ -1,5 +1,5 @@
 from rich.console import Console
-import random, string, hashlib, datetime, re
+import random, string, hashlib, datetime, re, json
 
 console = Console()
 
@@ -19,18 +19,7 @@ class Guest:
             'check status': self.checkStatus,
             'cancel application': self.cancelApplication
         }
-
-        self.states = [
-            'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi',
-            'Bayelsa', 'Benue', 'Borno', 'Cross River', 'Delta',
-            'Ebonyi', 'Edo', 'Ekiti', 'Enugu', 'Gombe',
-            'Imo', 'Jigawa', 'Kaduna', 'Kano', 'Katsina',
-            'Kebbi', 'Kogi', 'Kwara', 'Lagos', 'Nasarawa',
-            'Niger', 'Ogun', 'Ondo', 'Osun', 'Oyo',
-            'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe',
-            'Zamfara', 'Abj'
-        ]
-
+        
         self.availableCourses = [
             'Computer Science', 'Software Engineering', 
             'Information Technology',
@@ -146,7 +135,18 @@ class Guest:
                 email = input("Enter your email address: ").strip()
 
             
-        
+        """loading available states as a list from states-and-cities.json"""
+
+        def loadStates():
+            try:
+                with open('./Modules/Misc/states-and-cities.json', 'r') as file:
+                    data = json.load(file)
+                    return [state["name"] for state in data]
+            except FileNotFoundError:
+                console.print("[red]States file not found![/red]")
+                return []
+            
+        self.states = loadStates()
         stateOfOrigin = input("Enter your State of Origin: ").capitalize()
         stateOfResidence = input("Enter your State of Residence: ").capitalize()
 

@@ -914,5 +914,16 @@
       "Chafe",
       "Zurmi"
     ]
+  },
+  {
+    "name": "Abuja",
+    "cities": [
+      "Abaji",
+      "Bwari",
+      "Gwagwalada",
+      "Kuje",
+      "Kwali",
+      "Municipal Area Council"
+    ]
   }
 ]

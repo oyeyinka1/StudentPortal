@@ -27,7 +27,8 @@ class Guest:
         ]
 
         self.availableCourses = [
-            'Computer Science', 'Software Engineering', 'Information Technology',
+            'Computer Science', 'Software Engineering', 
+            'Information Technology',
             'Cyber Security', 'Data Science'
         ]
 

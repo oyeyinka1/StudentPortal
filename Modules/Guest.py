@@ -1,4 +1,7 @@
+from rich.console import Console
 import random, string, hashlib, datetime
+
+console = Console()
 
 """
 guest class to handle guest native commands
@@ -186,8 +189,9 @@ class Guest:
         }
 
         self.admissionApplications.update(userApplication)
-        print("\n< | Congratulations, your application has been successfully received!")
-        print(f"< | Please, take note of your user id and password: \n\nID: {id}\nPASSWORD: {password}\n")
+
+        console.print("[green]Congratulations, your application has been successfully received![/green]")
+        console.print(f"Please, take note of your user id and password: \nID: [yellow]{id}[/yellow]\nPASSWORD: [yellow]{password}[/yellow]")
 
         # save program state after application
         self.mainHandleDict.update(userApplication)
@@ -199,7 +203,7 @@ class Guest:
     def login(self):
         # check if user is already logged in
         if self.loginCheck:
-            print(f"Whoa there, you're already logged in, {self.firstName}!")
+            console.print(f"[yellow]Whoa there, you're already logged in, {self.firstName}![/yellow]")
         else:            
             userId = input(f"Enter your application ID: ")
             password = input("Enter your password: ")
@@ -213,18 +217,18 @@ class Guest:
                     self.setLoggedInData(userId)
                     
                     # print welcome message
-                    print(f"<< Welcome back, {self.firstName}!>>")
+                    console.print(f"[green]<< Welcome back, {self.firstName}!>>[/green]")
                 else:
-                    print("Invalid ID or Password")
+                    console.print("[red]Invalid ID or Password[/red]")
             else:
-                print("Invalid ID or Password")
+                console.print("[red]Invalid ID or Password[/red]")
 
     """
     log the current user out of the portal
     """
     def logout(self):
         if not self.mainHandle.loggedIn:
-            print("Oops, you need to be logged in to log out")
+            console.print("[yellow]Oops, you need to be logged in to log out[/yellow]")
         else:
             self.cleanMainHandle()
 

@@ -19,12 +19,6 @@ class Guest:
             'check status': self.checkStatus,
             'cancel application': self.cancelApplication
         }
-        
-        self.availableCourses = [
-            'Computer Science', 'Software Engineering', 
-            'Information Technology',
-            'Cyber Security', 'Data Science'
-        ]
 
         self.mainHandle = mainHandle
         self.mainHandleDict = mainHandle.__dict__        
@@ -190,7 +184,17 @@ class Guest:
 
         dateOfBirth = f"{dayOfBirth:02}-{monthOfBirth:02}-{yearOfBirth}"
 
-
+        # load available courses from courses.json
+        def loadAvailableCourses():
+            try:
+                with open('./Modules/Misc/courses.json', 'r') as file:
+                    data = json.load(file)
+                    return [state for state in data]
+            except FileNotFoundError:
+                console.print("[red]States file not found![/red]")
+                return []
+            
+        self.availableCourses = loadAvailableCourses()
         courseOfChoice = input("Enter desired course of study: ").title().strip()
 
 

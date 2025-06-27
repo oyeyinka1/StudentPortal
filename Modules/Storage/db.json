@@ -26,6 +26,19 @@
             "courseOfChoice": "Computer Science",
             "stateOfResidence": "Lagos",
             "applicationStatus": "Pending"
+        },
+        "UID9650": {
+            "email": "agbacoder@futm.com.ng",
+            "lastName": "Agba",
+            "firstName": "Coder",
+            "jambScore": 370,
+            "middleName": "",
+            "password": "89dcefc7290fca0837a263fb30f4abf4",
+            "dateOfBirth": "07-07-2007",
+            "stateOfOrigin": "Osun",
+            "courseOfChoice": "Data Science",
+            "stateOfResidence": "Ogun",
+            "applicationStatus": "Pending"
         }
     },
     "shell": true,
@@ -72,6 +85,19 @@
         "stateOfOrigin": "Osun",
         "courseOfChoice": "Computer Science",
         "stateOfResidence": "Lagos",
+        "applicationStatus": "Pending"
+    },
+    "UID9650": {
+        "email": "agbacoder@futm.com.ng",
+        "lastName": "Agba",
+        "firstName": "Coder",
+        "jambScore": 370,
+        "middleName": "",
+        "password": "89dcefc7290fca0837a263fb30f4abf4",
+        "dateOfBirth": "07-07-2007",
+        "stateOfOrigin": "Osun",
+        "courseOfChoice": "Data Science",
+        "stateOfResidence": "Ogun",
         "applicationStatus": "Pending"
     }
 }

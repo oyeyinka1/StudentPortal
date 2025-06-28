@@ -1,5 +1,6 @@
 from rich.console import Console
-import random, string, hashlib, datetime, re, json, utils
+import random, string, hashlib, datetime, re, json
+from Modules import utils
 
 console = Console()
 

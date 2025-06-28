@@ -97,7 +97,16 @@ class Shell:
     print all available shell native commands
     """
     def info(self):
-        pass
+        """
+        print all available shell native commands
+        """
+        console.print("[blue]Available shell native commands:[/blue]")
+        for command in self.shellNativeCommands.keys():
+            console.print(f"[green]{command}[/green]")
+
+        console.print("\n[blue]Available user commands:[/blue]")
+        for command in self.userPermissions[self.user].keys():
+            console.print(f"[green]{command}[/green]")
 
 
     """

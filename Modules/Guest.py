@@ -1,5 +1,6 @@
 from rich.console import Console
-import random, string, hashlib, datetime
+import random, string, hashlib, datetime, re, json
+from Modules import utils
 
 console = Console()
 
@@ -19,23 +20,6 @@ class Guest:
             'check status': self.checkStatus,
             'cancel application': self.cancelApplication
         }
-
-        self.states = [
-            'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi',
-            'Bayelsa', 'Benue', 'Borno', 'Cross River', 'Delta',
-            'Ebonyi', 'Edo', 'Ekiti', 'Enugu', 'Gombe',
-            'Imo', 'Jigawa', 'Kaduna', 'Kano', 'Katsina',
-            'Kebbi', 'Kogi', 'Kwara', 'Lagos', 'Nasarawa',
-            'Niger', 'Ogun', 'Ondo', 'Osun', 'Oyo',
-            'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe',
-            'Zamfara', 'Abj'
-        ]
-
-        self.availableCourses = [
-            'Computer Science', 'Software Engineering', 
-            'Information Technology',
-            'Cyber Security', 'Data Science'
-        ]
 
         self.mainHandle = mainHandle
         self.mainHandleDict = mainHandle.__dict__        
@@ -128,37 +112,33 @@ class Guest:
         firstName = input("Enter your First Name: ")
         lastName = input("Enter your Last name: ")
         middleName = input("Enter your Middle Name (leave blank if not applicable): ")
+        
         email = input("Enter your email address: ").strip()
 
         # validating email input
-        while True:
-            if email == email.lower():
-                if '@' in email and '.' in email:
-                    if len(email) > 5:
-                        break
-                    else:
-                        print("Invalid email address. Please enter a valid email address.")
-                        email = input("Enter your email address: ").strip()
-                else:
-                    print("Invalid email address. Please enter a valid email address.")
-                    email = input("Enter your email address: ").strip()
-            else:
-                print("Invalid email address. Email cannot be have capital letters")
-                email = input("Enter your email address: ").strip()
+        while not utils.is_valid_email(email):
+            print("Invalid email address. Please enter a valid email.")
+            email = input("Enter your email address: ").strip()
+            
 
             
-        
-        stateOfOrigin = input("Enter your State of Origin: ").capitalize()
-        stateOfResidence = input("Enter your State of Residence: ").capitalize()
+        """loading available states as a list from states-and-cities.json"""
+        self.states = utils.loadFromFiles('./Modules/Misc/states-and-cities.json', 'name')
 
-        # validating state of origin and residence input
-        while True:
-            if stateOfOrigin in self.states and stateOfResidence in self.states:
-                break
-            else:
-                print("Invalid state of origin or residence. Please enter a valid state.")
-                stateOfOrigin = input("Enter your State of Origin: ").capitalize()
-                stateOfResidence = input("Enter your State of Residence: ").capitalize()
+        # print states
+        console.print("\n[blue]Here are the valid states:[/blue]")
+        for state in self.states:
+            console.print(f"\t- {state}")
+
+        def getValidState(prompt):
+            while True:
+                state = input(prompt).capitalize()
+                if state in self.states:
+                    return state
+                print("Invalid state. Please enter a valid state.")
+
+        stateOfOrigin = getValidState("Enter your State of Origin: ")
+        stateOfResidence = getValidState("Enter your State of Residence: ")
     
         dateOfBirth = input("Enter your Date of Birth (DD-MM-YYYY): ")
 
@@ -191,31 +171,43 @@ class Guest:
 
         dateOfBirth = f"{dayOfBirth:02}-{monthOfBirth:02}-{yearOfBirth}"
 
+        # load available courses from courses.json   
+        self.availableCourses = utils.loadFromFiles('./Modules/Misc/courses.json')
 
-        courseOfChoice = input("Enter desired course of study: ").title().strip()
-
+        # print available courses
+        console.print("\n[blue]Available courses for admission:[/blue]")
+        for course in self.availableCourses:
+            console.print(f"\t- {course}")
 
         # validating course of choice input
-        while True:
-            if courseOfChoice in self.availableCourses:
-                break
-            else:
-                print("Sorry! Desired course entered is not available.\nPlease choose from the following courses:")
-                for course in self.availableCourses:
-                    print(f"\n\t- {course}")
-                print("\nPlease enter a valid course of choice.")
-                courseOfChoice = input("Enter desired course of study: ")
+        def validateCourse():
+            course = input("Enter desired course of study: ").title().strip()
 
-        
-        jambScore = int(input("Enter your UTME score: "))
+            # loop until a valid course is entered
+            while course not in self.availableCourses:
+                print("Sorry! Desired course entered is not available.\nPlease choose from the following courses:")
+                for dept in self.availableCourses:
+                    print(f"\n\t- {dept}")
+                print("\nPlease enter a valid course of choice.")
+                course = input("Enter desired course of study: ").title().strip()
+
+            return course
+
+        courseOfChoice = validateCourse()
 
         # validating jamb score input
-        while True:
-            if jambScore >= 0 and jambScore <= 400:
-                break
-            else:
+        def getValidJamb():
+            while True:
+                try:
+                    score = int(input("Enter your UTME score: "))
+                    if 0 <= score <= 400:
+                        return score
+                except:
+                    pass
                 print("Invalid JAMB score. Please enter a valid JAMB score between 0 and 400.")
-                jambScore = int(input("Enter your UTME score: "))
+
+        jambScore = getValidJamb()
+
 
         userApplication = {
             id: {

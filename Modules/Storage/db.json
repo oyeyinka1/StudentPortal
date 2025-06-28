@@ -13,11 +13,37 @@
             "stateOfResidence": "Rivers",
             "applicationStatus": "Pending",
             "id": "UID1868"
+        },
+        "UID3013": {
+            "email": "temod@futm.com.ng",
+            "lastName": "Omoniyi",
+            "firstName": "Temitayo",
+            "jambScore": 260,
+            "middleName": "Samson",
+            "password": "d3a12d985fc0c0b051e986269f83521d",
+            "dateOfBirth": "30-04-2004",
+            "stateOfOrigin": "Osun",
+            "courseOfChoice": "Computer Science",
+            "stateOfResidence": "Lagos",
+            "applicationStatus": "Pending"
+        },
+        "UID9650": {
+            "email": "agbacoder@futm.com.ng",
+            "lastName": "Agba",
+            "firstName": "Coder",
+            "jambScore": 370,
+            "middleName": "",
+            "password": "89dcefc7290fca0837a263fb30f4abf4",
+            "dateOfBirth": "07-07-2007",
+            "stateOfOrigin": "Osun",
+            "courseOfChoice": "Data Science",
+            "stateOfResidence": "Ogun",
+            "applicationStatus": "Pending"
         }
     },
     "shell": false,
     "user": "guest",
-    "userInput": "exit",
+    "userInput": "apply",
     "loggedIn": false,
     "prompt": "[blue](pyShell | guest):   [/blue]",
     "defaultPrompt": "[blue](pyShell | guest):   [/blue]",
@@ -47,5 +73,31 @@
         },
         "admin": []
     },
-    "command": "exit"
+    "command": "apply",
+    "UID3013": {
+        "email": "temod@futm.com.ng",
+        "lastName": "Omoniyi",
+        "firstName": "Temitayo",
+        "jambScore": 260,
+        "middleName": "Samson",
+        "password": "d3a12d985fc0c0b051e986269f83521d",
+        "dateOfBirth": "30-04-2004",
+        "stateOfOrigin": "Osun",
+        "courseOfChoice": "Computer Science",
+        "stateOfResidence": "Lagos",
+        "applicationStatus": "Pending"
+    },
+    "UID9650": {
+        "email": "agbacoder@futm.com.ng",
+        "lastName": "Agba",
+        "firstName": "Coder",
+        "jambScore": 370,
+        "middleName": "",
+        "password": "89dcefc7290fca0837a263fb30f4abf4",
+        "dateOfBirth": "07-07-2007",
+        "stateOfOrigin": "Osun",
+        "courseOfChoice": "Data Science",
+        "stateOfResidence": "Ogun",
+        "applicationStatus": "Pending"
+    }
 }

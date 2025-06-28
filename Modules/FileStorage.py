@@ -14,10 +14,14 @@ class FileStorage:
         self.file = False
         self.filePath = "./Modules/Storage/db.json"
 
-    """
-    read and data from the storage file
-    """
+        # specify class attributes to save to storage
+        self.saveList = [
+            'admissionApplications'
+        ]
 
+    """
+    read and load from the storage file
+    """
     def load(self):
         # check if file exists before loading/reading
         if os.path.exists(self.filePath):
@@ -36,10 +40,14 @@ class FileStorage:
     @self: referencing the class
     @saveObject: reference to instance of class whose __dict__ is to be saved
     """
-
     def save(self, saveObject):
         # get dictionary representation of saveObject
-        saveObject = saveObject.__dict__
+        saveObjectDict = saveObject.__dict__
+        saveObject = {}
+
+        # parse saveObject and collect only items in saveList
+        for item in self.saveList:
+            saveObject[item] = saveObjectDict[item]
 
         self.file = json.dumps(saveObject, indent=4)
 

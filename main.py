@@ -100,13 +100,15 @@ class Shell:
         """
         print all available shell native commands
         """
-        console.print("[blue]Available shell native commands:[/blue]")
+        console.print("[blue]\nAvailable shell native commands:[/blue]")
         for command in self.shellNativeCommands.keys():
             console.print(f"[green]{command}[/green]")
 
         console.print("\n[blue]Available user commands:[/blue]")
         for command in self.userPermissions[self.user].keys():
             console.print(f"[green]{command}[/green]")
+
+        print()
 
 
     """
@@ -127,35 +129,19 @@ class Shell:
         # set permissions for hierarchy of users
         self.userPermissions = {
             'guest': {
-                'view': ['students', 'schools', 'departments', 'cut-off'],
-                'apply': ['admission'],
+                'apply': True,
                 'login': True,
                 'logout': True,
                 'check status': True,
-                'cancel application': True
+                'cancel application': True,
+                'view programmes': True,
+                'view courses': True
             },
             'student': {
                 'view': ['students', 'schools', 'departments', 'results', ],
             },
             'admin': []
         }
-
-    """
-    deletes non-serializable class attributes from the \
-    class __dict__ attribute
-    """
-    def unsetShellEssentials(self):
-        unsetValues = [
-            'userHandle',
-            'shellNativeCommands',
-            'loggedInUser'
-        ]
-
-        for value in unsetValues:
-            try:
-                del self.__dict__[value]
-            except:
-                pass
 
     """
     load data from file Storage
@@ -170,14 +156,8 @@ class Shell:
     strip unwanted values in <self> and save to Storage
     """
     def saveStorage(self):
-        # unset shell essentials
-        self.unsetShellEssentials()
-
         # save to file Storage
         Storage.save(self)
-
-        # set shell essentials
-        self.setShellEssentials()
 
     """
     save to file Storage upon exit of program

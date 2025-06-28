@@ -1,103 +1,60 @@
 {
     "admissionApplications": {
-        "UID1868": {
-            "email": "wal@.com",
-            "lastName": "Hernandez",
-            "firstName": "Theo",
-            "jambScore": 300,
-            "middleName": "Walcott",
-            "password": "6698237b872cd63d44da32cda3d4d197",
-            "dateOfBirth": "30-07-1995",
-            "stateOfOrigin": "Abia",
-            "courseOfChoice": "Cyber Security",
-            "stateOfResidence": "Rivers",
-            "applicationStatus": "Pending",
-            "id": "UID1868"
-        },
-        "UID3013": {
-            "email": "temod@futm.com.ng",
-            "lastName": "Omoniyi",
-            "firstName": "Temitayo",
-            "jambScore": 260,
-            "middleName": "Samson",
-            "password": "d3a12d985fc0c0b051e986269f83521d",
-            "dateOfBirth": "30-04-2004",
-            "stateOfOrigin": "Osun",
-            "courseOfChoice": "Computer Science",
-            "stateOfResidence": "Lagos",
-            "applicationStatus": "Pending"
-        },
-        "UID9650": {
-            "email": "agbacoder@futm.com.ng",
-            "lastName": "Agba",
-            "firstName": "Coder",
-            "jambScore": 370,
-            "middleName": "",
-            "password": "89dcefc7290fca0837a263fb30f4abf4",
-            "dateOfBirth": "07-07-2007",
-            "stateOfOrigin": "Osun",
+        "UID8879": {
+            "email": "enweremmelvinconfidence@gmail.com",
+            "lastName": "Enwerem",
+            "firstName": "Melvin",
+            "jambScore": 250,
+            "middleName": "Confidence",
+            "password": "6457075b1c1f70d55fe28e0cec6c4130",
+            "dateOfBirth": "12-12-2000",
+            "stateOfOrigin": "Imo",
             "courseOfChoice": "Data Science",
-            "stateOfResidence": "Ogun",
-            "applicationStatus": "Pending"
+            "stateOfResidence": "Abuja",
+            "applicationStatus": "Pending",
+            "id": "UID8879"
+        },
+        "UID1728": {
+            "email": "jerry@gmail.com",
+            "lastName": "Curl",
+            "firstName": "Jerry",
+            "jambScore": 200,
+            "middleName": "Hair",
+            "password": "6d484b952fc3d8f7b24c54e3476cbf9e",
+            "dateOfBirth": "10-10-1995",
+            "stateOfOrigin": "Kaduna",
+            "courseOfChoice": "Information Technology",
+            "stateOfResidence": "Imo",
+            "applicationStatus": "Pending",
+            "id": "UID1728"
+        },
+        "UID4125": {
+            "email": "jcole@music.com",
+            "lastName": "Cole",
+            "firstName": "J",
+            "jambScore": null,
+            "middleName": "jcole",
+            "password": "6ab7f37ce924d8fa37bf3393be56048f",
+            "dateOfBirth": "12-12-2000",
+            "stateOfOrigin": "Abia",
+            "courseOfChoice": "Computer Science",
+            "stateOfResidence": "Abuja",
+            "applicationStatus": "Pending",
+            "id": "UID4125"
+        },
+        "UID9581": {
+            "email": "drk@gmail.com",
+            "lastName": "Malachi",
+            "firstName": "Drake",
+            "jambScore": 180,
+            "middleName": "Fyodor",
+            "password": "ae1b1e4036126792404ae6ebf6d90b33",
+            "dateOfBirth": "10-08-2001",
+            "stateOfOrigin": "Taraba",
+            "courseOfChoice": "Data Science",
+            "stateOfResidence": "Abuja",
+            "applicationStatus": "Pending",
+            "id": "UID9581"
         }
-    },
-    "shell": false,
-    "user": "guest",
-    "userInput": "apply",
-    "loggedIn": false,
-    "prompt": "[blue](pyShell | guest):   [/blue]",
-    "defaultPrompt": "[blue](pyShell | guest):   [/blue]",
-    "userPermissions": {
-        "guest": {
-            "view": [
-                "students",
-                "schools",
-                "departments",
-                "cut-off"
-            ],
-            "apply": [
-                "admission"
-            ],
-            "login": true,
-            "logout": true,
-            "check status": true,
-            "cancel application": true
-        },
-        "student": {
-            "view": [
-                "students",
-                "schools",
-                "departments",
-                "results"
-            ]
-        },
-        "admin": []
-    },
-    "command": "apply",
-    "UID3013": {
-        "email": "temod@futm.com.ng",
-        "lastName": "Omoniyi",
-        "firstName": "Temitayo",
-        "jambScore": 260,
-        "middleName": "Samson",
-        "password": "d3a12d985fc0c0b051e986269f83521d",
-        "dateOfBirth": "30-04-2004",
-        "stateOfOrigin": "Osun",
-        "courseOfChoice": "Computer Science",
-        "stateOfResidence": "Lagos",
-        "applicationStatus": "Pending"
-    },
-    "UID9650": {
-        "email": "agbacoder@futm.com.ng",
-        "lastName": "Agba",
-        "firstName": "Coder",
-        "jambScore": 370,
-        "middleName": "",
-        "password": "89dcefc7290fca0837a263fb30f4abf4",
-        "dateOfBirth": "07-07-2007",
-        "stateOfOrigin": "Osun",
-        "courseOfChoice": "Data Science",
-        "stateOfResidence": "Ogun",
-        "applicationStatus": "Pending"
     }
 }

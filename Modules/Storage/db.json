@@ -1,19 +1,5 @@
 {
     "admissionApplications": {
-        "UID8879": {
-            "email": "enweremmelvinconfidence@gmail.com",
-            "lastName": "Enwerem",
-            "firstName": "Melvin",
-            "jambScore": 250,
-            "middleName": "Confidence",
-            "password": "6457075b1c1f70d55fe28e0cec6c4130",
-            "dateOfBirth": "12-12-2000",
-            "stateOfOrigin": "Imo",
-            "courseOfChoice": "Data Science",
-            "stateOfResidence": "Abuja",
-            "applicationStatus": "Pending",
-            "id": "UID8879"
-        },
         "UID1728": {
             "email": "jerry@gmail.com",
             "lastName": "Curl",
@@ -55,6 +41,20 @@
             "stateOfResidence": "Abuja",
             "applicationStatus": "Pending",
             "id": "UID9581"
+        },
+        "UID7943": {
+            "email": "thatladtemod@example.com.ng",
+            "lastName": "Omoniyi",
+            "firstName": "Temitayo",
+            "jambScore": 350,
+            "middleName": "",
+            "password": "e0e0329469c69f227c64e50c03e84096",
+            "dateOfBirth": "30-04-2004",
+            "stateOfOrigin": "Osun",
+            "courseOfChoice": "Computer Science",
+            "stateOfResidence": "Lagos",
+            "applicationStatus": "Pending",
+            "id": "UID7943"
         }
     }
 }

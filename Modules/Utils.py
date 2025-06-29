@@ -61,6 +61,21 @@ class Utils:
     def isValidEmail(self, email):
         emailPattern = r'^[a-z0-9._%+-]{3,}@[a-z0-9.-]+\.[a-z]{2,}$'
         return re.match(emailPattern, email) is not None
+    
+    def ensureUniqueEmail(self, email):
+        
+        dataBase = self.loadFromFile("./Modules/Storage/db.json")
+        
+        db_IDs = dataBase["admissionApplications"]
+        dbEmails = []
+
+        for key, value in db_IDs.items():
+            if "email" in value:
+                dbEmails.append(value["email"])
+            
+        while email in dbEmails:
+            console.print(f"[red]\b{email} already exists[/red]")
+            email = input("Enter your email address: ").strip()
 
 # create class instance
 Utils = Utils()

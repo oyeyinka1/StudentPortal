@@ -247,6 +247,9 @@ class Guest:
         while not Utils.isValidEmail(email):
             print("Invalid email address. Please enter a valid email.")
             email = input("Enter your email address: ").strip()
+        
+        # ensure email is unique
+        Utils.ensureUniqueEmail(email)
             
         # loading available states as a list from states-and-cities.json
         self.states = Utils.loadStates('name')

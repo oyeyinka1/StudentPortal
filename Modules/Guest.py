@@ -15,13 +15,11 @@ class Guest:
     """
     def __init__(self, mainHandle):
         self.guestCommands = {
-            'apply': self.applyAdmission,
             'login': self.login,
             'logout': self.logout,
+            'apply': self.applyAdmission,
             'check status': self.checkStatus,
             'cancel application': self.cancelApplication,
-            'view programmes': self.viewProgrammes,
-            'view courses': self.viewProgrammes
         }
 
         self.mainHandle = mainHandle
@@ -163,36 +161,7 @@ class Guest:
             if not self.chosenCourseInfo:
                 console.print("\n[yellow]Invalid course chosen![/yellow]\n")
             else:
-                return self.chosenCourseInfo.get('course')
-
-    """
-    view programmes on offer by the school
-    """
-    def viewProgrammes(self):
-        programInfo = Utils.loadCourses()
-        schools = programInfo.keys()
-
-        print("\nHere's a list of available programmes:")
-        for x in schools:
-            # get school dict
-            school = programInfo.get(x)
-
-            # print school/faculty name
-            console.print(f"\n\n[purple]SCHOOLS:\t\t"\
-                          "DEPARTMENTS:[/purple]")
-            console.print(f"\n[green]{x}[/green]")
-
-            for y in school:
-                # get department dict
-                dept = school.get(y)
-
-                # get department and course code for printing
-                deptName = dept.get('course')
-                courseCode = dept.get('course code')
-
-                # print departments in the school
-                print(f"\t\t\t({courseCode}) - {deptName}")
-    
+                return self.chosenCourseInfo.get('course')    
 
     """
     validate jamb score of applicant
@@ -341,39 +310,30 @@ class Guest:
     log the user into the portal
     """
     def login(self):
-        # check if user is already logged in
-        if self.loginCheck:
-            console.print(f"[yellow]\nWhoa there, {self.firstName}\n"\
-                          f"You're already logged in!\n[/yellow]")
-        else:            
-            userId = input(f"Enter your application ID: ")
-            password = input("Enter your password: ")
-
-            hashedPassword = hashlib.md5(password.encode())
-            hashedPassword = hashedPassword.hexdigest()
-            
-            if userId in self.admissionApplications.keys():
-                if hashedPassword == self.admissionApplications[userId]['password']:
-                    # set values for logged in user
-                    self.setLoggedInData(userId)
-                    
-                    # print welcome message
-                    console.print(f"[green]\n<< Welcome back, {self.firstName}!>>\n[/green]")
-                else:
-                    console.print("[red]\nInvalid ID or Password[/red]\n")
+        userId = input(f"Enter your application ID: ")
+        password = input("Enter your password: ")
+        
+        hashedPassword = hashlib.md5(password.encode())
+        hashedPassword = hashedPassword.hexdigest()
+        
+        if userId in self.admissionApplications.keys():
+            if hashedPassword == self.admissionApplications[userId]['password']:
+                # set values for logged in user
+                self.setLoggedInData(userId)
+                
+                # print welcome message
+                console.print(f"[green]\n<< Welcome back, {self.firstName}!>>\n[/green]")
+                return True
             else:
-                console.print("[red]\nInvalid ID or Password\n[/red]")
+                console.print("[red]\nInvalid ID or Password[/red]\n")
+        else:
+            console.print("[red]\nInvalid ID or Password\n[/red]")
 
     """
     log the current user out of the portal
     """
     def logout(self):
-        if not self.loginCheck:
-            console.print("[yellow]Oops, you need to be logged in to log out[/yellow]")
-        else:
-            self.mainHandle.loggedIn = False
-            self.mainHandle.prompt = self.mainHandle.defaultPrompt
-            self.mainHandle.saveStorage()
+        Utils.logout(self.mainHandle)
 
     """
     refresh data if user is logged in
@@ -401,7 +361,8 @@ class Guest:
             self.applicationStatus = user.get('applicationStatus')
 
             # set main handle class attributes
-            self.mainHandle.loggedIn = True
+            self.mainHandle.user = 'guest'
+            self.mainHandle.loggedIn = True            
             self.mainHandle.prompt = f"  | {userId} :>  "
 
     """

@@ -1,5 +1,5 @@
-import os
-import json
+import os, json
+from Modules.Utils import Utils
 
 """
 File storage class for handling saving and loading of data in
@@ -16,7 +16,8 @@ class FileStorage:
 
         # specify class attributes to save to storage
         self.saveList = [
-            'admissionApplications'
+            'admissionApplications',
+            'admins'
         ]
 
     """
@@ -45,12 +46,23 @@ class FileStorage:
         saveObjectDict = saveObject.__dict__
         saveObject = {}
 
+        # load default admin dictionary
+        admin = Utils.rootAdmin()
+
         # parse saveObject and collect only items in saveList
         for item in self.saveList:
+            if not saveObjectDict.get(item):
+                continue
+
             saveObject[item] = saveObjectDict[item]
 
+        # add admin dictionary to save object
+        saveObject['admins'] = admin
+
+        # dump save object to json
         self.file = json.dumps(saveObject, indent=4)
 
+        # write json to file
         with open(self.filePath, 'w') as f:
             f.write(self.file)
             

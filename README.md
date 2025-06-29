@@ -25,7 +25,7 @@ StudentPortal/
 │   ├── __init__.py
 │   ├── FileStorage.py
 │   ├── Guest.py
-│   ├── utils.py
+│   ├── Utils.py
 │   ├── Misc/
 │   │   ├── courses.json
 │   │   ├── states-and-cities.json

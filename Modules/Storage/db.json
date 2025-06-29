@@ -1,60 +1,56 @@
 {
     "admissionApplications": {
-        "UID1728": {
-            "email": "jerry@gmail.com",
-            "lastName": "Curl",
-            "firstName": "Jerry",
-            "jambScore": 200,
-            "middleName": "Hair",
-            "password": "6d484b952fc3d8f7b24c54e3476cbf9e",
-            "dateOfBirth": "10-10-1995",
-            "stateOfOrigin": "Kaduna",
-            "courseOfChoice": "Information Technology",
-            "stateOfResidence": "Imo",
-            "applicationStatus": "Pending",
-            "id": "UID1728"
-        },
-        "UID4125": {
-            "email": "jcole@music.com",
-            "lastName": "Cole",
-            "firstName": "J",
-            "jambScore": null,
-            "middleName": "jcole",
-            "password": "6ab7f37ce924d8fa37bf3393be56048f",
-            "dateOfBirth": "12-12-2000",
+        "UID3369": {
+            "email": "melvin@gmail.com",
+            "lastName": "Enwerem",
+            "firstName": "Melvin",
+            "jambScore": 255,
+            "middleName": "Confidence",
+            "password": "9bfe180e3a1681c13af740ed7bd6ee8e",
+            "dateOfBirth": "12-03-2000",
             "stateOfOrigin": "Abia",
-            "courseOfChoice": "Computer Science",
-            "stateOfResidence": "Abuja",
+            "courseOfChoice": "Mechatronics Engineering",
+            "stateOfResidence": "Bauchi",
             "applicationStatus": "Pending",
-            "id": "UID4125"
+            "id": "UID3369"
         },
-        "UID9581": {
-            "email": "drk@gmail.com",
-            "lastName": "Malachi",
-            "firstName": "Drake",
-            "jambScore": 180,
-            "middleName": "Fyodor",
-            "password": "ae1b1e4036126792404ae6ebf6d90b33",
-            "dateOfBirth": "10-08-2001",
-            "stateOfOrigin": "Taraba",
-            "courseOfChoice": "Data Science",
-            "stateOfResidence": "Abuja",
+        "UID2164": {
+            "email": "jnah@mail.co",
+            "lastName": "Nineveh",
+            "firstName": "Jonah",
+            "jambScore": 200,
+            "middleName": "Whale",
+            "password": "dce3c2a0191cba1e05e3a9eb5dd60d51",
+            "dateOfBirth": "03-03-2001",
+            "stateOfOrigin": "Yobe",
+            "courseOfChoice": "Software Engineering",
+            "stateOfResidence": "Taraba",
             "applicationStatus": "Pending",
-            "id": "UID9581"
+            "id": "UID2164"
         },
-        "UID7943": {
-            "email": "thatladtemod@example.com.ng",
-            "lastName": "Omoniyi",
-            "firstName": "Temitayo",
-            "jambScore": 350,
-            "middleName": "",
-            "password": "e0e0329469c69f227c64e50c03e84096",
-            "dateOfBirth": "30-04-2004",
-            "stateOfOrigin": "Osun",
-            "courseOfChoice": "Computer Science",
-            "stateOfResidence": "Lagos",
+        "UID7698": {
+            "email": "hie@gmail.com",
+            "lastName": "Suno",
+            "firstName": "Somo",
+            "jambScore": 200,
+            "middleName": "Hie",
+            "password": "b95f2c232bd8e54611fc2431293b8f71",
+            "dateOfBirth": "03-12-2000",
+            "stateOfOrigin": "Ebonyi",
+            "courseOfChoice": "Cyber Security Science",
+            "stateOfResidence": "Abia",
             "applicationStatus": "Pending",
-            "id": "UID7943"
+            "id": "UID7698"
+        }
+    },
+    "admins": {
+        "root": {
+            "username": "root",
+            "password": "aabb2100033f0352fe7458e412495148",
+            "email": "root@fut.com",
+            "firstName": "root",
+            "lastName": "root",
+            "middleName": null
         }
     }
 }

@@ -1,4 +1,4 @@
-import hashlib
+import hashlib, datetime, os
 from Modules.Utils import Utils
 from rich.console import Console
 
@@ -17,6 +17,8 @@ class Admin:
         self.adminCommands = {
             'login': self.login,
             'logout': self.logout,
+            'view my log': self.viewMyLog,
+            'view admin log': self.viewAdminLog,
             'view applications': self.viewApplications
         }
 
@@ -75,6 +77,7 @@ class Admin:
 
         # print newline
         print()
+        self.adminLog("viewed admission applications")
 
             
 
@@ -123,7 +126,78 @@ class Admin:
         self.mainHandle.loggedIn = True
         self.mainHandle.loggedInUser = admin
         self.mainHandle.prompt = f"[red]({self.username}@admin):  [/red]"
-        
+
+    """
+    write admin action to the log file
+    """
+    def adminLog(self, action=None):
+        action = action
+        dateObject = datetime.datetime.now()
+        date = dateObject.strftime("%d-%B-%Y")
+        time = dateObject.strftime("%I:%M %p")
+        filepath = "./Modules/Storage/admin_logs.txt"
+
+        # format message to be logged
+        message = f"[ADMIN] - {self.username}@{self.email}"\
+            f" - ({action}) on ({date}) at ({time})\n"
+
+        # write to file
+        with open(filepath, 'a') as file:
+            file.write(message)
+
+    """
+    view admin logs
+    """
+    def viewAdminLog(self):
+        # check if log file exists
+        filepath = "./Modules/Storage/admin_logs.txt"
+        checkFile = os.path.exists(filepath)
+
+        if checkFile:
+            with open(filepath, 'r') as file:
+                content = file.read()
+                print('\n', content, sep="")
+        else:
+            console.print("[yellow]Oops, no logs have "\
+                          "been kept for admins quite yet[/yellow]")
+
+    """
+    view logs for current admin
+    """
+    def viewMyLog(self):
+        myActions = []
+        myKey = f"{self.username}@{self.email}"
+        filepath = "./Modules/Storage/admin_logs.txt"
+        checkFile = os.path.exists(filepath)
+
+        if checkFile:
+            with open(filepath, 'r') as file:
+                content = file.readlines()
+
+            # loop through file list
+            for i in content:
+                log = i[:-1]
+                
+                # check if admin performed current action
+                if myKey in log:
+                    # append action to current admin actions
+                    myActions.append(log)
+
+            # print current admin actions if any
+            if myActions:
+                print()
+
+                for j in myActions:
+                    print(j)
+
+                print()
+            else:
+                console.print("\n[yellow]Oops, you've performed "\
+                              "no actions yet[/yellow]\n")
+        else:
+            console.print("\n[yellow]Oops, no logs have "\
+                          "been kept for admins quite yet[/yellow]\n")
+
     """
     log current admin out
     """

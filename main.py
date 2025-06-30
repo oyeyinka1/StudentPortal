@@ -65,7 +65,10 @@ class Shell:
     route user command to appropriate handler function/class
     """
     def parseInput(self):
-        self.command = self.userInput.strip()
+        # trim excess whitespace from user input
+        self.userInput = self.userInput.split()
+        self.userInput = " ".join(self.userInput)
+        self.command = self.userInput
 
         userCommands = []
         users = ['guest', 'admin', 'student']
@@ -211,6 +214,8 @@ class Shell:
             },
             'admin': {
                 'logout': True,
+                'view my log': True,
+                'view admin log': True,
                 'view applications': True
             },
             'student': {

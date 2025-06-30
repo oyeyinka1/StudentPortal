@@ -1,4 +1,5 @@
 import hashlib, datetime, os
+from tabulate import tabulate
 from Modules.Utils import Utils
 from rich.console import Console
 
@@ -55,32 +56,28 @@ class Admin:
                           "at the moment!\n[/yellow]")
             return
 
-        # print header
-        console.print("\n[purple]SN\t\t\t"\
-                      "ID\t\t\t"\
-                      "COURSE\t\t\t\t\t"\
-                      "EMAIL\n[/purple]")
+        # format header
+        header = ["SN", "ID", "COURSE", "EMAIL"]
+        data = []
 
         # print applications
         for key, value in applications.items():
             # get values
+            subData = []
             sn = list(applications).index(key) + 1
-            id = value.get('id')
-            course = value.get('courseOfChoice')
-            email = value.get('email')
+            subData.append(sn)
+            subData.append(value.get('id'))
+            subData.append(value.get('courseOfChoice'))
+            subData.append(value.get('email'))
 
-            # print values
-            print(f"{sn}\t\t\t"\
-                  f"{id}\t\t\t"\
-                  f"{course}\t\t\t"\
-                  f"{email}")
+            # append values to data
+            data.append(subData)
 
-        # print newline
-        print()
+        print(tabulate(data, headers=header, tablefmt="double_grid"))
+
+        # save action to admin log
         self.adminLog("viewed admission applications")
-
-            
-
+        
     """
     log in as admin
     """

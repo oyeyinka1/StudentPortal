@@ -1,6 +1,8 @@
 from rich.console import Console
-import random, string, hashlib, datetime
+import random, string, hashlib, datetime, re, json
+from Modules.Utils import Utils
 
+# create object instance of console
 console = Console()
 
 """
@@ -13,34 +15,17 @@ class Guest:
     """
     def __init__(self, mainHandle):
         self.guestCommands = {
-            'apply': self.applyAdmission,
             'login': self.login,
-            'logout': self.logout
+            'logout': self.logout,
+            'apply': self.applyAdmission,
+            'check status': self.checkStatus,
+            'cancel application': self.cancelApplication,
         }
 
-        self.states = [
-            'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi',
-            'Bayelsa', 'Benue', 'Borno', 'Cross River', 'Delta',
-            'Ebonyi', 'Edo', 'Ekiti', 'Enugu', 'Gombe',
-            'Imo', 'Jigawa', 'Kaduna', 'Kano', 'Katsina',
-            'Kebbi', 'Kogi', 'Kwara', 'Lagos', 'Nasarawa',
-            'Niger', 'Ogun', 'Ondo', 'Osun', 'Oyo',
-            'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe',
-            'Zamfara', 'Abj'
-        ]
-
-        self.availableCourses = [
-            'Computer Science', 'Software Engineering', 
-            'Information Technology',
-            'Cyber Security', 'Data Science'
-        ]
-
         self.mainHandle = mainHandle
-        self.mainHandleDict = mainHandle.__dict__
-        
+        self.mainHandleDict = mainHandle.__dict__        
         self.loginCheck = self.mainHandleDict.get('loggedIn')
         self.command = self.mainHandleDict.get('command')
-        self.commandArgs = self.mainHandleDict.get('commandArgs')
         self.admissionApplications = self.mainHandleDict.get('admissionApplications')
 
         # check if there is a logged in user and set user data
@@ -58,21 +43,184 @@ class Guest:
             self.guestCommands.get(self.command)()
 
     """
+    check application status
     """
     def checkStatus(self):
-        print(f"Application status for {self.id}")
+        # check if user is logged in first
+        if not self.loginCheck:
+            console.print("[red]Oops, you need to be logged in to do that![/red]")
+            return
+
+        # check if user has been admitted and start student enrollment
+        if self.applicationStatus == 'admitted':
+            self.registerStudent()
+        else:
+            console.print(f"\nHello, {self.firstName}! \nYour application status is: "\
+                          f"[red]{self.applicationStatus}[/red]\n")
 
     """
+    register newly admitted student
+    """
+    def registerStudent(self):
+        pass
+
+    """
+    cancel application to school
     """
     def cancelApplication(self):
-        pass
+        # check if user is logged in first
+        if not self.loginCheck:
+            console.print("[red]Oops, you need to be logged in to do that![/red]")
+            return
+
+        confirmationKeys = ['y', 'n', 'yes', 'no']
+
+        while True:
+            confirmation = input(f"Are you sure you want to cancel "
+            f"your application? [Y (Yes) | N (No)]:  ")
+
+            try:
+                confirmation = str(confirmation).lower()
+                
+                if confirmation in confirmationKeys:
+                    if confirmation == 'y' or confirmation == 'yes':
+                        # print goodbye message
+                        console.print(f"Sorry to see you go, {self.firstName}.\n[blue]"\
+                                      f"Goodluck with future applications.[/blue]\n")
+
+                        # delete application from application dictionary and save storage
+                        del self.mainHandleDict.get('admissionApplications')[self.id]
+                        break
+                    else:
+                        console.print(f"[yellow]Operation Cancelled![/yellow]")
+                        break
+                else:
+                    console.print("[yellow]Invalid value![/yellow]")
+            except:
+                console.print("[yellow]Invalid value![/yellow]")
+                continue            
+
+    """
+    validate the state
+    """
+    def getValidState(self, prompt):
+        while True:
+            state = input(prompt).capitalize()
+            if state in self.states:
+                return state
+            print("\n[yellow]Invalid state. Please enter a valid state.[/yellow]\n")
+
+    """
+    validate course of choice
+    """
+    def getValidCourse(self):
+        programmes = Utils.loadCourses()
+        schoolList = programmes.keys()
+
+        # print available courses in the school
+        Utils.viewProgrammes()
+
+        # get and validate school under which course is
+        while True:
+            schoolName = input("Enter School to apply to: ").upper()
+            schoolName = Utils.cleanString(schoolName)
+
+            if schoolName in schoolList:
+                departments = {}
+                school = programmes.get(schoolName)
+
+                # get all departments in chosen school
+                for key, value in school.items():
+                    x = {value.get('course'): value.get('course code')}
+                    departments.update(x)
+
+                # get course if chosen school has departments under it
+                if departments:
+                    # print courses/departments in chosen school
+                    console.print(f"\n[yellow]COURSES IN  ({schoolName})[/yellow]\n")
+                    for dept, code in departments.items():
+                        print(f"\t({code}) - {dept}")
+
+                    while True:
+                        course = input("Enter course to apply for: ")
+                        course = Utils.cleanString(course)
+
+                        """
+                        check if entered course is a department key or value \
+                        from dictionary of departments in the chosen school \
+
+                        if it is a key or value:  get the course info \
+                        add the school key to it to hold the school name \
+                        and instantiate class attribute to hold course info
+                        """
+                        if course.title() in departments.keys():
+                            course = course.title()
+                            chosenCourse = school.get(departments.get(course).lower())
+                            chosenCourse.update({'school': schoolName})
+
+                            self.chosenCourseInfo = chosenCourse
+                            return chosenCourse.get('course')
+                        elif course.upper() in departments.values():
+                            course = course.upper()
+
+                            # get course info
+                            for key, value in departments.items():
+                                if value == course:
+                                    chosenCourse = school.get(course.lower())
+                                    chosenCourse.update({'school': schoolName})
+
+                                    self.chosenCourseInfo = chosenCourse
+                                    return chosenCourse.get('course')
+                        else:
+                            console.print("\n[red]ERROR[/red]\n"\
+                                          "Invalid Course chosen!\n")
+                else:
+                    console.print("\n[yellow]There are no departments"\
+                                  " in chosen school, yet.[/yellow]\n")
+            else:
+                console.print("\n[red]ERROR[/red]\n"\
+                              "Invalid School\n")
+
+    """
+    validate jamb score of applicant
+    """
+    def getValidJamb(self):
+        # end execution if chosenCourseInfo dict doesn't exist
+        if not self.__dict__.get('chosenCourseInfo'):
+            return
+
+        # get the cut off mark for chosen course
+        courseCutOff = self.chosenCourseInfo.get('cut off')
+
+        while True:
+            try:
+                score = int(input("Enter your UTME score: "))
+                if 0 <= score <= 400:
+                    if score < courseCutOff:
+                        console.print(f"[yellow]Sorry, your UTME score of "\
+                                      f"\b{score} is less than the cut off mark "\
+                                      f"\b{courseCutOff}")
+                        return
+                    else:
+                        return score
+            except:
+                pass
+
+            console.print("\n[yellow]Invalid JAMB score.[/yellow]\n"\
+                          "Please enter a valid JAMB score between 0 and 400.\n")
 
     """
     handle admission application for guests
     """
     def applyAdmission(self):
+        # check and stop user from applying if logged in
+        if self.loginCheck:
+            console.print(f"[red]\nOops, you can't apply while logged in!\n[/red]")
+            return
+
         id = f"UID{random.randint(0,9999):04}"
 
+        # ensure generated ID is unique
         while id in self.admissionApplications.keys():
             id = f"UID{random.randint(0,9999):04}"
 
@@ -87,111 +235,101 @@ class Guest:
         email = input("Enter your email address: ").strip()
 
         # validating email input
-        while True:
-            if email == email.lower():
-                if '@' in email and '.' in email:
-                    if len(email) > 5:
-                        break
-                    else:
-                        print("Invalid email address. Please enter a valid email address.")
-                        email = input("Enter your email address: ").strip()
-                else:
-                    print("Invalid email address. Please enter a valid email address.")
-                    email = input("Enter your email address: ").strip()
-            else:
-                print("Invalid email address. Email cannot be have capital letters")
-                email = input("Enter your email address: ").strip()
-
-            
+        while not Utils.isValidEmail(email):
+            print("Invalid email address. Please enter a valid email.")
+            email = input("Enter your email address: ").strip()
         
-        stateOfOrigin = input("Enter your State of Origin: ").capitalize()
-        stateOfResidence = input("Enter your State of Residence: ").capitalize()
+        # ensure email is unique
+        Utils.ensureUniqueEmail(email)
+            
+        # loading available states as a list from states-and-cities.json
+        self.states = Utils.loadStates('name')
 
-        # validating state of origin and residence input
-        while True:
-            if stateOfOrigin in self.states and stateOfResidence in self.states:
-                break
-            else:
-                print("Invalid state of origin or residence. Please enter a valid state.")
-                stateOfOrigin = input("Enter your State of Origin: ").capitalize()
-                stateOfResidence = input("Enter your State of Residence: ").capitalize()
-    
-        dateOfBirth = input("Enter your Date of Birth (DD-MM-YYYY): ")
+        # print states
+        console.print("\n[blue]Here are the valid states:[/blue]")
+        for state in self.states:
+            console.print(f"\t- {state}")
 
-        # validating date of birth input
+        stateOfOrigin = self.getValidState("Enter your State of Origin: ")
+        stateOfResidence = self.getValidState("Enter your State of Residence: ")
+
+        # collect and validate date of birth
         while True:
-            if len(dateOfBirth) == 8:
+            # collect date of birth
+            dateOfBirth = input("Enter your Date of Birth (DD-MM-YYYY): ")
+
+            if len(dateOfBirth) == 8 or len(dateOfBirth) == 10:
+                # strip possible dashes <-> from date of birth
+                if '-' in dateOfBirth:
+                    dateOfBirth = dateOfBirth.replace('-', '')
+
                 # split date of birth into day, month and year
                 try:
                     dayOfBirth = int(dateOfBirth[0:2])
                     monthOfBirth = int(dateOfBirth[2:4])
                     yearOfBirth = int(dateOfBirth[4:])
-
                     currentYear = datetime.datetime.now().year
 
-                    """checking if user is within the age limit of 16-30 years"""
+                    # checking if user is within the age limit of 16-30 years
                     if 16 <= (currentYear - yearOfBirth) <= 30:
-
                         # make date of birth into a datetime object to validate date
                         dateOfBirth = datetime.date(yearOfBirth, monthOfBirth, dayOfBirth)
                         break
                     else:
-                        print("You must be between 16 and 30 years old to apply.")
-                        dateOfBirth = input("Enter your Date of Birth (DD-MM-YYYY): ")
+                        console.print("\n[yellow]You must be between 16 and "\
+                                      "30 years old to apply![/yellow]\n")
+                        continue
                 except:
-                    print("Invalid date. Please enter a valid date of birth.")
-                    dateOfBirth = input("Enter your Date of Birth (DD-MM-YYYY): ")
+                    console.print("\n[yellow]Invalid date. "\
+                          "\nPlease enter a valid date of birth.[/yellow]\n")
+                    continue
             else:
-                print("Oops, invalid value.\nTry again!\n")
-                dateOfBirth = input("Enter your Date of Birth (DD-MM-YYYY): ")
+                console.print("\n[yellow]Oops, invalid value.\nTry again![/yellow]\n")
+                continue
 
         dateOfBirth = f"{dayOfBirth:02}-{monthOfBirth:02}-{yearOfBirth}"
 
+        # validate chosen course and Jamb score
+        courseOfChoice = self.getValidCourse()
+        jambScore = self.getValidJamb()
 
-        courseOfChoice = input("Enter desired course of study: ").title().strip()
+        # cancel application is UTME score is less than cutoff
+        if not jambScore:
+            console.print("[red]Sorry, you cannot continue with"\
+                          " this application!\n[/red]")
+            return
 
-
-        # validating course of choice input
-        while True:
-            if courseOfChoice in self.availableCourses:
-                break
-            else:
-                print("Sorry! Desired course entered is not available.\nPlease choose from the following courses:")
-                for course in self.availableCourses:
-                    print(f"\n\t- {course}")
-                print("\nPlease enter a valid course of choice.")
-                courseOfChoice = input("Enter desired course of study: ")
-
-        
-        jambScore = int(input("Enter your UTME score: "))
-
-        # validating jamb score input
-        while True:
-            if jambScore >= 0 and jambScore <= 400:
-                break
-            else:
-                print("Invalid JAMB score. Please enter a valid JAMB score between 0 and 400.")
-                jambScore = int(input("Enter your UTME score: "))
+        applicationDate = datetime.datetime.now()
+        school = self.chosenCourseInfo.get('school')
+        courseCode = self.chosenCourseInfo.get('course code')
 
         userApplication = {
             id: {
+                'id': id,
                 'email': email,
-                'lastName': lastName,
                 'firstName': firstName,
-                'jambScore': jambScore,
                 'middleName': middleName,
-                'password': hashedPassword,
+                'lastName': lastName,
                 'dateOfBirth': dateOfBirth,
                 'stateOfOrigin': stateOfOrigin,
+                'stateOfResidence': stateOfResidence,
+                'jambScore': jambScore,
+                'school': school,
                 'courseOfChoice': courseOfChoice,
-                'stateOfResidence': stateOfResidence
+                'courseCode': courseCode,
+                'applicationDate': applicationDate,
+                'password': hashedPassword,
+                'applicationStatus': "Pending"
                  }
         }
 
         self.admissionApplications.update(userApplication)
 
-        console.print("[green]Congratulations, your application has been successfully received![/green]")
-        console.print(f"Please, take note of your user id and password: \nID: [yellow]{id}[/yellow]\nPASSWORD: [yellow]{password}[/yellow]")
+        # print confirmation message upon successful application
+        console.print("\n[green]Congratulations, your application "\
+                      "has been successfully received![/green]\n")
+        console.print(f"Please, take note of your user id and password: "\
+                      f"\nID: [yellow]{id}[/yellow]\nPASSWORD: [yellow]{password}[/yellow]\n")
 
         # save program state after application
         self.mainHandleDict.update(userApplication)
@@ -201,53 +339,30 @@ class Guest:
     log the user into the portal
     """
     def login(self):
-        # check if user is already logged in
-        if self.loginCheck:
-            console.print(f"[yellow]Whoa there, you're already logged in, {self.firstName}![/yellow]")
-        else:            
-            userId = input(f"Enter your application ID: ")
-            password = input("Enter your password: ")
-
-            hashedPassword = hashlib.md5(password.encode())
-            hashedPassword = hashedPassword.hexdigest()
-            
-            if userId in self.admissionApplications.keys():
-                if hashedPassword == self.admissionApplications[userId]['password']:
-                    # set values for logged in user
-                    self.setLoggedInData(userId)
-                    
-                    # print welcome message
-                    console.print(f"[green]<< Welcome back, {self.firstName}!>>[/green]")
-                else:
-                    console.print("[red]Invalid ID or Password[/red]")
+        userId = input(f"Enter your application ID: ")
+        password = input("Enter your password: ")
+        
+        hashedPassword = hashlib.md5(password.encode())
+        hashedPassword = hashedPassword.hexdigest()
+        
+        if userId in self.admissionApplications.keys():
+            if hashedPassword == self.admissionApplications[userId]['password']:
+                # set values for logged in user
+                self.setLoggedInData(userId)
+                
+                # print welcome message
+                console.print(f"[green]\n<< Welcome back, {self.firstName}!>>\n[/green]")
+                return True
             else:
-                console.print("[red]Invalid ID or Password[/red]")
+                console.print("[red]\nInvalid ID or Password[/red]\n")
+        else:
+            console.print("[red]\nInvalid ID or Password\n[/red]")
 
     """
     log the current user out of the portal
     """
     def logout(self):
-        if not self.mainHandle.loggedIn:
-            console.print("[yellow]Oops, you need to be logged in to log out[/yellow]")
-        else:
-            self.cleanMainHandle()
-
-    """
-    delete unwanted variables, reset login \
-    status for mainHandle and save application \
-    state to file storage
-    """
-    def cleanMainHandle(self):
-        try:
-            del self.mainHandleDict['loggedInUser']
-            del self.mainHandleDict[self.id]
-
-            self.mainHandle.loggedIn = False
-            self.mainHandle.prompt = self.mainHandle.defaultPrompt
-
-            self.mainHandle.saveStorage()
-        except:
-            pass
+        Utils.logout(self.mainHandle)
 
     """
     refresh data if user is logged in
@@ -272,13 +387,15 @@ class Guest:
             self.courseOfChoice = user.get('courseOfChoice')
             self.jambScore = user.get('jambScore')
             self.password = user.get('password')
+            self.applicationStatus = user.get('applicationStatus')
 
             # set main handle class attributes
-            self.mainHandle.loggedIn = True
+            self.mainHandle.user = 'guest'
+            self.mainHandle.loggedIn = True            
             self.mainHandle.prompt = f"  | {userId} :>  "
 
     """
     unset values upon destruction
     """
     def __del__(self):
-        self.cleanMainHandle()
+        self.mainHandle.saveStorage()

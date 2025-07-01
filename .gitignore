@@ -16,5 +16,5 @@ Thumbs.db
 #ignore log files
 *.log
 
-#ignore temp files
-main2.py
+#ignore emacs temporary files
+*~

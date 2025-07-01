@@ -4,37 +4,79 @@ A mock student portal shell with basic commands and features.
 
 ## Features
 
-- Guest admission application
-- User login/logout
-- Application status checking
-- Simple in-memory data storage
-- Command-based interface
+- **Guest Admission Application:** Apply for admission as a guest user.
+- **User Login/Logout:** Secure login and logout functionality for applicants.
+- **Application Status Checking:** Check the status of your admission application.
+- **Application Cancellation:** Cancel your admission application if needed.
+- **Course and State Selection:** Choose from predefined courses and Nigerian states.
+- **Data Persistence:** All data is stored in JSON files for easy access and modification.
+- **Command-Based Interface:** Interact with the portal using simple commands.
+- **Rich CLI Output:** Uses the `rich` library for enhanced terminal output.
+
+## Project Structure
+
+```
+StudentPortal/
+│
+├── main.py
+├── requirements.txt
+├── README.md
+├── Modules/
+│   ├── __init__.py
+│   ├── FileStorage.py
+│   ├── Guest.py
+│   ├── Utils.py
+│   ├── Misc/
+│   │   ├── courses.json
+│   │   ├── states-and-cities.json
+│   └── Storage/
+│       └── db.json
+└── .gitignore
+```
 
 ## Usage
 
-1. **Clone the repository:**
+### Prerequisites
+
+- Clone the repository:
 
    ```
    git clone https://github.com/yourusername/StudentPortal.git
    ```
+- Python 3.10+
+- [rich](https://pypi.org/project/rich/) library
 
-2. **Navigate to the project directory:**
+Install dependencies with:
 
-   ```
-   cd StudentPortal
-   ```
+```sh
+pip install -r requirements.txt
+```
 
-3. **Run the main application script:**
+### Running the Application
 
-   ```
-   python main.py
-   ```
+Start the portal shell:
 
-4. **Available Commands:**
-   - `apply` &mdash; Start a new admission application as a guest.
-   - `login` &mdash; Log in with your application ID and password.
-   - `logout` &mdash; Log out of the portal.
-   - `checkstatus` &mdash; Check the status of your application (after logging in).
+```sh
+python main.py
+```
+
+### Available Commands
+
+| Command           | Description                                      |
+|-------------------|--------------------------------------------------|
+| `apply`           | Start a new admission application as a guest     |
+| `login`           | Log in with your application ID and password     |
+| `logout`          | Log out of the portal                            |
+| `check status`    | Check your application status (after logging in) |
+| `cancel application` | Cancel your admission application             |
+| `info`            | List all available commands                      |
+| `exit`            | Exit the portal shell                            |
+
+## Data Files
+
+- **Admission Applications:** Stored in `Modules/Storage/db.json`
+- **Courses:** Defined in `Modules/Misc/courses.json`
+- **States and Cities:** Defined in `Modules/Misc/states-and-cities.json`
 
 ## Notes
 

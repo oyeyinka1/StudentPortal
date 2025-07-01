@@ -215,7 +215,9 @@ class Shell:
                 'logout': True,
                 'view my log': True,
                 'view admin log': True,
-                'view applications': True
+                'view applications': True,
+                'view students': True,    #new route
+                'view schools status': True,   #new route still in progress but working
             },
             'student': {
                 'view': ['students', 'schools', 'departments', 'results', ],

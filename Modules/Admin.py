@@ -21,7 +21,9 @@ class Admin:
             'admit': self.admitStudent,
             'view my log': self.viewMyLog,
             'view admin log': self.viewAdminLog,
-            'view applications': self.viewApplications
+            'view applications': self.viewApplications,
+            'view schools status': self.school,
+            'view students': self.viewStudents
         }
 
         self.mainHandle = mainHandle
@@ -43,6 +45,45 @@ class Admin:
     def executeCommand(self):
         if self.command in self.adminCommands.keys():
             self.adminCommands.get(self.command)()
+
+
+    """
+    admit a student into the school
+    """
+    def _admit(self, applicantId, students):
+        if applicantId not in self.admissionApplications:
+            console.print(f"\n[red]ERROR[/red]\nInvalid UID: {applicantId}\n")
+            return
+
+        applicantInfo = self.admissionApplications[applicantId]
+        digits = f"{random.randint(0,99999):05}"
+        matric = f"{datetime.datetime.now().year}/1/{digits}"
+
+        students[applicantId] = {
+            'matricNo': matric,
+            'firstName': applicantInfo.get('firstName'),
+            'lastName': applicantInfo.get('lastName'),
+            'middleName': applicantInfo.get('middleName'),
+            'email': applicantInfo.get('email'),
+            'courseOfStudy': applicantInfo.get('courseOfChoice'),
+            'school': applicantInfo.get('school'),
+            'admissionDate': datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        }
+
+        # update status before deleting
+        self.admissionApplications[applicantId]['applicationStatus'] = "admitted"
+
+        # remove from applications
+        del self.admissionApplications[applicantId]
+    
+        self.mainHandleDict['students'] = students
+        self.mainHandleDict['admissionApplications'] = self.admissionApplications
+
+        self.mainHandle.saveStorage()
+
+        console.print(f"[green]Admitted {applicantInfo.get('firstName')} {applicantInfo.get('lastName')}[/green]")
+        self.adminLog(f"admitted {applicantInfo.get('firstName')} {applicantInfo.get('lastName')} with UID {applicantId}")
+
 
     """
     admit student
@@ -90,6 +131,11 @@ class Admin:
                           " are no applications currently!\n")
             return
 
+        students = self.mainHandleDict.get('students')
+        if not students:
+            students = {}
+            self.mainHandleDict['students'] = students
+
         # handle admission for selected mode
         if mode == "single":
             while True:
@@ -99,26 +145,79 @@ class Admin:
                 # check if application exists
                 if applicantId not in self.admissionApplications.keys():
                     console.print("\n[red]ERROR[/red]\nInvalid UID!\n")
+                    continue
                 else:
                     # get applicant info
                     applicantInfo = self.admissionApplications.get(applicantId)
                     digits = f"{random.randint(0,99999):05}"
                     matric = f"{datetime.datetime.now().year}/1/{digits}"
 
-                    print(matric)
-                    print(self.courses)
-                    return
-                    # create new students dictionary if non existent
+
                     if not self.mainHandleDict.get('students'):
-                        self.mainHandleDict['students'] = {
-                            
-                        }
+                        self.mainHandleDict['students'] = {}
+
+                    students = self.mainHandleDict['students']
+
+                    students[applicantId] = {
+                        'matricNo': matric,
+                        'firstName': applicantInfo.get('firstName'),
+                        'lastName': applicantInfo.get('lastName'),
+                        'middleName': applicantInfo.get('middleName'),
+                        'email': applicantInfo.get('email'),
+                        'courseOfStudy': applicantInfo.get('courseOfChoice'),
+                        'school': applicantInfo.get('school'),
+                        'admissionDate': datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                    }
+
+                    #update admission application status
+                    self.admissionApplications[applicantId]['applicationStatus'] = "admitted"
+                    self.mainHandleDict['students'] = students
+
+                    #del applicant from admission applications
+                    del self.admissionApplications[applicantId]
+
+                    # save changes to main handle dict
+                    self.mainHandle.saveStorage()
+                    
+                    # print success message
+                    console.print(f"\n[green]SUCCESS[/green]\n{applicantInfo.get('firstName')} "\
+                                  f"{applicantInfo.get('lastName')} has been admitted successfully!\n"
+                                  f"Matric No: {matric}\n")
+                    # update main handle dict
+                    self.mainHandleDict['admissionApplications'] = self.admissionApplications
+                    # log admin action
+                    self.adminLog(f"admitted {applicantInfo.get('firstName')} "\
+                                  f"{applicantInfo.get('lastName')} with UID {applicantId}")
+                    return
+                    
                     
             
         elif mode == "batch":
-            pass
+            uids = input("Enter UIDs of applicants to be admitted (separated by commas): ")
+            uids = uids.split(',')
+            admittedCount = 0
+
+            for uid in uids:
+                uid = uid.strip()
+                # check if application exists
+                if uid in self.admissionApplications.keys():
+                    self._admit(uid, students)
+                    admittedCount += 1
+                else:
+                    console.print(f"\n[red]ERROR[/red]\nInvalid UID: {uid}\n")
+
+            if admittedCount > 0:
+                console.print(f"\n[green]SUCCESS[/green]\n{admittedCount} applicants have been admitted successfully!\n")
+
         elif mode == "all":
-            pass
+            admittedCount = 0
+            students = self.mainHandleDict.get('students', {})
+            for uid in list(self.admissionApplications.keys()):
+                self._admit(uid, students)
+                admittedCount += 1
+
+            if admittedCount > 0:
+                console.print(f"\n[green]SUCCESS[/green]\n{admittedCount} applicants have been admitted successfully!\n")
 
     """
     view admission applications
@@ -132,7 +231,7 @@ class Admin:
             return
 
         # format header
-        header = ["SN", "ID", "COURSE", "EMAIL"]
+        header = ["SN", "ID", "COURSE", "EMAIL", "UTME SCORE", "APPLICATION DATE"]
         data = []
 
         # print applications
@@ -144,6 +243,8 @@ class Admin:
             subData.append(value.get('id'))
             subData.append(value.get('courseOfChoice'))
             subData.append(value.get('email'))
+            subData.append(value.get('jambScore'))
+            subData.append(value.get('applicationDate'))
 
             # append values to data
             data.append(subData)
@@ -270,6 +371,70 @@ class Admin:
         else:
             console.print("\n[yellow]Oops, no logs have "\
                           "been kept for admins quite yet[/yellow]\n")
+    
+    """
+    view all students
+    """
+    def viewStudents(self):
+        students = self.mainHandleDict.get('students')
+        # check if there are students
+        if not students:
+            console.print("\n[yellow]There are no students admitted yet![/yellow]\n")
+            return
+        
+        table = []
+        header = ["SN", "MATRIC NO.", "NAME", "COURSE", "EMAIL"]
+
+        for index, (uid, student) in enumerate(students.items(), 1):
+            fullName = f"{student.get('firstName')} {student.get('lastName')}"
+            table.append([
+                index,
+                student.get('matricNo'),
+                fullName,
+                student.get('courseOfStudy'),
+                student.get('email')
+            ])
+
+        print(tabulate(table, headers=header, tablefmt="double_grid"))
+
+    def schoolStats(self):
+        """
+        view school statistics
+        """
+        students = self.mainHandleDict.get('students', {})
+
+        # check if there are students
+        if not students:
+            console.print("\n[yellow]No student data available[/yellow]\n")
+            return
+
+        totalStudents = len(students)
+        per_course = {}
+        per_school = {}
+
+        for s in students.values():
+            course = s.get('courseOfStudy')
+            school = s.get('school')
+
+            if course in per_course:
+                per_course[course] += 1
+            else:
+                per_course[course] = 1
+
+            if school in per_school:
+                per_school[school] += 1
+            else:
+                per_school[school] = 1
+
+        # loop through students and count course enrollments
+        for s in students.values():
+            course = s.get('courseOfStudy')
+            if course in per_course:
+                per_course[course] += 1
+
+        print("\n[green]Student Statistics[/green]\n")
+        for course, count in per_course.items():
+            print(f"{course}: {count} student(s)")
 
     """
     log current admin out

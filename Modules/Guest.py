@@ -114,59 +114,81 @@ class Guest:
     validate course of choice
     """
     def getValidCourse(self):
-        programInfo = Utils.loadCourses()
-        schools = programInfo.keys()
+        programmes = Utils.loadCourses()
+        schoolList = programmes.keys()
 
-        departments = []
-        self.chosenCourseInfo = None
+        # print available courses in the school
+        Utils.viewProgrammes()
 
-        print("\nHere's a list of available programmes:")
-        for x in schools:
-            # get school dict
-            school = programInfo.get(x)
-
-            # print school/faculty name
-            console.print(f"\n\n[purple]SCHOOLS:\t\t"\
-                          "DEPARTMENTS:[/purple]")
-            console.print(f"\n[green]{x}[/green]")
-
-            for y in school:
-                # get department dict
-                dept = school.get(y)
-
-                # get department and course code for printing
-                deptName = dept.get('course')
-                courseCode = dept.get('course code')
-
-                """
-                append values to departments list \
-                will contain department dictionaries
-                """
-                departments.append(dept)
-
-                # print departments in the school
-                print(f"\t\t\t({courseCode}) - {deptName}")
-
-        console.print(f"\n[red]INFO[/red] You can enter course name or course code.")
-
+        # get and validate school under which course is
         while True:
-            course = input("Enter desired course of study: ").lower().strip()
+            schoolName = input("Enter School to apply to: ").upper()
+            schoolName = Utils.cleanString(schoolName)
 
-            for dept in departments:
-                if course == dept['course'].lower() or \
-                   course == dept['course code'].lower():
-                    self.chosenCourseInfo = dept
-                    break
+            if schoolName in schoolList:
+                departments = {}
+                school = programmes.get(schoolName)
 
-            if not self.chosenCourseInfo:
-                console.print("\n[yellow]Invalid course chosen![/yellow]\n")
+                # get all departments in chosen school
+                for key, value in school.items():
+                    x = {value.get('course'): value.get('course code')}
+                    departments.update(x)
+
+                # get course if chosen school has departments under it
+                if departments:
+                    # print courses/departments in chosen school
+                    console.print(f"\n[yellow]COURSES IN  ({schoolName})[/yellow]\n")
+                    for dept, code in departments.items():
+                        print(f"\t({code}) - {dept}")
+
+                    while True:
+                        course = input("Enter course to apply for: ")
+                        course = Utils.cleanString(course)
+
+                        """
+                        check if entered course is a department key or value \
+                        from dictionary of departments in the chosen school \
+
+                        if it is a key or value:  get the course info \
+                        add the school key to it to hold the school name \
+                        and instantiate class attribute to hold course info
+                        """
+                        if course.title() in departments.keys():
+                            course = course.title()
+                            chosenCourse = school.get(departments.get(course).lower())
+                            chosenCourse.update({'school': schoolName})
+
+                            self.chosenCourseInfo = chosenCourse
+                            return chosenCourse.get('course')
+                        elif course.upper() in departments.values():
+                            course = course.upper()
+
+                            # get course info
+                            for key, value in departments.items():
+                                if value == course:
+                                    chosenCourse = school.get(course.lower())
+                                    chosenCourse.update({'school': schoolName})
+
+                                    self.chosenCourseInfo = chosenCourse
+                                    return chosenCourse.get('course')
+                        else:
+                            console.print("\n[red]ERROR[/red]\n"\
+                                          "Invalid Course chosen!\n")
+                else:
+                    console.print("\n[yellow]There are no departments"\
+                                  " in chosen school, yet.[/yellow]\n")
             else:
-                return self.chosenCourseInfo.get('course')    
+                console.print("\n[red]ERROR[/red]\n"\
+                              "Invalid School\n")
 
     """
     validate jamb score of applicant
     """
     def getValidJamb(self):
+        # end execution if chosenCourseInfo dict doesn't exist
+        if not self.__dict__.get('chosenCourseInfo'):
+            return
+
         # get the cut off mark for chosen course
         courseCutOff = self.chosenCourseInfo.get('cut off')
 
@@ -178,7 +200,7 @@ class Guest:
                         console.print(f"[yellow]Sorry, your UTME score of "\
                                       f"\b{score} is less than the cut off mark "\
                                       f"\b{courseCutOff}")
-                        return None
+                        return
                     else:
                         return score
             except:
@@ -277,20 +299,27 @@ class Guest:
                           " this application!\n[/red]")
             return
 
+        applicationDate = datetime.datetime.now()
+        school = self.chosenCourseInfo.get('school')
+        courseCode = self.chosenCourseInfo.get('course code')
+
         userApplication = {
             id: {
+                'id': id,
                 'email': email,
-                'lastName': lastName,
                 'firstName': firstName,
-                'jambScore': jambScore,
                 'middleName': middleName,
-                'password': hashedPassword,
+                'lastName': lastName,
                 'dateOfBirth': dateOfBirth,
                 'stateOfOrigin': stateOfOrigin,
-                'courseOfChoice': courseOfChoice,
                 'stateOfResidence': stateOfResidence,
-                'applicationStatus': "Pending",
-                'id': id
+                'jambScore': jambScore,
+                'school': school,
+                'courseOfChoice': courseOfChoice,
+                'courseCode': courseCode,
+                'applicationDate': applicationDate,
+                'password': hashedPassword,
+                'applicationStatus': "Pending"
                  }
         }
 

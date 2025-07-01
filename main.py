@@ -66,9 +66,7 @@ class Shell:
     """
     def parseInput(self):
         # trim excess whitespace from user input
-        self.userInput = self.userInput.split()
-        self.userInput = " ".join(self.userInput)
-        self.command = self.userInput
+        self.command = Utils.cleanString(self.userInput)
 
         userCommands = []
         users = ['guest', 'admin', 'student']
@@ -213,6 +211,7 @@ class Shell:
                 'cancel application': True,
             },
             'admin': {
+                'admit': True,
                 'logout': True,
                 'view my log': True,
                 'view admin log': True,

@@ -1,7 +1,7 @@
-import hashlib, datetime, os
 from tabulate import tabulate
 from Modules.Utils import Utils
 from rich.console import Console
+import hashlib, datetime, os, random
 
 # get instance of Console
 console = Console()
@@ -18,13 +18,15 @@ class Admin:
         self.adminCommands = {
             'login': self.login,
             'logout': self.logout,
+            'admit': self.admitStudent,
             'view my log': self.viewMyLog,
             'view admin log': self.viewAdminLog,
             'view applications': self.viewApplications
         }
 
         self.mainHandle = mainHandle
-        self.mainHandleDict = mainHandle.__dict__        
+        self.courses = Utils.loadCourses()
+        self.mainHandleDict = mainHandle.__dict__
         self.command = self.mainHandleDict.get('command')
         self.admissionApplications = self.mainHandleDict.get('admissionApplications')
 
@@ -43,16 +45,89 @@ class Admin:
             self.adminCommands.get(self.command)()
 
     """
+    admit student
+    """
+    def admitStudent(self):
+        modeList = ['single', 'batch', 'all']
+
+        # print mode of admission
+        console.print("\n[yellow]ADMISSION MODES[/yellow]\n")
+        print(
+            "[SINGLE] - Admit a single student\n",
+            "[BATCH]  - Admit multiple students\n",
+            "[ALL]    - Admit all applied students\n",
+            sep=""
+        )
+
+        # collect input for admission mode
+
+        while True:
+            mode = input("Enter Admission Mode: ")
+            mode = mode.lower()
+
+            if mode not in modeList:
+                console.print("\n[red]ERROR[/red]\nInvalid mode selected\n")
+            else:
+                break
+
+        while True:
+            # prompt to print applications again
+            tableConfirm = input("View applications? [Y | N]:  ").strip().lower()
+
+            if tableConfirm == "y" or \
+               tableConfirm == "yes":
+                self.viewApplications()
+                break
+            elif tableConfirm == "n" or \
+                 tableConfirm == "no":
+                break
+            else:
+                console.print("\n[red]ERROR[/red]\nInvalid option entered!\n")
+
+        # check if there are current admission applications
+        if not self.admissionApplications:
+            console.print("\n[yellow]INFO[/yellow]\nThere"\
+                          " are no applications currently!\n")
+            return
+
+        # handle admission for selected mode
+        if mode == "single":
+            while True:
+                # get user ID of applicant to be admitted
+                applicantId = input("Enter UID of applicant: ").strip()
+                
+                # check if application exists
+                if applicantId not in self.admissionApplications.keys():
+                    console.print("\n[red]ERROR[/red]\nInvalid UID!\n")
+                else:
+                    # get applicant info
+                    applicantInfo = self.admissionApplications.get(applicantId)
+                    digits = f"{random.randint(0,99999):05}"
+                    matric = f"{datetime.datetime.now().year}/1/{digits}"
+
+                    print(matric)
+                    print(self.courses)
+                    return
+                    # create new students dictionary if non existent
+                    if not self.mainHandleDict.get('students'):
+                        self.mainHandleDict['students'] = {
+                            
+                        }
+                    
+            
+        elif mode == "batch":
+            pass
+        elif mode == "all":
+            pass
+
+    """
     view admission applications
     """
     def viewApplications(self):
-        # get current applications
-        applications = self.mainHandleDict.get('admissionApplications')
-
         # check if there are available applications
-        if not applications:
+        if not self.admissionApplications:
             console.print("\n[yellow]There are no "\
-                          "available applications"\
+                          "available self.admissionApplications"\
                           "at the moment!\n[/yellow]")
             return
 
@@ -61,10 +136,10 @@ class Admin:
         data = []
 
         # print applications
-        for key, value in applications.items():
+        for key, value in self.admissionApplications.items():
             # get values
             subData = []
-            sn = list(applications).index(key) + 1
+            sn = list(self.admissionApplications).index(key) + 1
             subData.append(sn)
             subData.append(value.get('id'))
             subData.append(value.get('courseOfChoice'))
@@ -73,6 +148,7 @@ class Admin:
             # append values to data
             data.append(subData)
 
+        # print table of admission applications
         print(tabulate(data, headers=header, tablefmt="double_grid"))
 
         # save action to admin log

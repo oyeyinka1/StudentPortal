@@ -92,7 +92,7 @@ class Utils:
         schools = programInfo.keys()
 
         print("\nHere's a list of available programmes:")
-        console.print(f"\n\n[purple]SCHOOLS:\t\t"\
+        console.print(f"\n[purple]SCHOOLS:\t\t"\
                       "DEPARTMENTS:[/purple]")
 
         for x in schools:
@@ -150,6 +150,15 @@ class Utils:
             handle.loggedInUser = None
             handle.prompt = handle.defaultPrompt
 
+
+    """
+    purge given string of excess whitespace
+    """
+    def cleanString(self, string):
+        string = string.split()
+        string = " ".join(string)
+
+        return string
 
 # create class instance
 Utils = Utils()

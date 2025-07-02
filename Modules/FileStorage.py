@@ -1,10 +1,21 @@
 import os, json
+import datetime
 from Modules.Utils import Utils
 
 """
 File storage class for handling saving and loading of data in
 storage json files
 """
+
+def convert_datetime(obj):
+    if isinstance(obj, dict):
+        return {k: convert_datetime(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_datetime(i) for i in obj]
+    elif isinstance(obj, (datetime.datetime, datetime.date)):
+        return obj.isoformat()
+    else:
+        return obj
 
 class FileStorage:
     """
@@ -17,7 +28,8 @@ class FileStorage:
         # specify class attributes to save to storage
         self.saveList = [
             'admissionApplications',
-            'admins'
+            'admins',
+            'students'
         ]
 
     """

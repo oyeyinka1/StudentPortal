@@ -1,9 +1,11 @@
 from rich.console import Console
 import random, string, hashlib, datetime, re, json
 from Modules.Utils import Utils
+from Modules.Login import Login
 
 # create object instance of console
 console = Console()
+
 
 """
 guest class to handle guest native commands
@@ -13,6 +15,8 @@ class Guest:
     """
     constructor
     """
+
+
     def __init__(self, mainHandle):
         self.guestCommands = {
             'login': self.login,
@@ -317,7 +321,7 @@ class Guest:
                 'school': school,
                 'courseOfChoice': courseOfChoice,
                 'courseCode': courseCode,
-                'applicationDate': applicationDate,
+                'applicationDate': applicationDate.strftime("%d-%m-%Y %H:%M:%S"),
                 'password': hashedPassword,
                 'applicationStatus': "Pending"
                  }
@@ -335,28 +339,14 @@ class Guest:
         self.mainHandleDict.update(userApplication)
         self.mainHandle.saveStorage()
 
+
     """
     log the user into the portal
     """
     def login(self):
-        userId = input(f"Enter your application ID: ")
-        password = input("Enter your password: ")
-        
-        hashedPassword = hashlib.md5(password.encode())
-        hashedPassword = hashedPassword.hexdigest()
-        
-        if userId in self.admissionApplications.keys():
-            if hashedPassword == self.admissionApplications[userId]['password']:
-                # set values for logged in user
-                self.setLoggedInData(userId)
-                
-                # print welcome message
-                console.print(f"[green]\n<< Welcome back, {self.firstName}!>>\n[/green]")
-                return True
-            else:
-                console.print("[red]\nInvalid ID or Password[/red]\n")
-        else:
-            console.print("[red]\nInvalid ID or Password\n[/red]")
+        login = Login(self.mainHandle)
+        login.loginGuest()
+
 
     """
     log the current user out of the portal

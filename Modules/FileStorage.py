@@ -46,18 +46,12 @@ class FileStorage:
         saveObjectDict = saveObject.__dict__
         saveObject = {}
 
-        # load default admin dictionary
-        admin = Utils.rootAdmin()
-
         # parse saveObject and collect only items in saveList
         for item in self.saveList:
             if not saveObjectDict.get(item):
                 continue
 
             saveObject[item] = saveObjectDict[item]
-
-        # add admin dictionary to save object
-        saveObject['admins'] = admin
 
         # dump save object to json
         self.file = json.dumps(saveObject, indent=4)

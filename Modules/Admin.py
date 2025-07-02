@@ -30,6 +30,10 @@ class Admin:
         self.command = self.mainHandleDict.get('command')
         self.admissionApplications = self.mainHandleDict.get('admissionApplications')
 
+        # set root admin if db file does not exist
+        if not self.mainHandleDict.get('admins'):
+            self.mainHandleDict['admins'] = Utils.rootAdmin()
+        
         # check if there is a logged in user and set user data
         if self.mainHandle.loggedIn:
             self.setLoggedInData(self.mainHandleDict.get('loggedInUser'))
@@ -94,7 +98,7 @@ class Admin:
         if mode == "single":
             while True:
                 # get user ID of applicant to be admitted
-                applicantId = input("Enter UID of applicant: ").strip()
+                applicantId = input("Enter UID of applicant: ")
                 
                 # check if application exists
                 if applicantId not in self.admissionApplications.keys():
@@ -164,6 +168,10 @@ class Admin:
         # get username and password of admin
         username = input("Enter your username: ")
         password = input("Enter your password: ")
+
+        # clean the username and password input
+        username = Utils.cleanString(username)
+        password = Utils.cleanString(password)
 
         # hash user password
         password = hashlib.md5(password.encode())

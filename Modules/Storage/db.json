@@ -1,0 +1,12 @@
+{
+    "admins": {
+        "root": {
+            "username": "root",
+            "password": "aabb2100033f0352fe7458e412495148",
+            "email": "root@fut.com",
+            "firstName": "root",
+            "lastName": "root",
+            "middleName": null
+        }
+    }
+}

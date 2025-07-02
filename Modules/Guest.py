@@ -299,7 +299,8 @@ class Guest:
                           " this application!\n[/red]")
             return
 
-        applicationDate = datetime.datetime.now()
+        # cast application date to str to pass json serialization
+        applicationDate = str(datetime.datetime.now())
         school = self.chosenCourseInfo.get('school')
         courseCode = self.chosenCourseInfo.get('course code')
 

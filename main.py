@@ -36,7 +36,7 @@ class Shell:
         self.user = None
         self.loggedIn = None
         self.loggedInUser = None
-
+        
         """
         self.runShell: run the shell of the program
         self.setshellEssentialss: instantiates essential \

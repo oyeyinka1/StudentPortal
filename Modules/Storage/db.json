@@ -8,5 +8,25 @@
             "lastName": "root",
             "middleName": null
         }
+    },
+    "students": {
+        "2025/1/36928MC": {
+            "applicationId": "UID5242",
+            "email": "sudo@gmail.com",
+            "firstName": "Sudo",
+            "middleName": "Haruji",
+            "lastName": "Ken",
+            "dateOfBirth": "12-12-2000",
+            "stateOfOrigin": "Abia",
+            "stateOfResidence": "Abia",
+            "jambScore": 300,
+            "school": "SEET",
+            "courseOfChoice": "Mechatronics Engineering",
+            "courseCode": "MCE",
+            "applicationDate": "02-07-2025 17:20:51",
+            "password": "506c104557ce699cc878d69f9339e427",
+            "matricNo": "2025/1/36928MC",
+            "admissionDate": "02-07-2025 17:23:21"
+        }
     }
 }

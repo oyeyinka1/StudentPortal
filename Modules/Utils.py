@@ -52,7 +52,6 @@ class Utils:
                 data = json.loads(data)
                 return data
         except FileNotFoundError:
-            console.print(f"[red]{path} file not found![/red]")
             return []
 
     """
@@ -68,6 +67,9 @@ class Utils:
     def ensureUniqueEmail(self, email):
         
         dataBase = self.loadFromFile("./Modules/Storage/db.json")
+
+        if not dataBase:
+            return
         
         dbIds = dataBase.get("admissionApplications")
         dbEmails = []

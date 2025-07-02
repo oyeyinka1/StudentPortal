@@ -36,7 +36,7 @@ class Login:
                 self.mainHandleDict['loggedInUser']['id'] = userId
                 self.mainHandleDict['loggedIn'] = True
                 self.mainHandleDict['user'] = 'guest'
-                self.mainHandle.prompt = f"  | {userId} :>  "
+                self.mainHandle.prompt = f"[yellow]({userId})   [/yellow]"
 
                 console.print(f"[green]\n<< Welcome back, {user['firstName']}! >>\n[/green]")
                 return True

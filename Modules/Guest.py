@@ -66,7 +66,48 @@ class Guest:
     register newly admitted student
     """
     def registerStudent(self):
-        pass
+        console.print(f"\n[green]CONGRATULATIONS, {self.firstName}![/green] \n\n"\
+                      f"Your application is successful!\n\n"\
+                      f"[purple](SCHOOL) [/purple]{self.school}\n"\
+                      f"[purple](COURSE) [/purple]{self.courseOfChoice}\n"\
+                      f"[purple](COURSE CODE) [/purple]{self.courseCode}\n\n"
+                      f"Your Matric Number is: [green]{self.matricNo}[/green]\n"\
+                      f"[red]Take note of it as you'd need it to login to your student account[/red]\n")
+
+        # ask to setup new password for student
+        while True:
+            confirm = input("Setup new password? [Y | N] : ")
+            confirm = Utils.cleanString(confirm).lower()
+
+            if confirm == 'y' or confirm == 'yes':
+                password = input("Enter new password: ")
+                password = Utils.cleanString(password)
+
+                # check if password contains whitespace
+                if " " in password:
+                    console.print("\n[red]ERROR[/red]\nYou can't have whitespace in your password\n")
+                    continue
+
+                # hash password
+                password = hashlib.md5(password.encode())
+                password = password.hexdigest()
+
+                # set new password for student
+                self.mainHandleDict.get('students').get(self.matricNo)['password'] = password
+                console.print("\n[green]Password updated![/green]\n")
+                break
+            elif confirm == 'n' or confirm == 'no':
+                console.print("\n[yellow]You've chosen to keen current password![/yellow]\n")
+                break
+            else:
+                console.print("\n[red]ERROR[/red]\nInvalid option chosen!\n")
+
+        console.print("[purple]Welcome to our school![/purple]\n"\
+                      "[red]Your application account will be deleted[/red]\n")
+
+        # delete user from application dictionary and save storage
+        del self.mainHandleDict.get('admissionApplications')[self.id]
+        self.logout()
 
     """
     cancel application to school
@@ -304,7 +345,7 @@ class Guest:
             return
 
         # cast application date to str to pass json serialization
-        applicationDate = str(datetime.datetime.now())
+        applicationDate = datetime.datetime.now()
         school = self.chosenCourseInfo.get('school')
         courseCode = self.chosenCourseInfo.get('course code')
 
@@ -324,7 +365,7 @@ class Guest:
                 'courseCode': courseCode,
                 'applicationDate': applicationDate.strftime("%d-%m-%Y %H:%M:%S"),
                 'password': hashedPassword,
-                'applicationStatus': "Pending"
+                'applicationStatus': "pending"
                  }
         }
 
@@ -379,11 +420,14 @@ class Guest:
             self.jambScore = user.get('jambScore')
             self.password = user.get('password')
             self.applicationStatus = user.get('applicationStatus')
+            self.courseCode = user.get('courseCode')
+            self.matricNo = user.get('matricNo')
+            self.school = user.get('school')
 
             # set main handle class attributes
             self.mainHandle.user = 'guest'
             self.mainHandle.loggedIn = True            
-            self.mainHandle.prompt = f"  | {userId} :>  "
+            self.mainHandle.prompt = f"[yellow]({userId})   [/yellow]"
 
     """
     unset values upon destruction

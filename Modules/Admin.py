@@ -50,9 +50,13 @@ class Admin:
         if self.command in self.adminCommands.keys():
             self.adminCommands.get(self.command)()
 
+    """
+    """
+    def school(self):
+        pass
 
     """
-    admit a student into the school
+    helper function for the admitStudent method
     """
     def _admit(self, applicantId, students):
         if applicantId not in self.admissionApplications:
@@ -115,8 +119,8 @@ class Admin:
             else:
                 break
 
+        # prompt to print admission applications 
         while True:
-            # prompt to print applications again
             tableConfirm = input("View applications? [Y | N]:  ").strip().lower()
 
             if tableConfirm == "y" or \
@@ -135,11 +139,6 @@ class Admin:
                           " are no applications currently!\n")
             return
 
-        students = self.mainHandleDict.get('students')
-        if not students:
-            students = {}
-            self.mainHandleDict['students'] = students
-
         # handle admission for selected mode
         if mode == "single":
             while True:
@@ -153,32 +152,42 @@ class Admin:
                 else:
                     # get applicant info
                     applicantInfo = self.admissionApplications.get(applicantId)
+                    matricTail = applicantInfo.get('courseCode')[0:2]
                     digits = f"{random.randint(0,99999):05}"
-                    matric = f"{datetime.datetime.now().year}/1/{digits}"
+                    matric = f"{datetime.datetime.now().year}/1/{digits}{matricTail}"
+                    admissionDate = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
-
-                    if not self.mainHandleDict.get('students'):
-                        self.mainHandleDict['students'] = {}
-
-                    students = self.mainHandleDict['students']
-
-                    students[applicantId] = {
-                        'matricNo': matric,
-                        'firstName': applicantInfo.get('firstName'),
-                        'lastName': applicantInfo.get('lastName'),
-                        'middleName': applicantInfo.get('middleName'),
+                    # set student info
+                    student = {
+                        'applicationId': applicantInfo.get('id'),
                         'email': applicantInfo.get('email'),
-                        'courseOfStudy': applicantInfo.get('courseOfChoice'),
+                        'firstName': applicantInfo.get('firstName'),
+                        'middleName': applicantInfo.get('middleName'),
+                        'lastName': applicantInfo.get('lastName'),
+                        'dateOfBirth': applicantInfo.get('dateOfBirth'),
+                        'stateOfOrigin': applicantInfo.get('stateOfOrigin'),
+                        'stateOfResidence': applicantInfo.get('stateOfResidence'),
+                        'jambScore': applicantInfo.get('jambScore'),
                         'school': applicantInfo.get('school'),
-                        'admissionDate': datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                        'courseOfChoice': applicantInfo.get('courseOfChoice'),
+                        'courseCode': applicantInfo.get('courseCode'),
+                        'applicationDate': applicantInfo.get('applicationDate'),
+                        'password': applicantInfo.get('password'),
+                        'matricNo': matric,
+                        'admissionDate': admissionDate
                     }
 
-                    #update admission application status
+                    # update admission application status
                     self.admissionApplications[applicantId]['applicationStatus'] = "admitted"
-                    self.mainHandleDict['students'] = students
 
-                    #del applicant from admission applications
-                    del self.admissionApplications[applicantId]
+                    # add matric number to application data for easy password change and lookup
+                    self.admissionApplications[applicantId]['matricNo'] = matric
+
+                    # update or create student dictionary in main handle
+                    if not self.mainHandleDict.get('students'):
+                        self.mainHandleDict['students'] = {matric: student}
+                    else:
+                        self.mainHandleDict['students'].update({matric: student})
 
                     # save changes to main handle dict
                     self.mainHandle.saveStorage()
@@ -187,22 +196,19 @@ class Admin:
                     console.print(f"\n[green]SUCCESS[/green]\n{applicantInfo.get('firstName')} "\
                                   f"{applicantInfo.get('lastName')} has been admitted successfully!\n"
                                   f"Matric No: {matric}\n")
-                    # update main handle dict
-                    self.mainHandleDict['admissionApplications'] = self.admissionApplications
+
                     # log admin action
-                    self.adminLog(f"admitted {applicantInfo.get('firstName')} "\
-                                  f"{applicantInfo.get('lastName')} with UID {applicantId}")
+                    self.adminLog(f"admitted {applicantId} "\
+                                  f"with matric no: {matric}")
                     return
-                    
-                    
-            
         elif mode == "batch":
             uids = input("Enter UIDs of applicants to be admitted (separated by commas): ")
+            uids = Utils.cleanString(uids)
+            uids = uids.replace(" ", "")
             uids = uids.split(',')
             admittedCount = 0
 
             for uid in uids:
-                uid = uid.strip()
                 # check if application exists
                 if uid in self.admissionApplications.keys():
                     self._admit(uid, students)
@@ -212,10 +218,10 @@ class Admin:
 
             if admittedCount > 0:
                 console.print(f"\n[green]SUCCESS[/green]\n{admittedCount} applicants have been admitted successfully!\n")
-
         elif mode == "all":
             admittedCount = 0
             students = self.mainHandleDict.get('students', {})
+
             for uid in list(self.admissionApplications.keys()):
                 self._admit(uid, students)
                 admittedCount += 1
@@ -230,7 +236,7 @@ class Admin:
         # check if there are available applications
         if not self.admissionApplications:
             console.print("\n[yellow]There are no "\
-                          "available self.admissionApplications"\
+                          "available admission applications "\
                           "at the moment!\n[/yellow]")
             return
 
@@ -240,6 +246,10 @@ class Admin:
 
         # print applications
         for key, value in self.admissionApplications.items():
+            # do not fetch application if status is not <pending>
+            if value.get('applicationStatus') != 'pending':
+                continue
+
             # get values
             subData = []
             sn = list(self.admissionApplications).index(key) + 1
@@ -253,8 +263,13 @@ class Admin:
             # append values to data
             data.append(subData)
 
-        # print table of admission applications
-        print(tabulate(data, headers=header, tablefmt="double_grid"))
+        # print table if there are pending applications
+        if data:
+            print(tabulate(data, headers=header, tablefmt="double_grid"))
+        else:
+            console.print("\n[yellow]There are no "\
+                          "available admission applications "\
+                          "at the moment!\n[/yellow]")
 
         # save action to admin log
         self.adminLog("viewed admission applications")
@@ -320,7 +335,7 @@ class Admin:
         filepath = "./Modules/Storage/admin_logs.txt"
 
         # format message to be logged
-        message = f"[ADMIN] - {self.username}@{self.email}"\
+        message = f"[ADMIN] - ({self.username}@{self.email})"\
             f" - ({action}) on ({date}) at ({time})\n"
 
         # write to file

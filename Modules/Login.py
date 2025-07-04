@@ -38,7 +38,8 @@ class Login:
                 return True
 
         return False
-        
+
+    
     """
     log the user into the portal
     """

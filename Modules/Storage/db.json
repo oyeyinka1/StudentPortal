@@ -8,26 +8,5 @@
             "lastName": "root",
             "middleName": null
         }
-    },
-    "students": {
-        "2025/1/65962MC": {
-            "applicationId": "UID3776",
-            "email": "biei@yahoo.com",
-            "firstName": "Billie",
-            "middleName": "",
-            "lastName": "Eilish",
-            "dateOfBirth": "12-02-2000",
-            "stateOfOrigin": "Lagos",
-            "stateOfResidence": "Abia",
-            "jambScore": 300,
-            "school": "SEET",
-            "courseOfChoice": "Mechatronics Engineering",
-            "courseCode": "MCE",
-            "applicationDate": "04-07-2025 08:42:28",
-            "password": "984fe689d52f9b1259f559975d5fbeb1",
-            "matricNo": "2025/1/65962MC",
-            "admissionDate": "04-07-2025 08:43:09",
-            "studentSetup": true
-        }
     }
 }

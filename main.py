@@ -212,6 +212,7 @@ class Shell:
             },
             'admin': {
                 'admit': True,
+                'reject': True,
                 'logout': True,
                 'view my log': True,
                 'view admin log': True,

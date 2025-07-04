@@ -57,10 +57,27 @@ class Guest:
 
         # check if user has been admitted and start student enrollment
         if self.applicationStatus == 'admitted':
-            self.registerStudent()            
+            self.registerStudent()
+        elif self.applicationStatus == 'rejected':
+            self.deleteStudent()
         else:
             console.print(f"\nHello, {self.firstName}! \nYour application status is: "\
                           f"[red]{self.applicationStatus}[/red]\n")
+
+    """
+    delete rejection student from applications list
+    """
+    def deleteStudent(self):
+        # delete student
+        del self.mainHandleDict.get('admissionApplications')[self.id]
+
+        # print consolation message
+        console.print("\n[red]Unfortunately, your application has been rejected![/red]\n\n"\
+                      "Sorry to see you go.\nTry again another year, you've got this!\n")
+
+        # log rejected user out
+        self.logout()
+        
 
     """
     register newly admitted student

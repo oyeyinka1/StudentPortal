@@ -19,6 +19,7 @@ class Admin:
             'login': self.login,
             'logout': self.logout,
             'admit': self.admitStudent,
+            'reject': self.rejectStudent,
             'view my log': self.viewMyLog,
             'view admin log': self.viewAdminLog,
             'view applications': self.viewApplications,
@@ -106,9 +107,6 @@ class Admin:
                 self.mainHandleDict['students'] = {}
 
             self.mainHandleDict['students'].update({matric: student})
-
-            # save changes to main handle dict
-            self.mainHandle.saveStorage()
                 
             # print success message
             console.print(f"\n[green]SUCCESS[/green]\n{applicantInfo.get('firstName')} "\
@@ -126,6 +124,12 @@ class Admin:
     def admitStudent(self):
         modeList = ['single', 'batch', 'all']
 
+        # check if there are current admission applications
+        if not self.admissionApplications:
+            console.print("\n[yellow]INFO[/yellow]\nThere"\
+                          " are no applications currently!\n")
+            return
+
         # print mode of admission
         console.print("\n[yellow]ADMISSION MODES[/yellow]\n")
         print(
@@ -136,7 +140,6 @@ class Admin:
         )
 
         # collect input for admission mode
-
         while True:
             mode = input("Enter Admission Mode: ")
             mode = mode.lower()
@@ -160,12 +163,6 @@ class Admin:
             else:
                 console.print("\n[red]ERROR[/red]\nInvalid option entered!\n")
 
-        # check if there are current admission applications
-        if not self.admissionApplications:
-            console.print("\n[yellow]INFO[/yellow]\nThere"\
-                          " are no applications currently!\n")
-            return
-
         # handle admission for selected mode
         if mode == "single":
             # get user ID of applicant to be admitted
@@ -175,9 +172,7 @@ class Admin:
             self._admit(uid)
         elif mode == "batch":
             uids = input("Enter UIDs of applicants to be admitted (separated by commas): ")
-            uids = Utils.cleanString(uids)
-            uids = uids.replace(" ", "")
-            uids = uids.split(',')
+            uids = Utils.cleanString(uids).replace(" ", "").split(',')
             admittedCount = 0
 
             for uid in uids:
@@ -197,6 +192,104 @@ class Admin:
             if admittedCount > 0:
                 console.print(f"\n[green]SUCCESS[/green]\n{admittedCount} "\
                               "applicant(s) have been admitted successfully!\n")
+
+    """
+    helper function for rejectStudent method
+    """
+    def _reject(self, applicantId):
+        # check if application exists
+        if applicantId not in self.admissionApplications.keys():
+            console.print("\n[red]ERROR[/red]\nInvalid UID!\n")
+        elif applicantId in self.admissionApplications.keys() and \
+             self.admissionApplications.get(applicantId)['applicationStatus'] == 'rejected':
+            console.print(f"Applicant with UID: [yellow]{applicantId}[/yellow]"\
+                          " has already been rejected!")
+        else:
+            # update admission application status
+            self.admissionApplications[applicantId]['applicationStatus'] = "rejected"
+
+            # print success message
+            console.print(f"\n[green]SUCCESS[/green]\nApplicant with UID: {applicantId} "\
+                          f"has been denied admission!\n")
+
+            # log admin action
+            self.adminLog(f"rejected {applicantId}")
+            return True
+
+    """
+    reject student admission
+    """
+    def rejectStudent(self):
+        modeList = ['single', 'batch', 'all']
+
+        # check if there are current admission applications
+        if not self.admissionApplications:
+            console.print("\n[yellow]INFO[/yellow]\nThere"\
+                          " are no applications currently!\n")
+            return
+
+        # print mode of admission
+        console.print("\n[yellow]ADMISSION REJECTION MODES[/yellow]\n")
+        print(
+            "[SINGLE] - Reject a single student\n",
+            "[BATCH]  - Reject multiple students\n",
+            "[ALL]    - Reject all applied students\n",
+            sep=""
+        )
+
+        # collect input for admission rejection mode
+        while True:
+            mode = input("Enter Admission Rejection Mode: ")
+            mode = mode.lower()
+
+            if mode not in modeList:
+                console.print("\n[red]ERROR[/red]\nInvalid mode selected\n")
+            else:
+                break
+
+        # prompt to print admission applications 
+        while True:
+            tableConfirm = input("View applications? [Y | N]:  ").strip().lower()
+
+            if tableConfirm == "y" or \
+               tableConfirm == "yes":
+                self.viewApplications()
+                break
+            elif tableConfirm == "n" or \
+                 tableConfirm == "no":
+                break
+            else:
+                console.print("\n[red]ERROR[/red]\nInvalid option entered!\n")
+
+        # handle admission rejection for selected mode
+        if mode == "single":
+            # get user ID of applicant to be rejected
+            uid = input("Enter UID of applicant: ")
+            uid = Utils.cleanString(uid)
+
+            self._reject(uid)
+        elif mode == "batch":
+            uids = input("Enter UIDs of applicants to be rejected (separated by commas): ")
+            uids = Utils.cleanString(uids).replace(" ", "").split(',')
+            rejectedCount = 0
+
+            for uid in uids:
+                if self._reject(uid):
+                    rejectedCount += 1
+
+            if rejectedCount > 0:
+                console.print(f"\n[green]SUCCESS[/green]\n{rejectedCount} "\
+                              "applicant(s) have been denied admission!!\n")
+        elif mode == "all":
+            rejectedCount = 0
+
+            for uid in list(self.admissionApplications.keys()):
+                if self._reject(uid):
+                    rejectedCount += 1
+
+            if rejectedCount > 0:
+                console.print(f"\n[green]SUCCESS[/green]\n{rejectedCount} "\
+                              "applicant(s) have been denied admission!\n")
 
     """
     view admission applications

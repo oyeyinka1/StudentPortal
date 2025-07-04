@@ -57,7 +57,7 @@ class Guest:
 
         # check if user has been admitted and start student enrollment
         if self.applicationStatus == 'admitted':
-            self.registerStudent()
+            self.registerStudent()            
         else:
             console.print(f"\nHello, {self.firstName}! \nYour application status is: "\
                           f"[red]{self.applicationStatus}[/red]\n")
@@ -104,6 +104,9 @@ class Guest:
 
         console.print("[purple]Welcome to our school![/purple]\n"\
                       "[red]Your application account will be deleted[/red]\n")
+
+        # set student setup status for newly registered student
+        self.mainHandleDict['students'].get(self.matricNo)['studentSetup'] = True
 
         # delete user from application dictionary and save storage
         del self.mainHandleDict.get('admissionApplications')[self.id]

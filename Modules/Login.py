@@ -1,6 +1,7 @@
 import hashlib
 import json
 from rich.console import Console
+from Modules.Utils import Utils
 
 console = Console()
 
@@ -16,16 +17,44 @@ class Login:
         self.mainHandleDict = mainHandle.__dict__
         self.user = self.mainHandleDict.get("user")
         self.admissionApplications = self.mainHandleDict.get("admissionApplications")
-        
+        self.students = self.mainHandleDict.get("students")
 
+    """
+    check if already admitted user is attempting \
+    to login to guest account
+    """
+    def checkAdmittedStudent(self, userId):
+        # check if students dictionary exists
+        if not self.students:
+            return False
+
+        # check if user trying to login has been admitted
+        for key, value in self.students.items():
+            if value.get('applicationId') == userId and \
+               value.get('studentSetup'):
+                console.print("\n[yellow]You have been admitted.\nLogin "\
+                              "to your student account using your "\
+                              "matriculation number to continue[/yellow]\n")
+                return True
+
+        return False
+        
     """
     log the user into the portal
     """
     def loginGuest(self):
         userId = input("Enter your application ID: ")
+        userId = Utils.cleanString(userId)
+
+        # check if user with user ID has been admitted
+        if self.checkAdmittedStudent(userId):
+            return
+
         password = input("Enter your password: ")
+        password = Utils.cleanString(password)
 
         hashedPassword = hashlib.md5(password.encode()).hexdigest()
+
 
         if userId in self.admissionApplications:
             user = self.admissionApplications[userId]

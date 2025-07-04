@@ -58,40 +58,67 @@ class Admin:
     """
     helper function for the admitStudent method
     """
-    def _admit(self, applicantId, students):
-        if applicantId not in self.admissionApplications:
-            console.print(f"\n[red]ERROR[/red]\nInvalid UID: {applicantId}\n")
-            return
+    def _admit(self, applicantId):
+        # check if application exists
+        if applicantId not in self.admissionApplications.keys():
+            console.print("\n[red]ERROR[/red]\nInvalid UID!\n")
+        # check if applicant has already been admitted
+        elif applicantId in self.admissionApplications.keys() and \
+             self.admissionApplications.get(applicantId)['applicationStatus'] == 'admitted':
+            console.print(f"Applicant with UID: [yellow]{applicantId}[/yellow]"\
+                          " has already been admitted")
+        else:
+            # get applicant info
+            applicantInfo = self.admissionApplications.get(applicantId)
+            matricTail = applicantInfo.get('courseCode')[0:2]
+            digits = f"{random.randint(0,99999):05}"
+            matric = f"{datetime.datetime.now().year}/1/{digits}{matricTail}"
+            admissionDate = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+            
+            # set student info
+            student = {
+                'applicationId': applicantInfo.get('id'),
+                'email': applicantInfo.get('email'),
+                'firstName': applicantInfo.get('firstName'),
+                'middleName': applicantInfo.get('middleName'),
+                'lastName': applicantInfo.get('lastName'),
+                'dateOfBirth': applicantInfo.get('dateOfBirth'),
+                'stateOfOrigin': applicantInfo.get('stateOfOrigin'),
+                'stateOfResidence': applicantInfo.get('stateOfResidence'),
+                'jambScore': applicantInfo.get('jambScore'),
+                'school': applicantInfo.get('school'),
+                'courseOfChoice': applicantInfo.get('courseOfChoice'),
+                'courseCode': applicantInfo.get('courseCode'),
+                'applicationDate': applicantInfo.get('applicationDate'),
+                'password': applicantInfo.get('password'),
+                'matricNo': matric,
+                'admissionDate': admissionDate,
+            }
 
-        applicantInfo = self.admissionApplications[applicantId]
-        digits = f"{random.randint(0,99999):05}"
-        matric = f"{datetime.datetime.now().year}/1/{digits}"
+            # update admission application status
+            self.admissionApplications[applicantId]['applicationStatus'] = "admitted"
+            
+            # add matric number to application data for easy password change and lookup
+            self.admissionApplications[applicantId]['matricNo'] = matric
 
-        students[applicantId] = {
-            'matricNo': matric,
-            'firstName': applicantInfo.get('firstName'),
-            'lastName': applicantInfo.get('lastName'),
-            'middleName': applicantInfo.get('middleName'),
-            'email': applicantInfo.get('email'),
-            'courseOfStudy': applicantInfo.get('courseOfChoice'),
-            'school': applicantInfo.get('school'),
-            'admissionDate': datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-        }
+            # create students attribute of main handle if it does not exist
+            if not self.mainHandleDict.get('students'):
+                self.mainHandleDict['students'] = {}
 
-        # update status before deleting
-        self.admissionApplications[applicantId]['applicationStatus'] = "admitted"
+            self.mainHandleDict['students'].update({matric: student})
 
-        # remove from applications
-        del self.admissionApplications[applicantId]
-    
-        self.mainHandleDict['students'] = students
-        self.mainHandleDict['admissionApplications'] = self.admissionApplications
+            # save changes to main handle dict
+            self.mainHandle.saveStorage()
+                
+            # print success message
+            console.print(f"\n[green]SUCCESS[/green]\n{applicantInfo.get('firstName')} "\
+                          f"{applicantInfo.get('lastName')} has been admitted successfully!\n"
+                          f"Matric No: {matric}\n")
 
-        self.mainHandle.saveStorage()
-
-        console.print(f"[green]Admitted {applicantInfo.get('firstName')} {applicantInfo.get('lastName')}[/green]")
-        self.adminLog(f"admitted {applicantInfo.get('firstName')} {applicantInfo.get('lastName')} with UID {applicantId}")
-
+            # log admin action
+            self.adminLog(f"admitted {applicantId} "\
+                          f"with matric no: {matric}")
+            return True
 
     """
     admit student
@@ -141,66 +168,11 @@ class Admin:
 
         # handle admission for selected mode
         if mode == "single":
-            while True:
-                # get user ID of applicant to be admitted
-                applicantId = input("Enter UID of applicant: ")
-                
-                # check if application exists
-                if applicantId not in self.admissionApplications.keys():
-                    console.print("\n[red]ERROR[/red]\nInvalid UID!\n")
-                    continue
-                else:
-                    # get applicant info
-                    applicantInfo = self.admissionApplications.get(applicantId)
-                    matricTail = applicantInfo.get('courseCode')[0:2]
-                    digits = f"{random.randint(0,99999):05}"
-                    matric = f"{datetime.datetime.now().year}/1/{digits}{matricTail}"
-                    admissionDate = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+            # get user ID of applicant to be admitted
+            uid = input("Enter UID of applicant: ")
+            uid = Utils.cleanString(uid)
 
-                    # set student info
-                    student = {
-                        'applicationId': applicantInfo.get('id'),
-                        'email': applicantInfo.get('email'),
-                        'firstName': applicantInfo.get('firstName'),
-                        'middleName': applicantInfo.get('middleName'),
-                        'lastName': applicantInfo.get('lastName'),
-                        'dateOfBirth': applicantInfo.get('dateOfBirth'),
-                        'stateOfOrigin': applicantInfo.get('stateOfOrigin'),
-                        'stateOfResidence': applicantInfo.get('stateOfResidence'),
-                        'jambScore': applicantInfo.get('jambScore'),
-                        'school': applicantInfo.get('school'),
-                        'courseOfChoice': applicantInfo.get('courseOfChoice'),
-                        'courseCode': applicantInfo.get('courseCode'),
-                        'applicationDate': applicantInfo.get('applicationDate'),
-                        'password': applicantInfo.get('password'),
-                        'matricNo': matric,
-                        'admissionDate': admissionDate
-                    }
-
-                    # update admission application status
-                    self.admissionApplications[applicantId]['applicationStatus'] = "admitted"
-
-                    # add matric number to application data for easy password change and lookup
-                    self.admissionApplications[applicantId]['matricNo'] = matric
-
-                    # update or create student dictionary in main handle
-                    if not self.mainHandleDict.get('students'):
-                        self.mainHandleDict['students'] = {matric: student}
-                    else:
-                        self.mainHandleDict['students'].update({matric: student})
-
-                    # save changes to main handle dict
-                    self.mainHandle.saveStorage()
-                    
-                    # print success message
-                    console.print(f"\n[green]SUCCESS[/green]\n{applicantInfo.get('firstName')} "\
-                                  f"{applicantInfo.get('lastName')} has been admitted successfully!\n"
-                                  f"Matric No: {matric}\n")
-
-                    # log admin action
-                    self.adminLog(f"admitted {applicantId} "\
-                                  f"with matric no: {matric}")
-                    return
+            self._admit(uid)
         elif mode == "batch":
             uids = input("Enter UIDs of applicants to be admitted (separated by commas): ")
             uids = Utils.cleanString(uids)
@@ -209,25 +181,22 @@ class Admin:
             admittedCount = 0
 
             for uid in uids:
-                # check if application exists
-                if uid in self.admissionApplications.keys():
-                    self._admit(uid, students)
+                if self._admit(uid):
                     admittedCount += 1
-                else:
-                    console.print(f"\n[red]ERROR[/red]\nInvalid UID: {uid}\n")
 
             if admittedCount > 0:
-                console.print(f"\n[green]SUCCESS[/green]\n{admittedCount} applicants have been admitted successfully!\n")
+                console.print(f"\n[green]SUCCESS[/green]\n{admittedCount} "\
+                              "applicant(s) have been admitted successfully!\n")
         elif mode == "all":
             admittedCount = 0
-            students = self.mainHandleDict.get('students', {})
 
             for uid in list(self.admissionApplications.keys()):
-                self._admit(uid, students)
-                admittedCount += 1
+                if self._admit(uid):
+                    admittedCount += 1
 
             if admittedCount > 0:
-                console.print(f"\n[green]SUCCESS[/green]\n{admittedCount} applicants have been admitted successfully!\n")
+                console.print(f"\n[green]SUCCESS[/green]\n{admittedCount} "\
+                              "applicant(s) have been admitted successfully!\n")
 
     """
     view admission applications

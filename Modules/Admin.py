@@ -1,12 +1,7 @@
 from tabulate import tabulate
 from Modules.Utils import Utils
 from rich.console import Console
-import hashlib, datetime, os, random
-import os
-import csv
-import datetime
-import platform
-import subprocess
+import hashlib, datetime, os, random, csv, platform, subprocess
 from pathlib import Path
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.lib import colors

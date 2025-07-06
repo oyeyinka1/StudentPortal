@@ -1,4 +1,5 @@
 from tabulate import tabulate
+from collections import Counter
 from Modules.Utils import Utils
 from rich.console import Console
 import hashlib, datetime, os, random
@@ -485,42 +486,25 @@ class Admin:
 
     def schoolStats(self):
         """
-        view school statistics
+        View school statistics
         """
         students = self.mainHandleDict.get('students', {})
 
-        # check if there are students
         if not students:
             console.print("\n[yellow]No student data available[/yellow]\n")
             return
 
-        totalStudents = len(students)
-        per_course = {}
-        per_school = {}
-
-        for s in students.values():
-            course = s.get('courseOfChoice')
-            school = s.get('school')
-
-            if course in per_course:
-                per_course[course] += 1
-            else:
-                per_course[course] = 1
-
-            if school in per_school:
-                per_school[school] += 1
-            else:
-                per_school[school] = 1
-
-        # # loop through students and count course enrollments
-        # for s in students.values():
-        #     course = s.get('courseOfChoice')
-        #     if course in per_course:
-        #         per_course[course] += 1
+        # Use Counter for concise counting
+        per_course = Counter(s.get('courseOfChoice') for s in students.values())
+        per_school = Counter(s.get('school') for s in students.values())
 
         console.print("\n[green]Student Statistics[/green]\n")
         for course, count in per_course.items():
-            print(f"{course}: {count} student(s)")
+            print(f"Total Students: {count} student(s)")
+
+        console.print("\n[green]School Statistics[/green]\n")
+        for school, count in per_school.items():
+            print(f"{school}: {count} student(s)\n")
 
     """
     log current admin out

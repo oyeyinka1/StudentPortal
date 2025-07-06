@@ -1,24 +1,4 @@
 {
-    "admissionApplications": {
-        "UID2586": {
-            "id": "UID2586",
-            "email": "thatladtemod@example.com",
-            "firstName": "Temitayo",
-            "middleName": "Samson",
-            "lastName": "Omoniyi",
-            "dateOfBirth": "30-04-2004",
-            "stateOfOrigin": "Lagos",
-            "stateOfResidence": "Lagos",
-            "jambScore": 260,
-            "school": "SICT",
-            "courseOfChoice": "Computer Science",
-            "courseCode": "CPT",
-            "applicationDate": "06-07-2025 08:59:36",
-            "password": "d9056ec82b6e20d9f29d06d186be83ab",
-            "applicationStatus": "admitted",
-            "matricNo": "2025/1/68590CP"
-        }
-    },
     "admins": {
         "root": {
             "username": "root",
@@ -46,7 +26,27 @@
             "applicationDate": "06-07-2025 08:59:36",
             "password": "d9056ec82b6e20d9f29d06d186be83ab",
             "matricNo": "2025/1/68590CP",
-            "admissionDate": "06-07-2025 09:04:34"
+            "admissionDate": "06-07-2025 09:04:34",
+            "studentSetup": true
+        },
+        "2025/1/19887DT": {
+            "applicationId": "UID6366",
+            "email": "skidev@gmail.com",
+            "firstName": "Ethan",
+            "middleName": "",
+            "lastName": "Inedu",
+            "dateOfBirth": "20-04-2006",
+            "stateOfOrigin": "Kogi",
+            "stateOfResidence": "Kogi",
+            "jambScore": 350,
+            "school": "SICT",
+            "department": "Data Science",
+            "courseCode": "DTS",
+            "applicationDate": "06-07-2025 10:07:30",
+            "password": "ad6e8fa9492c052ca49df03d5a6205bb",
+            "matricNo": "2025/1/19887DT",
+            "admissionDate": "06-07-2025 10:09:46",
+            "studentSetup": true
         }
     }
 }

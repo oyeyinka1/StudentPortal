@@ -14,3 +14,5 @@
 [ADMIN] - (root@root@fut.com) - (viewed admission applications) on (06-July-2025) at (09:03 AM)
 [ADMIN] - (root@root@fut.com) - (viewed admission applications) on (06-July-2025) at (09:04 AM)
 [ADMIN] - (root@root@fut.com) - (admitted UID2586 with matric no: 2025/1/68590CP) on (06-July-2025) at (09:04 AM)
+[ADMIN] - (root@root@fut.com) - (viewed admission applications) on (06-July-2025) at (10:09 AM)
+[ADMIN] - (root@root@fut.com) - (admitted UID6366 with matric no: 2025/1/19887DT) on (06-July-2025) at (10:09 AM)

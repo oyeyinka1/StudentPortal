@@ -1,0 +1,21 @@
+{
+    "admissionApplications": {
+        "UID8420": {
+            "id": "UID8420",
+            "email": "ddd@gmail.com",
+            "firstName": "dude",
+            "middleName": "",
+            "lastName": "dd",
+            "dateOfBirth": "30-11-2002",
+            "stateOfOrigin": "Oyo",
+            "stateOfResidence": "Oyo",
+            "jambScore": 321,
+            "school": "SICT",
+            "courseOfChoice": "Software Engineering",
+            "courseCode": "SWE",
+            "applicationDate": "06-07-2025 01:24:07",
+            "password": "e07606bf7f3746d818462b1b3badc667",
+            "applicationStatus": "pending"
+        }
+    }
+}

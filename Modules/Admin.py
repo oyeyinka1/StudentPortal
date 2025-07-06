@@ -1,13 +1,7 @@
 from tabulate import tabulate
 from Modules.Utils import Utils
 from rich.console import Console
-import hashlib, datetime, os, random, csv, platform, subprocess
-from pathlib import Path
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import getSampleStyleSheet
-
+import hashlib, datetime, os, random
 
 # get instance of Console
 console = Console()
@@ -30,8 +24,7 @@ class Admin:
             'view admin log': self.viewAdminLog,
             'view applications': self.viewApplications,
             'view schools status': self.school,
-            'view students': self.viewStudents,
-            'export students': self.exportStudents
+            'view students': self.viewStudents
         }
 
         self.mainHandle = mainHandle
@@ -483,7 +476,7 @@ class Admin:
                 index,
                 student.get('matricNo'),
                 fullName,
-                student.get('courseOfChoice'),
+                student.get('courseOfStudy'),
                 student.get('email')
             ])
 
@@ -505,7 +498,7 @@ class Admin:
         per_school = {}
 
         for s in students.values():
-            course = s.get('courseOfChoice')
+            course = s.get('courseOfStudy')
             school = s.get('school')
 
             if course in per_course:
@@ -520,171 +513,13 @@ class Admin:
 
         # loop through students and count course enrollments
         for s in students.values():
-            course = s.get('courseOfChoice')
+            course = s.get('courseOfStudy')
             if course in per_course:
                 per_course[course] += 1
 
         print("\n[green]Student Statistics[/green]\n")
         for course, count in per_course.items():
             print(f"{course}: {count} student(s)")
-
-
-
-    def openFile(self, filepath):
-        try:
-            if platform.system() == "Windows": # windows
-                os.startfile(filepath)
-            elif platform.system() == "Darwin":  # mac
-                subprocess.run(["open", filepath])
-            else:  # linux
-                subprocess.run(["xdg-open", filepath])
-        except Exception as e:
-            console.print(f"[red]Couldn't open file automatically: {e}[/red]")
-
-
-
-    def exportStudents(self):
-        students = self.mainHandleDict.get('students', {})
-
-        if not students:
-            console.print("\n[yellow]No students available to export.[/yellow]\n")
-            return
-
-        formatOptions = ['pdf', 'csv']
-        while True:
-            fileFormat = input("Enter export format (pdf/csv): ").strip().lower()
-            if fileFormat in formatOptions:
-                break
-            else: 
-                console.print("[red]Invalid format. Please choose 'csv' or 'pdf'.[/red]")
-
-        downloads_folder = str(Path.home() / "Downloads")
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        default_name = f"students_{timestamp}.{fileFormat}"
-        suggested_path = os.path.join(downloads_folder, default_name)
-
-        file_path = input(f"Enter full path to save the file [Default: {suggested_path}]: ").strip()
-        if not file_path:
-            file_path = suggested_path
-
-        if fileFormat == 'pdf':
-            self.exportStudentsAsPDF(students, file_path)
-        elif fileFormat == 'csv':
-            self.exportStudentsAsCSV(students, file_path)
-
-
-    def exportStudentsAsPDF(self, students, filepath):
-        try:
-            doc = SimpleDocTemplate(
-                filepath,
-                pagesize=A4,
-                leftMargin=36,  # reduce left margin
-                rightMargin=36,
-                topMargin=36,
-                bottomMargin=36
-            )
-
-            elements = []
-            styleSheet = getSampleStyleSheet()
-
-            # customize the heading style
-            headerStyle = styleSheet['Heading1']
-            headerStyle.leftIndent = 0
-            headerStyle.alignment = 0  # 0 = left, 1 = center, 2 = right
-
-            elements.append(Paragraph("List of admitted students", headerStyle))
-            elements.append(Spacer(1, 12))
-
-            data = [[
-                "SN", 
-                "Matric No", 
-                "Full Name", 
-                "Email", 
-                "Course of study", 
-                "School",
-                "Admission Date"
-            ]]
-
-            for index, student in enumerate(students.values(), 1):
-                fullName = " ".join([
-                    student.get("firstName", ""),
-                    student.get("middleName", ""),
-                    student.get("lastName", "")
-                ]).strip()
-                row = ([
-                    index,
-                    student.get("matricNo"),
-                    fullName,
-                    student.get("email"),
-                    student.get("courseOfStudy"),
-                    student.get("school"),
-                    student.get("admissionDate"),
-                ])
-                data.append(row)
-
-            table = Table(data, repeatRows=1)
-            table.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 0), colors.darkblue),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
-                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ]))
-
-            elements.append(table)
-            elements.append(Spacer(1,12))
-            elements.append(Paragraph(f"Total students: {len(students)}", styleSheet['Normal']))
-
-            doc.build(elements)
-
-            console.print(f"\n[green]SUCCESS[/green] PDF exported to: [blue]{filepath}[/blue]\n")
-            self.adminLog(f"exported students list as PDF to {filepath}")
-            self.openFile(filepath)
-
-        except Exception as e:
-            console.print(f"\n[red]ERROR[/red] Failed to export PDF: {e}\n")
-
-
-    def exportStudentsAsCSV(self, students, filepath):
-        headers = [
-            "Matric Number", 
-            "First Name", 
-            "Middle Name", 
-            "Last Name",
-            "Email", 
-            "Course of study",
-            "School",
-            "Admission Date"
-        ]
-
-        try:
-            with open(filepath, 'w', newline='', encoding='utf-8') as csvfile:
-                writer = csv.DictWriter(csvfile, fieldnames=headers)
-                writer.writeheader()
-
-                for student in students.values():
-                    writer.writerow({
-                        "Matric Number": student.get("matricNo"),
-                        "First Name": student.get("firstName"),
-                        "Middle Name": student.get("middleName"),
-                        "Last Name": student.get("lastName"),
-                        "Email": student.get("email"),
-                        "Course of study": student.get("courseOfStudy"),
-                        "School": student.get("school"),
-                        "Admission Date": str(student.get("admissionDate", ""))
-                    })
-
-                writer.writerow({})
-                writer.writerow({"Matric Number": f"Total Students: {len(students)}"})
-
-            console.print(f"\n[green]SUCCESS[/green] Exported students to [blue]{filepath}[/blue]\n")
-            self.adminLog(f"exported students list as CSV to {filepath}")
-            self.openFile(filepath)
-
-        except Exception as e:
-            console.print(f"\n[red]ERROR[/red] Failed to export students: {e}\n")
-
-
 
     """
     log current admin out

@@ -4,3 +4,6 @@
 [ADMIN] - (root@root@fut.com) - (viewed admission applications) on (04-July-2025) at (09:51 AM)
 [ADMIN] - (root@root@fut.com) - (admitted UID1206 with matric no: 2025/1/24421MC) on (05-July-2025) at (05:02 PM)
 [ADMIN] - (root@root@fut.com) - (admitted UID0772 with matric no: 2025/1/96598SW) on (05-July-2025) at (05:02 PM)
+[ADMIN] - (root@root@fut.com) - (viewed admission applications) on (06-July-2025) at (01:24 AM)
+[ADMIN] - (root@root@fut.com) - (admitted UID8420 with matric no: 2025/1/59819SW) on (06-July-2025) at (01:24 AM)
+[ADMIN] - (root@root@fut.com) - (exported students list as PDF to C:\Users\ONUK\Downloads\students_20250706_012539.pdf) on (06-July-2025) at (01:25 AM)

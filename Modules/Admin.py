@@ -36,7 +36,7 @@ class Admin:
 
         self.mainHandle = mainHandle
         self.courses = Utils.loadCourses()
-        self.mainHandleDict = mainHandle.__dict__
+        self.mainHandleDict = Utils.extractSerializableMainHandle(mainHandle)
         self.command = self.mainHandleDict.get('command')
         self.admissionApplications = self.mainHandleDict.get('admissionApplications')
 

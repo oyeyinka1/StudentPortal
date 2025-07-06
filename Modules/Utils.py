@@ -53,14 +53,37 @@ class Utils:
                 return data
         except FileNotFoundError:
             return []
+
     """
     save data to db.json
-    @staticmethod
     """
+    @staticmethod
     def saveData(path, data):
-        import json
         with open(path, 'w') as file:
             json.dump(data, file, indent=4)
+
+    """
+    extract json serializable data
+    """
+    @staticmethod
+    def extractSerializableMainHandle(mainHandle):
+        safe_keys = [
+            'admissionApplications',
+            'admins',
+            'students',
+            'loggedInUser',
+            'loggedIn',
+            'user',
+            'command'
+        ]
+
+        return {
+            key: getattr(mainHandle, key)
+            for key in safe_keys
+            if hasattr(mainHandle, key)
+        }
+
+
 
 
     """

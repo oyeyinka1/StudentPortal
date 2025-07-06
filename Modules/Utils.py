@@ -53,6 +53,15 @@ class Utils:
                 return data
         except FileNotFoundError:
             return []
+    """
+    save data to db.json
+    @staticmethod
+    """
+    def saveData(path, data):
+        import json
+        with open(path, 'w') as file:
+            json.dump(data, file, indent=4)
+
 
     """
     Utility function to validate email addresses

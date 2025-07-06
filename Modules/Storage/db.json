@@ -15,7 +15,110 @@
             "courseCode": "SWE",
             "applicationDate": "06-07-2025 01:24:07",
             "password": "e07606bf7f3746d818462b1b3badc667",
-            "applicationStatus": "pending"
+            "applicationStatus": "admitted",
+            "matricNo": "2025/1/59819SW"
+        },
+        "UID8407": {
+            "id": "UID8407",
+            "email": "ads@gmail.com",
+            "firstName": "dd",
+            "middleName": "",
+            "lastName": "aaa",
+            "dateOfBirth": "22-11-2002",
+            "stateOfOrigin": "Oyo",
+            "stateOfResidence": "Oyo",
+            "jambScore": 322,
+            "school": "SICT",
+            "courseOfChoice": "Cyber Security Science",
+            "courseCode": "CSS",
+            "applicationDate": "06-07-2025 01:33:34",
+            "password": "deef65fa5b65ae176a7da6ed9c621e85",
+            "applicationStatus": "admitted",
+            "matricNo": "2025/1/45507CS"
+        },
+        "UID5397": {
+            "id": "UID5397",
+            "email": "afa@gmail.com",
+            "firstName": "cc",
+            "middleName": "",
+            "lastName": "dd",
+            "dateOfBirth": "22-02-2002",
+            "stateOfOrigin": "Oyo",
+            "stateOfResidence": "Oyo",
+            "jambScore": 332,
+            "school": "SEET",
+            "courseOfChoice": "Mechatronics Engineering",
+            "courseCode": "MCE",
+            "applicationDate": "06-07-2025 11:34:49",
+            "password": "1ca959f7a4d9992dec1a5f1ae3c54fc5",
+            "applicationStatus": "admitted",
+            "matricNo": "2025/1/59444MC"
+        }
+    },
+    "admins": {
+        "root": {
+            "username": "root",
+            "password": "aabb2100033f0352fe7458e412495148",
+            "email": "root@fut.com",
+            "firstName": "root",
+            "lastName": "root",
+            "middleName": null
+        }
+    },
+    "students": {
+        "2025/1/59819SW": {
+            "applicationId": "UID8420",
+            "email": "ddd@gmail.com",
+            "firstName": "dude",
+            "middleName": "",
+            "lastName": "dd",
+            "dateOfBirth": "30-11-2002",
+            "stateOfOrigin": "Oyo",
+            "stateOfResidence": "Oyo",
+            "jambScore": 321,
+            "school": "SICT",
+            "courseOfChoice": "Software Engineering",
+            "courseCode": "SWE",
+            "applicationDate": "06-07-2025 01:24:07",
+            "password": "e07606bf7f3746d818462b1b3badc667",
+            "matricNo": "2025/1/59819SW",
+            "admissionDate": "06-07-2025 01:24:41"
+        },
+        "2025/1/45507CS": {
+            "applicationId": "UID8407",
+            "email": "ads@gmail.com",
+            "firstName": "dd",
+            "middleName": "",
+            "lastName": "aaa",
+            "dateOfBirth": "22-11-2002",
+            "stateOfOrigin": "Oyo",
+            "stateOfResidence": "Oyo",
+            "jambScore": 322,
+            "school": "SICT",
+            "courseOfChoice": "Cyber Security Science",
+            "courseCode": "CSS",
+            "applicationDate": "06-07-2025 01:33:34",
+            "password": "deef65fa5b65ae176a7da6ed9c621e85",
+            "matricNo": "2025/1/45507CS",
+            "admissionDate": "06-07-2025 11:35:31"
+        },
+        "2025/1/59444MC": {
+            "applicationId": "UID5397",
+            "email": "afa@gmail.com",
+            "firstName": "cc",
+            "middleName": "",
+            "lastName": "dd",
+            "dateOfBirth": "22-02-2002",
+            "stateOfOrigin": "Oyo",
+            "stateOfResidence": "Oyo",
+            "jambScore": 332,
+            "school": "SEET",
+            "courseOfChoice": "Mechatronics Engineering",
+            "courseCode": "MCE",
+            "applicationDate": "06-07-2025 11:34:49",
+            "password": "1ca959f7a4d9992dec1a5f1ae3c54fc5",
+            "matricNo": "2025/1/59444MC",
+            "admissionDate": "06-07-2025 11:35:31"
         }
     }
 }

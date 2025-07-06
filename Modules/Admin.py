@@ -24,7 +24,8 @@ class Admin:
             'view admin log': self.viewAdminLog,
             'view applications': self.viewApplications,
             'view schools status': self.school,
-            'view students': self.viewStudents
+            'view students': self.viewStudents,
+            'view school stats': self.schoolStats,
         }
 
         self.mainHandle = mainHandle
@@ -88,7 +89,7 @@ class Admin:
                 'stateOfResidence': applicantInfo.get('stateOfResidence'),
                 'jambScore': applicantInfo.get('jambScore'),
                 'school': applicantInfo.get('school'),
-                'courseOfChoice': applicantInfo.get('courseOfChoice'),
+                'department': applicantInfo.get('courseOfChoice'),
                 'courseCode': applicantInfo.get('courseCode'),
                 'applicationDate': applicantInfo.get('applicationDate'),
                 'password': applicantInfo.get('password'),
@@ -476,7 +477,7 @@ class Admin:
                 index,
                 student.get('matricNo'),
                 fullName,
-                student.get('courseOfStudy'),
+                student.get('department'),
                 student.get('email')
             ])
 
@@ -498,7 +499,7 @@ class Admin:
         per_school = {}
 
         for s in students.values():
-            course = s.get('courseOfStudy')
+            course = s.get('courseOfChoice')
             school = s.get('school')
 
             if course in per_course:
@@ -511,13 +512,13 @@ class Admin:
             else:
                 per_school[school] = 1
 
-        # loop through students and count course enrollments
-        for s in students.values():
-            course = s.get('courseOfStudy')
-            if course in per_course:
-                per_course[course] += 1
+        # # loop through students and count course enrollments
+        # for s in students.values():
+        #     course = s.get('courseOfChoice')
+        #     if course in per_course:
+        #         per_course[course] += 1
 
-        print("\n[green]Student Statistics[/green]\n")
+        console.print("\n[green]Student Statistics[/green]\n")
         for course, count in per_course.items():
             print(f"{course}: {count} student(s)")
 

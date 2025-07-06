@@ -219,6 +219,7 @@ class Shell:
                 'view applications': True,
                 'view students': True,    #new route
                 'view schools status': True,   #new route still in progress but working
+                'view school stats': True,   #new route still in progress but working
             },
             'student': {
                 'view': ['students', 'schools', 'departments', 'results', ],

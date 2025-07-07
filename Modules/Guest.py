@@ -27,7 +27,7 @@ class Guest:
         }
 
         self.mainHandle = mainHandle
-        self.mainHandleDict = mainHandle.__dict__        
+        self.mainHandleDict = Utils.extractSerializableMainHandle(mainHandle)       
         self.loginCheck = self.mainHandleDict.get('loggedIn')
         self.command = self.mainHandleDict.get('command')
         self.admissionApplications = self.mainHandleDict.get('admissionApplications')

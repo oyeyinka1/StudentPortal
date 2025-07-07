@@ -1,78 +1,4 @@
 {
-    "admissionApplications": {
-        "UID5967": {
-            "id": "UID5967",
-            "email": "garriumsulphate@drink.com",
-            "firstName": "Human",
-            "middleName": "Garri",
-            "lastName": "Beans",
-            "dateOfBirth": "12-12-2000",
-            "stateOfOrigin": "Kano",
-            "stateOfResidence": "Kano",
-            "jambScore": 300,
-            "school": "SEET",
-            "courseOfChoice": "Mechatronics Engineering",
-            "courseCode": "MCE",
-            "applicationDate": "07-07-2025 10:08:46",
-            "password": "7686a14a668be583fbb8a2d73513314b",
-            "applicationStatus": "admitted",
-            "matricNo": "2025/1/53189MC"
-        },
-        "UID5073": {
-            "id": "UID5073",
-            "email": "name@ame.com",
-            "firstName": "Name",
-            "middleName": "name",
-            "lastName": "name",
-            "dateOfBirth": "12-12-2000",
-            "stateOfOrigin": "Borno",
-            "stateOfResidence": "Kwara",
-            "jambScore": 300,
-            "school": "SEET",
-            "courseOfChoice": "Mechatronics Engineering",
-            "courseCode": "MCE",
-            "applicationDate": "07-07-2025 10:59:54",
-            "password": "aef307a2f1dc7533f43f1dce46d907bf",
-            "applicationStatus": "admitted",
-            "matricNo": "2025/1/62586MC"
-        },
-        "UID3603": {
-            "id": "UID3603",
-            "email": "mail@mail.com",
-            "firstName": "Melvin",
-            "middleName": "con",
-            "lastName": "Confidence",
-            "dateOfBirth": "12-12-2000",
-            "stateOfOrigin": "Edo",
-            "stateOfResidence": "Kogi",
-            "jambScore": 300,
-            "school": "SICT",
-            "courseOfChoice": "Information Technology",
-            "courseCode": "IFT",
-            "applicationDate": "07-07-2025 11:20:29",
-            "password": "66682592ca2022c5f222bae84cd4e697",
-            "applicationStatus": "admitted",
-            "matricNo": "2025/1/09422IF"
-        },
-        "UID2339": {
-            "id": "UID2339",
-            "email": "mail@mail.com",
-            "firstName": "asokm",
-            "middleName": "asdf",
-            "lastName": "asdfasdf",
-            "dateOfBirth": "12-12-2000",
-            "stateOfOrigin": "Kwara",
-            "stateOfResidence": "Edo",
-            "jambScore": 200,
-            "school": "SICT",
-            "courseOfChoice": "Cyber Security Science",
-            "courseCode": "CSS",
-            "applicationDate": "07-07-2025 11:30:52",
-            "password": "1bf59c5aa541e0d17b2448f0d29262aa",
-            "applicationStatus": "admitted",
-            "matricNo": "2025/1/82757CS"
-        }
-    },
     "admins": {
         "root": {
             "username": "root",
@@ -81,45 +7,14 @@
             "firstName": "root",
             "lastName": "root",
             "middleName": null
-        }
-    },
-    "students": {
-        "2025/1/82757CS": {
-            "applicationId": "UID2339",
-            "email": "mail@mail.com",
-            "firstName": "asokm",
-            "middleName": "asdf",
-            "lastName": "asdfasdf",
-            "dateOfBirth": "12-12-2000",
-            "stateOfOrigin": "Kwara",
-            "stateOfResidence": "Edo",
-            "jambScore": 200,
-            "school": "SICT",
-            "department": "Cyber Security Science",
-            "courseCode": "CSS",
-            "applicationDate": "07-07-2025 11:30:52",
-            "password": "1bf59c5aa541e0d17b2448f0d29262aa",
-            "matricNo": "2025/1/82757CS",
-            "admissionDate": "07-07-2025 11:31:09"
         },
-        "2025/1/53921CP": {
-            "applicationId": "UID4946",
-            "email": "temi@mail.com",
-            "firstName": "Temi",
-            "middleName": "Gaye",
-            "lastName": "Lade",
-            "dateOfBirth": "12-12-2000",
-            "stateOfOrigin": "Ogun",
-            "stateOfResidence": "Oyo",
-            "jambScore": 250,
-            "school": "SICT",
-            "department": "Computer Science",
-            "courseCode": "CPT",
-            "applicationDate": "07-07-2025 11:39:29",
-            "password": "101ca9617c9898dfb93d1e86ea22c62a",
-            "matricNo": "2025/1/53921CP",
-            "admissionDate": "07-07-2025 11:40:07",
-            "studentSetup": true
+        "melvin": {
+            "username": "melvin",
+            "password": "81dc9bdb52d04dc20036dbd8313ed055",
+            "email": "melvin@fut.com",
+            "firstName": "Melvin",
+            "lastName": "Enwerem",
+            "middleName": "Confidence"
         }
     }
 }

@@ -217,8 +217,9 @@ class Shell:
                 'view admin log': True,
                 'view applications': True,
                 'view students': True,    
-                'view schools status': True,
-                'export students': True
+                'view school stats': True,
+                'export students': True,
+                'add admin': True
             },
             'student': {
                 'view': ['students', 'schools', 'departments', 'results', ],

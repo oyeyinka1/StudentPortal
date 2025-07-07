@@ -26,14 +26,14 @@ class Admin:
             'login': self.login,
             'logout': self.logout,
             'admit': self.admitStudent,
+            'add admin': self.addAdmin,
             'reject': self.rejectStudent,
             'view my log': self.viewMyLog,
-            'view admin log': self.viewAdminLog,
-            'view applications': self.viewApplications,
-            'view schools status': self.school,
             'view students': self.viewStudents,
+            'view admin log': self.viewAdminLog,
             'view school stats': self.schoolStats,
-            'export students': self.exportStudents
+            'export students': self.exportStudents,
+            'view applications': self.viewApplications            
         }
 
         self.mainHandle = mainHandle
@@ -61,9 +61,53 @@ class Admin:
             self.adminCommands.get(self.command)()
 
     """
+    add a new admin with priviledges
     """
-    def school(self):
-        pass
+    def addAdmin(self):
+        # cancel operation if user is not root
+        if self.username != "root":
+            console.print("\n[red]Only the root admin can do this![/red]\n")
+            return
+
+        # collect data for new admin
+        while True:
+            firstname = input("Enter First Name: ")
+            firstname = Utils.cleanString(firstname)
+
+            if " " in firstname:
+                console.print("\n[red]Invalid name![/red]\n")
+                continue
+            if len(firstname) < 3:
+                console.print("\n[red]Name is too short![/red]\n"\
+                              "[yellow]Minimum length: 3[/yellow]\n")
+                continue
+            if len(firstname) > 30:
+                console.print("\n[red]Name is too long![/red]\n"\
+                              "[yellow]Maximum length: 3[/yellow]\n")
+                continue
+
+            break
+                
+            
+        middlename = input("Enter Middle Name (optional): ")
+        lastname = input("Enter Last Name: ")
+        email = input("Enter Email: ")
+        username = input("Enter Username: ")
+        password = input("Enter Password: ")
+        password = hashlib.md5(password.encode()).hexdigest()
+
+        # new admin dictionary
+        admin = {
+            'username': username,
+            'password': password,
+            'email': f"{username}@fut.com",
+            'firstName': firstname,
+            'lastName':  lastname,
+            'middleName': middlename
+        }
+
+        # add new admin to main handle dictionary for admins
+        self.mainHandleDict['admins'].update({username: admin})
 
     """
     helper function for the admitStudent method
@@ -497,6 +541,9 @@ class Admin:
 
         print(tabulate(table, headers=header, tablefmt="double_grid"))
 
+    """
+    put comment here
+    """
     def schoolStats(self):
         """
         View school statistics
@@ -539,8 +586,9 @@ class Admin:
         for school, count in per_school.items():
             print(f"{school}: {count} student(s)\n")
 
-
-
+    """
+    put comment here
+    """
     def openFile(self, filepath):
         try:
             if platform.system() == "Windows": # windows
@@ -552,8 +600,9 @@ class Admin:
         except Exception as e:
             console.print(f"[red]Couldn't open file automatically: {e}[/red]")
 
-
-
+    """
+    put comment here
+    """
     def exportStudents(self):
         students = self.mainHandleDict.get('students')
 
@@ -583,7 +632,9 @@ class Admin:
         elif fileFormat == 'csv':
             self.exportStudentsAsCSV(students, file_path)
 
-
+    """
+    put comment here
+    """
     def exportStudentsAsPDF(self, students, filepath):
         try:
             doc = SimpleDocTemplate(
@@ -655,7 +706,9 @@ class Admin:
         except Exception as e:
             console.print(f"\n[red]ERROR[/red] Failed to export PDF: {e}\n")
 
-
+    """
+    put comment here
+    """
     def exportStudentsAsCSV(self, students, filepath):
         headers = [
             "Matric Number", 
@@ -694,8 +747,6 @@ class Admin:
 
         except Exception as e:
             console.print(f"\n[red]ERROR[/red] Failed to export students: {e}\n")
-
-
 
     """
     log current admin out

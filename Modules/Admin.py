@@ -1,4 +1,5 @@
 from tabulate import tabulate
+from collections import Counter
 from Modules.Utils import Utils
 from rich.console import Console
 import hashlib, datetime, os, random, csv, platform, subprocess
@@ -31,6 +32,7 @@ class Admin:
             'view applications': self.viewApplications,
             'view schools status': self.school,
             'view students': self.viewStudents,
+            'view school stats': self.schoolStats,
             'export students': self.exportStudents
         }
 
@@ -95,7 +97,7 @@ class Admin:
                 'stateOfResidence': applicantInfo.get('stateOfResidence'),
                 'jambScore': applicantInfo.get('jambScore'),
                 'school': applicantInfo.get('school'),
-                'courseOfChoice': applicantInfo.get('courseOfChoice'),
+                'department': applicantInfo.get('courseOfChoice'),
                 'courseCode': applicantInfo.get('courseCode'),
                 'applicationDate': applicantInfo.get('applicationDate'),
                 'password': applicantInfo.get('password'),
@@ -498,11 +500,10 @@ class Admin:
 
     def schoolStats(self):
         """
-        view school statistics
+        View school statistics
         """
         students = self.mainHandleDict.get('students', {})
 
-        # check if there are students
         if not students:
             console.print("\n[yellow]No student data available[/yellow]\n")
             return
@@ -531,9 +532,13 @@ class Admin:
             if course in per_course:
                 per_course[course] += 1
 
-        print("\n[green]Student Statistics[/green]\n")
+        console.print("\n[green]Student Statistics[/green]\n")
         for course, count in per_course.items():
-            print(f"{course}: {count} student(s)")
+            print(f"Total Students: {count} student(s)")
+
+        console.print("\n[green]School Statistics[/green]\n")
+        for school, count in per_school.items():
+            print(f"{school}: {count} student(s)\n")
 
 
 

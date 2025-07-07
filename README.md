@@ -4,14 +4,26 @@ A mock student portal shell with basic commands and features.
 
 ## Features
 
-- **Guest Admission Application:** Apply for admission as a guest user.
-- **User Login/Logout:** Secure login and logout functionality for applicants.
-- **Application Status Checking:** Check the status of your admission application.
-- **Application Cancellation:** Cancel your admission application if needed.
-- **Course and State Selection:** Choose from predefined courses and Nigerian states.
-- **Data Persistence:** All data is stored in JSON files for easy access and modification.
-- **Command-Based Interface:** Interact with the portal using simple commands.
-- **Rich CLI Output:** Uses the `rich` library for enhanced terminal output.
+- **Guest Mode**
+  - Apply for admission
+  - Check application status
+  - Cancel application
+
+- **Admin Mode**
+  - Login/logout as admin
+  - View all admission applications
+  - Admit or reject applicants
+  - View all students
+  - View school statistics (students per course/school)
+  - View admin logs
+
+- **Student Mode**
+  - (Planned) Student-specific features
+
+- **General**
+  - Command-line shell interface
+  - Data persistence using JSON files
+  - Rich console output
 
 ## Project Structure
 
@@ -30,7 +42,8 @@ StudentPortal/
 │   │   ├── courses.json
 │   │   ├── states-and-cities.json
 │   └── Storage/
-│       └── db.json
+│       ├── db.json
+        └── admin_logs.txt
 └── .gitignore
 ```
 
@@ -62,21 +75,42 @@ python main.py
 
 ### Available Commands
 
-| Command           | Description                                      |
-|-------------------|--------------------------------------------------|
-| `apply`           | Start a new admission application as a guest     |
-| `login`           | Log in with your application ID and password     |
-| `logout`          | Log out of the portal                            |
-| `check status`    | Check your application status (after logging in) |
-| `cancel application` | Cancel your admission application             |
-| `info`            | List all available commands                      |
-| `exit`            | Exit the portal shell                            |
+#### Shell Commands
+
+- `info` — List available commands
+- `login` — Log in as guest, admin, or student
+- `exit` — Exit the shell
+
+#### Guest Commands
+
+- `apply` — Apply for admission
+- `check status` — Check your application status
+- `cancel application` — Cancel your application
+- `logout` — Log out
+
+#### Admin Commands
+
+- `view applications` — View all admission applications
+- `admit` — Admit applicants
+- `reject` — Reject applicants
+- `view students` — View all admitted students
+- `school stats` — View statistics by course and school
+- `view admin log` — View all admin logs
+- `view my log` — View your admin actions
+- `logout` — Log out
+
+## Default Admin
+
+- **Username:** `root`
+- **Password:** `admin` (hashed in db.json)
+- **Email:** `root@fut.com`
 
 ## Data Files
 
 - **Admission Applications:** Stored in `Modules/Storage/db.json`
 - **Courses:** Defined in `Modules/Misc/courses.json`
 - **States and Cities:** Defined in `Modules/Misc/states-and-cities.json`
+- **Admin Logs:** Definrd in `Modules/Storage/admin_logs.txt`
 
 ## Notes
 

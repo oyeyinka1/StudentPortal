@@ -38,7 +38,7 @@ class Admin:
 
         self.mainHandle = mainHandle
         self.courses = Utils.loadCourses()
-        self.mainHandleDict = Utils.extractSerializableMainHandle(mainHandle)
+        self.mainHandleDict = mainHandle.__dict__
         self.command = self.mainHandleDict.get('command')
         self.admissionApplications = self.mainHandleDict.get('admissionApplications')
 
@@ -72,11 +72,9 @@ class Admin:
         # check if application exists
         if applicantId not in self.admissionApplications.keys():
             console.print("\n[red]ERROR[/red]\nInvalid UID!\n")
-        # check if applicant has already been admitted
-        elif applicantId in self.admissionApplications.keys() and \
-             self.admissionApplications.get(applicantId)['applicationStatus'] == 'admitted':
-            console.print(f"Applicant with UID: [yellow]{applicantId}[/yellow]"\
-                          " has already been admitted")
+        elif self.admissionApplications.get(applicantId)['applicationStatus'] != 'pending':
+            # return silently if status is not = pending
+            return
         else:
             # get applicant info
             applicantInfo = self.admissionApplications.get(applicantId)
@@ -125,9 +123,6 @@ class Admin:
             # log admin action
             self.adminLog(f"admitted {applicantId} "\
                           f"with matric no: {matric}")
-            
-            # Save updated data to disk
-            Utils.saveData("./Modules/Storage/db.json", self.mainHandleDict)
 
             return True
 
@@ -199,6 +194,10 @@ class Admin:
             admittedCount = 0
 
             for uid in list(self.admissionApplications.keys()):
+                # check and only attempt to admit students with `pending` status
+                if self.admissionApplications.get(uid)['applicationStatus'] != 'pending':
+                    continue
+
                 if self._admit(uid):
                     admittedCount += 1
 
@@ -556,7 +555,7 @@ class Admin:
 
 
     def exportStudents(self):
-        students = self.mainHandleDict.get('students', {})
+        students = self.mainHandleDict.get('students')
 
         if not students:
             console.print("\n[yellow]No students available to export.[/yellow]\n")
@@ -628,7 +627,7 @@ class Admin:
                     student.get("matricNo"),
                     fullName,
                     student.get("email"),
-                    student.get("courseOfChoice"),
+                    student.get("department"),
                     student.get("school"),
                     student.get("admissionDate"),
                 ])

@@ -15,8 +15,6 @@ class Guest:
     """
     constructor
     """
-
-
     def __init__(self, mainHandle):
         self.guestCommands = {
             'login': self.login,
@@ -27,7 +25,7 @@ class Guest:
         }
 
         self.mainHandle = mainHandle
-        self.mainHandleDict = Utils.extractSerializableMainHandle(mainHandle)       
+        self.mainHandleDict = mainHandle.__dict__
         self.loginCheck = self.mainHandleDict.get('loggedIn')
         self.command = self.mainHandleDict.get('command')
         self.admissionApplications = self.mainHandleDict.get('admissionApplications')

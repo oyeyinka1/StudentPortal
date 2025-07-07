@@ -55,38 +55,6 @@ class Utils:
             return []
 
     """
-    save data to db.json
-    """
-    @staticmethod
-    def saveData(path, data):
-        with open(path, 'w') as file:
-            json.dump(data, file, indent=4)
-
-    """
-    extract json serializable data
-    """
-    @staticmethod
-    def extractSerializableMainHandle(mainHandle):
-        safe_keys = [
-            'admissionApplications',
-            'admins',
-            'students',
-            'loggedInUser',
-            'loggedIn',
-            'user',
-            'command'
-        ]
-
-        return {
-            key: getattr(mainHandle, key)
-            for key in safe_keys
-            if hasattr(mainHandle, key)
-        }
-
-
-
-
-    """
     Utility function to validate email addresses
     """
     def isValidEmail(self, email):

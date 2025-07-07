@@ -113,7 +113,6 @@ class Shell:
     """
     def exit(self):
         self.shell = False
-        self.saveStorage()
 
     """
     print all available shell native commands
@@ -248,5 +247,5 @@ class Shell:
     def __del__(self):
         self.saveStorage()
 
-#initialize class
+#initialize class 
 Shell()

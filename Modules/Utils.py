@@ -28,6 +28,23 @@ class Utils:
         return retVal
 
     """
+    load courses for given department and level
+    """
+    def loadCourses(self, studentInfo):
+        path = "./Modules/Misc/courses.json"
+        retVal = self.loadFromFile(path)
+
+        school = studentInfo.get('school')
+        level = str(studentInfo.get('level'))
+        department = studentInfo.get('courseCode').lower()
+
+        retVal = retVal.get(school).get(department).get(level)
+
+        # return courses for current student
+        return retVal
+        
+        
+    """
     load states and cities in Nigeria
     """
     def loadStates(self, key=None):

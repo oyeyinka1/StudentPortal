@@ -1,6 +1,7 @@
 from Modules.Utils import Utils
 import hashlib
 from rich.console import Console
+from tabulate import tabulate
 
 console = Console()
 
@@ -14,14 +15,19 @@ class Student:
     def __init__(self, mainHandle):
         self.studentCommands = {
             'login': self.login,
-            'logout': self.logout
+            'logout': self.logout,
+            'view courses': self.viewCourses
         }
 
-        self.studentInfo = None
         self.mainHandle = mainHandle
         self.mainHandleDict = self.mainHandle.__dict__
         self.command = self.mainHandleDict.get('command')
         self.students = self.mainHandleDict.get('students')
+
+        # set login data if user is logged in
+        self.studentInfo = None
+        if self.mainHandleDict.get('loggedInUser'):
+            self.studentInfo = self.mainHandleDict.get('loggedInUser')
 
         # execute given command
         self.executeCommand()
@@ -55,6 +61,9 @@ class Student:
 
                 console.print(f"[green]\n<< Welcome back, {self.studentInfo['firstName']}! >>\n[/green]")
 
+                # set login data for student
+                self.mainHandleDict['loggedInUser'] = self.studentInfo
+
                 # delete studentSetup key/value of student dictionary
                 if self.studentInfo.get("studentSetup"):
                     del self.studentInfo["studentSetup"]
@@ -68,3 +77,34 @@ class Student:
     """
     def logout(self):
         Utils.logout(self.mainHandle)
+
+    """
+    view first and second semester courses for current level
+    """
+    def viewCourses(self):
+        courseLookup = {}
+
+        courseLookup.update({'level': self.studentInfo.get('level')})
+        courseLookup.update({'school': self.studentInfo.get('school')})
+        courseLookup.update({'courseCode': self.studentInfo.get('courseCode')})
+
+        courses = Utils.loadCourses(courseLookup)
+
+        header = []
+        tableRows = []
+
+        # get table data
+        for key, value in courses.items():
+            row = []
+            header.append(key.upper())
+
+            row.append(f"Total Courses: {value.get('total courses')}")
+            row.append(f"Total Credit Units: {value.get('total units')}")
+
+            for course, units in value.get('courses').items():
+                row.append(f"{course.upper()} - {units}")
+
+            tableRows.append(row)
+
+        print(header, tableRows)
+        print(tabulate(tableRows, headers=header, tablefmt='rounded_outline'))

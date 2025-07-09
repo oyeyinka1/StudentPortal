@@ -1,4 +1,24 @@
 {
+    "admissionApplications": {
+        "UID3148": {
+            "id": "UID3148",
+            "email": "move@mail.com",
+            "firstName": "Italian",
+            "middleName": "",
+            "lastName": "Move",
+            "dateOfBirth": "12-12-2000",
+            "stateOfOrigin": "Zamfara",
+            "stateOfResidence": "Oyo",
+            "jambScore": 300,
+            "school": "SEET",
+            "courseOfChoice": "Mechatronics Engineering",
+            "courseCode": "MCE",
+            "applicationDate": "09-07-2025 09:12:25",
+            "password": "fa0ff340747bdc3756fc37d9c1027948",
+            "applicationStatus": "admitted",
+            "matricNo": "2025/1/05661MC"
+        }
+    },
     "admins": {
         "root": {
             "username": "root",
@@ -10,11 +30,44 @@
         },
         "melvin": {
             "username": "melvin",
-            "password": "81dc9bdb52d04dc20036dbd8313ed055",
-            "email": "melvin@fut.com",
+            "password": "43068d9abb922838645660142fb475ab",
+            "email": "melvin@mail.com",
             "firstName": "Melvin",
-            "lastName": "Enwerem",
-            "middleName": "Confidence"
+            "lastName": "Enwerem"
+        },
+        "asake": {
+            "username": "asake",
+            "password": "3b930e7c817787f8467999ee5b566805",
+            "email": "asake@gmail.com",
+            "firstName": "Palatable",
+            "lastName": "Asake"
+        },
+        "oluwaburna": {
+            "username": "oluwaburna",
+            "password": "001984ca82a458194c5d17df9cdeebb1",
+            "email": "burna@gmail.co.uk",
+            "firstName": "Burna",
+            "lastName": "Boy"
+        }
+    },
+    "students": {
+        "2025/1/05661MC": {
+            "applicationId": "UID3148",
+            "email": "move@mail.com",
+            "firstName": "Italian",
+            "middleName": "",
+            "lastName": "Move",
+            "dateOfBirth": "12-12-2000",
+            "stateOfOrigin": "Zamfara",
+            "stateOfResidence": "Oyo",
+            "jambScore": 300,
+            "school": "SEET",
+            "department": "Mechatronics Engineering",
+            "courseCode": "MCE",
+            "applicationDate": "09-07-2025 09:12:25",
+            "password": "fa0ff340747bdc3756fc37d9c1027948",
+            "matricNo": "2025/1/05661MC",
+            "admissionDate": "09-07-2025 09:13:43"
         }
     }
 }

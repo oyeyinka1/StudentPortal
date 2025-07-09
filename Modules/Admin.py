@@ -64,9 +64,23 @@ class Admin:
     get registration data of new admin
     """
     def getAdminData(self):
+        # get the admin dictionary
+        admins = self.mainHandleDict.get('admins')
+        adminEmails = []
+        adminUsernames = []
+
+        if admins:
+            # get all emails
+            for key, value in admins.items():
+                adminEmails.append(value.get('email'))
+
+            # get all usernames
+            for key, value in admins.items():
+                adminUsernames.append(value.get('username'))
+            
         # get and validate first name
         while True:
-            firstname = input("Enter First Name: ")
+            firstname = input("Enter First Name: ").title()
             check = Utils.validateName(firstname)
 
             if check:
@@ -76,7 +90,7 @@ class Admin:
 
         # get and validate last name
         while True:
-            lastname = input("Enter Last Name: ")
+            lastname = input("Enter Last Name: ").title()
             check = Utils.validateName(lastname)
 
             if check:
@@ -90,6 +104,11 @@ class Admin:
             email = Utils.cleanString(email)
 
             if Utils.isValidEmail(email):
+                if email in adminEmails:
+                    console.print(f"Entered email [yellow]`{email}`[/yellow]"
+                                  "already exists!")
+                    continue
+
                 break
             else:
                 console.print("[red]Invalid email. Try again![/red]")
@@ -103,6 +122,10 @@ class Admin:
             if check:
                 console.print(f"[red]{check}[/red]")
             else:
+                if username in adminUsernames:
+                    console.print(f"Username [yellow]`{username}`[/yellow] is already taken!")
+                    continue
+
                 break
 
         # get and validate password
@@ -119,7 +142,13 @@ class Admin:
         password = hashlib.md5(password.encode()).hexdigest()
 
         # assign collected data to new list
-        adminData = [firstname, lastname, email, username, password]
+        adminData = {
+            'firstname': firstname,
+            'lastname': lastname,
+            'email': email,
+            'username': username,
+            'password': password
+        }
 
         # return admin data
         return adminData
@@ -138,15 +167,23 @@ class Admin:
 
         # new admin dictionary
         admin = {
-            'username': adminData[3],
-            'password': adminData[4],
-            'email': adminData[2],
-            'firstName': adminData[0],
-            'lastName':  adminData[1]
+            'username': adminData['username'],
+            'password': adminData['password'],
+            'email': adminData['email'],
+            'firstName': adminData['firstname'],
+            'lastName':  adminData['lastname']
         }
 
         # add new admin to main handle dictionary for admins
-        self.mainHandleDict['admins'].update({username: admin})
+        self.mainHandleDict['admins'].update({adminData['username']: admin})
+
+        # add entry to admin log
+        self.adminLog(f"added new admin with username: {adminData['username']}")
+
+        # print success message
+        console.print("\n[green]SUCCESS[/green]\n"\
+                      f"Admin with username [yellow]{adminData['username']}[/yellow]"\
+                      " was created!\n")
 
     """
     helper function for the admitStudent method
@@ -574,7 +611,7 @@ class Admin:
                 index,
                 student.get('matricNo'),
                 fullName,
-                student.get('courseOfChoice'),
+                student.get('department'),
                 student.get('email')
             ])
 

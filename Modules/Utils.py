@@ -132,7 +132,6 @@ class Utils:
                 'email': 'root@fut.com',
                 'firstName': 'root',
                 'lastName': 'root',
-                'middleName': None
             }
         }
 

@@ -242,7 +242,8 @@ class Admin:
                 'password': applicantInfo.get('password'),
                 'matricNo': matric,
                 'admissionDate': admissionDate,
-                'level': 100
+                'level': 100,
+                'cgpa': 0.00
             }
 
             # update admission application status

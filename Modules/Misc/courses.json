@@ -1,37 +1,349 @@
 {
     "SICT": {
 	"cpt": {
-	    "cut off": 180,
-	    "course code": "CPT",
-	    "course": "Computer Science"
+	    "100": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "200": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "300": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "400": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "500": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    }	    
 	},
 	"swe": {
-	    "cut off": 180,
-	    "course code": "SWE",
-	    "course": "Software Engineering"
+	    "100": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "200": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "300": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "400": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "500": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    }	    
 	},
 	"ift": {
-	    "cut off": 180,
-	    "course code": "IFT",
-	    "course": "Information Technology"
+	    "100": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "200": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "300": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "400": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "500": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    }	    
 	},
 	"css": {
-	    "cut off": 180,
-	    "course code": "CSS",
-	    "course": "Cyber Security Science"
+	    "100": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "200": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "300": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "400": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "500": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    }	    
 	},
 	"dts": {
-	    "cut off": 180,
-	    "course code": "DTS",
-	    "course": "Data Science"
+	    "100": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "200": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "300": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "400": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "500": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    }
 	}
     },
 
     "SEET": {
 	"mce": {
-	    "cut off": 250,
-	    "course code": "MCE",
-	    "course": "Mechatronics Engineering"
+	    "100": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "200": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "300": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "400": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    },
+	    "500": {
+		"first semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		},
+		"second semester": {
+		    "total units": 17,
+		    "total courses": 7,
+		    "courses": {}
+		}
+	    }
 	}
     }
 }

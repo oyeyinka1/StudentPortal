@@ -29,6 +29,7 @@ class Admin:
             'add admin': self.addAdmin,
             'reject': self.rejectStudent,
             'view my log': self.viewMyLog,
+            'view admins': self.viewAdmins,
             'view students': self.viewStudents,
             'view admin log': self.viewAdminLog,
             'view school stats': self.schoolStats,
@@ -184,6 +185,26 @@ class Admin:
         console.print("\n[green]SUCCESS[/green]\n"\
                       f"Admin with username [yellow]{adminData['username']}[/yellow]"\
                       " was created!\n")
+
+    """
+    view current admins in the portal
+    """
+    def viewAdmins(self):
+        table = []
+        admins = self.mainHandleDict.get('admins')
+
+        # end execution if no admins
+        if not admins:
+            return
+
+        for sn, ( key, value) in enumerate(admins.items(), 1):
+            email = value.get('email')
+            username = value.get('username')
+
+            row = [sn, username, email]
+            table.append(row)
+
+        print(tabulate(table, headers=["SN", "USERNAME", "EMAIL"], tablefmt='outline'))
 
     """
     helper function for the admitStudent method
@@ -438,18 +459,17 @@ class Admin:
             return
 
         # format header
-        header = ["SN", "ID", "COURSE", "EMAIL", "UTME SCORE", "APPLICATION DATE"]
         data = []
+        header = ["SN", "ID", "COURSE", "EMAIL", "UTME SCORE", "APPLICATION DATE"]
 
         # print applications
-        for key, value in self.admissionApplications.items():
+        for sn, (key, value) in enumerate(self.admissionApplications.items(), 1):
             # do not fetch application if status is not <pending>
             if value.get('applicationStatus') != 'pending':
                 continue
 
             # get values
             subData = []
-            sn = list(self.admissionApplications).index(key) + 1
             subData.append(sn)
             subData.append(value.get('id'))
             subData.append(value.get('courseOfChoice'))
@@ -462,7 +482,7 @@ class Admin:
 
         # print table if there are pending applications
         if data:
-            print(tabulate(data, headers=header, tablefmt="double_grid"))
+            print(tabulate(data, headers=header, tablefmt="grid"))
         else:
             console.print("\n[yellow]There are no "\
                           "available admission applications "\
@@ -601,7 +621,7 @@ class Admin:
         if not students:
             console.print("\n[yellow]There are no students admitted yet![/yellow]\n")
             return
-        
+
         table = []
         header = ["SN", "MATRIC NO.", "NAME", "COURSE", "EMAIL"]
 
@@ -615,7 +635,7 @@ class Admin:
                 student.get('email')
             ])
 
-        print(tabulate(table, headers=header, tablefmt="double_grid"))
+        print(tabulate(table, headers=header, tablefmt="grid"))
 
     """
     put comment here

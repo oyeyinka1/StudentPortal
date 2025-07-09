@@ -9,3 +9,4 @@
 [ADMIN] - (root@root@fut.com) - (admitted UID4946 with matric no: 2025/1/53921CP) on (07-July-2025) at (11:40 AM)
 [ADMIN] - (oluwaburna@burna@gmail.co.uk) - (viewed admission applications) on (09-July-2025) at (09:12 AM)
 [ADMIN] - (oluwaburna@burna@gmail.co.uk) - (admitted UID3148 with matric no: 2025/1/05661MC) on (09-July-2025) at (09:13 AM)
+[ADMIN] - (root@root@fut.com) - (viewed admission applications) on (09-July-2025) at (09:41 AM)

@@ -219,7 +219,8 @@ class Shell:
                 'view students': True,    
                 'view school stats': True,
                 'export students': True,
-                'add admin': True
+                'add admin': True,
+                'view admins': True
             },
             'student': {
                 'view': ['students', 'schools', 'departments', 'results', ],

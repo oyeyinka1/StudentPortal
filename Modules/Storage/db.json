@@ -17,6 +17,23 @@
             "password": "fa0ff340747bdc3756fc37d9c1027948",
             "applicationStatus": "admitted",
             "matricNo": "2025/1/05661MC"
+        },
+        "UID0218": {
+            "id": "UID0218",
+            "email": "here@mail.com",
+            "firstName": "here",
+            "middleName": "where",
+            "lastName": "there",
+            "dateOfBirth": "12-12-2000",
+            "stateOfOrigin": "Abuja",
+            "stateOfResidence": "Oyo",
+            "jambScore": 300,
+            "school": "SICT",
+            "courseOfChoice": "Software Engineering",
+            "courseCode": "SWE",
+            "applicationDate": "09-07-2025 09:52:37",
+            "password": "8b060498673a0c64a2dd6a374e8057df",
+            "applicationStatus": "pending"
         }
     },
     "admins": {

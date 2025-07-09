@@ -38,7 +38,7 @@ class Admin:
         }
 
         self.mainHandle = mainHandle
-        self.courses = Utils.loadCourses()
+        self.courses = Utils.loadProgrammes()
         self.mainHandleDict = mainHandle.__dict__
         self.command = self.mainHandleDict.get('command')
         self.admissionApplications = self.mainHandleDict.get('admissionApplications')
@@ -190,6 +190,7 @@ class Admin:
     view current admins in the portal
     """
     def viewAdmins(self):
+        sn = 1
         table = []
         admins = self.mainHandleDict.get('admins')
 
@@ -197,12 +198,13 @@ class Admin:
         if not admins:
             return
 
-        for sn, ( key, value) in enumerate(admins.items(), 1):
+        for key, value in admins.items():
             email = value.get('email')
             username = value.get('username')
 
             row = [sn, username, email]
             table.append(row)
+            sn += 1
 
         print(tabulate(table, headers=["SN", "USERNAME", "EMAIL"], tablefmt='outline'))
 
@@ -234,14 +236,13 @@ class Admin:
                 'dateOfBirth': applicantInfo.get('dateOfBirth'),
                 'stateOfOrigin': applicantInfo.get('stateOfOrigin'),
                 'stateOfResidence': applicantInfo.get('stateOfResidence'),
-                'jambScore': applicantInfo.get('jambScore'),
                 'school': applicantInfo.get('school'),
                 'department': applicantInfo.get('courseOfChoice'),
                 'courseCode': applicantInfo.get('courseCode'),
-                'applicationDate': applicantInfo.get('applicationDate'),
                 'password': applicantInfo.get('password'),
                 'matricNo': matric,
                 'admissionDate': admissionDate,
+                'level': 100
             }
 
             # update admission application status
@@ -459,11 +460,12 @@ class Admin:
             return
 
         # format header
+        sn = 1
         data = []
         header = ["SN", "ID", "COURSE", "EMAIL", "UTME SCORE", "APPLICATION DATE"]
 
         # print applications
-        for sn, (key, value) in enumerate(self.admissionApplications.items(), 1):
+        for key, value in self.admissionApplications.items():
             # do not fetch application if status is not <pending>
             if value.get('applicationStatus') != 'pending':
                 continue
@@ -479,6 +481,7 @@ class Admin:
 
             # append values to data
             data.append(subData)
+            sn += 1
 
         # print table if there are pending applications
         if data:
@@ -622,18 +625,20 @@ class Admin:
             console.print("\n[yellow]There are no students admitted yet![/yellow]\n")
             return
 
+        sn = 1
         table = []
         header = ["SN", "MATRIC NO.", "NAME", "COURSE", "EMAIL"]
 
-        for index, (uid, student) in enumerate(students.items(), 1):
+        for uid, student in students.items():
             fullName = f"{student.get('firstName')} {student.get('lastName')}"
             table.append([
-                index,
+                sn,
                 student.get('matricNo'),
                 fullName,
                 student.get('department'),
                 student.get('email')
             ])
+            sn += 1
 
         print(tabulate(table, headers=header, tablefmt="grid"))
 

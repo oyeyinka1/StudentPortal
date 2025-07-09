@@ -18,10 +18,10 @@ class Utils:
         pass
 
     """
-    load available courses in teh university
+    load available programmes in the university
     """
-    def loadCourses(self):
-        path = "./Modules/Misc/courses.json"
+    def loadProgrammes(self):
+        path = "./Modules/Misc/programmes.json"
         retVal = self.loadFromFile(path)
 
         # return content of function call
@@ -90,7 +90,7 @@ class Utils:
     view programmes on offer by the school
     """
     def viewProgrammes(self):
-        programInfo = Utils.loadCourses()
+        programInfo = self.loadProgrammes()
         schools = programInfo.keys()
 
         print("\nHere's a list of available programmes:")

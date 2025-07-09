@@ -177,7 +177,7 @@ class Guest:
     validate course of choice
     """
     def getValidCourse(self):
-        programmes = Utils.loadCourses()
+        programmes = Utils.loadProgrammes()
         schoolList = programmes.keys()
 
         # print available courses in the school

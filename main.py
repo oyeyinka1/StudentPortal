@@ -225,6 +225,7 @@ class Shell:
                 'view admins': True
             },
             'student': {
+                'logout': True
             }
         }
 

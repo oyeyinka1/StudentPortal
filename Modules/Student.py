@@ -13,7 +13,8 @@ class Student:
     """
     def __init__(self, mainHandle):
         self.studentCommands = {
-            'login': self.login
+            'login': self.login,
+            'logout': self.logout
         }
 
         self.studentInfo = None
@@ -53,7 +54,17 @@ class Student:
                 self.mainHandle.prompt = f"[purple]({matric})   [/purple]"
 
                 console.print(f"[green]\n<< Welcome back, {self.studentInfo['firstName']}! >>\n[/green]")
+
+                # delete studentSetup key/value of student dictionary
+                if self.studentInfo.get("studentSetup"):
+                    del self.studentInfo["studentSetup"]
             else:
                 console.print("[red]\nInvalid Matriculation Number or Password[/red]\n")
         else:
             console.print("[red]\nInvalid Matriculation Number or Password[/red]\n")
+
+    """
+    log the current user out of the portal
+    """
+    def logout(self):
+        Utils.logout(self.mainHandle)

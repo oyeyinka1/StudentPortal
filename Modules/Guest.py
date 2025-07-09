@@ -96,23 +96,21 @@ class Guest:
 
             if confirm == 'y' or confirm == 'yes':
                 password = input("Enter new password: ")
-                password = Utils.cleanString(password)
+                check = Utils.validatePassword(password)
 
-                # check if password contains whitespace
-                if " " in password:
-                    console.print("\n[red]ERROR[/red]\nYou can't have whitespace in your password\n")
-                    continue
-
-                # hash password
-                password = hashlib.md5(password.encode())
-                password = password.hexdigest()
-
-                # set new password for student
-                self.mainHandleDict.get('students').get(self.matricNo)['password'] = password
-                console.print("\n[green]Password updated![/green]\n")
-                break
+                if not check:
+                    # hash password
+                    password = hashlib.md5(password.encode())
+                    password = password.hexdigest()
+                    
+                    # set new password for student
+                    self.mainHandleDict.get('students').get(self.matricNo)['password'] = password
+                    console.print("\n[green]Password updated![/green]\n")
+                    break
+                else:
+                    console.print(f"\n[red]{check}[/red]\n")
             elif confirm == 'n' or confirm == 'no':
-                console.print("\n[yellow]You've chosen to keen current password![/yellow]\n")
+                console.print("\n[yellow]You've chosen to keep current password![/yellow]\n")
                 break
             else:
                 console.print("\n[red]ERROR[/red]\nInvalid option chosen!\n")
@@ -123,7 +121,7 @@ class Guest:
         # set student setup status for newly registered student
         self.mainHandleDict['students'].get(self.matricNo)['studentSetup'] = True
 
-        # delete user from application dictionary and save storage
+        # delete user from application dictionary and logout
         del self.mainHandleDict.get('admissionApplications')[self.id]
         self.logout()
 
@@ -292,12 +290,47 @@ class Guest:
         hashedPassword = hashlib.md5(password.encode())
         hashedPassword = hashedPassword.hexdigest()
 
-        firstName = input("Enter your First Name: ")
-        lastName = input("Enter your Last name: ")
-        middleName = input("Enter your Middle Name (leave blank if not applicable): ")
+        # get and check first name
+        while True:
+            firstName = input("Enter your First Name: ").strip()
+            check = Utils.validateName(firstName)
+
+            if check:
+                console.print(f"[red]{check}[/red]")
+                continue
+
+            break
+
+        # get and check last name
+        while True:
+            lastName = input("Enter your Last name: ").strip()
+            check = Utils.validateName(lastName)
+
+            if check:
+                console.print(f"[red]{check}[/red]")
+                continue
+
+            break
+
+        # get and check middle name
+        while True:
+            middleName = input("Enter your Middle name: ").strip()
+
+            if middleName == "":
+                middleName = None
+                break
+
+            check = Utils.validateName(middleName)
+
+            if check:
+                console.print(f"[red]{check}[/red]")
+                continue
+
+            break
+
         email = input("Enter your email address: ").strip()
 
-        # validating email input
+        # validate email
         while not Utils.isValidEmail(email):
             print("Invalid email address. Please enter a valid email.")
             email = input("Enter your email address: ").strip()
@@ -307,6 +340,7 @@ class Guest:
             
         # loading available states as a list from states-and-cities.json
         self.states = Utils.loadStates('name')
+        self.states = sorted(self.states)
 
         # print states
         console.print("\n[blue]Here are the valid states:[/blue]")

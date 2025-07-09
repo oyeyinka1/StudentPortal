@@ -164,12 +164,11 @@ class Utils:
     validate given name
     """
     def validateName(self, name):
-        lowercase = string.ascii_lowercase
-        uppercase = string.ascii_uppercase
         alphanumeric = "-'"
+        letters = string.ascii_letters
 
         # valid characters
-        acceptedCharacters = f"{lowercase}{uppercase}{alphanumeric}"
+        acceptedCharacters = f"{letters}{alphanumeric}"
 
         # check for whitespace in naem
         name = self.cleanString(name)
@@ -198,12 +197,11 @@ class Utils:
     def validateUsername(self, username):
         username = self.cleanString(username)
 
-        lowercase = string.ascii_lowercase
-        uppercase = string.ascii_uppercase
-        alphanumeric = "-'"
+        alphanumeric = "-_."
+        letters = string.ascii_letters
 
         # valid characters
-        acceptedCharacters = f"{lowercase}{uppercase}{alphanumeric}"
+        acceptedCharacters = f"{letters}{alphanumeric}"
 
         # check for whitespace
         if " " in username:

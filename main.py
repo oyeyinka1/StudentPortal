@@ -170,9 +170,9 @@ class Shell:
         self.userHandle.get(userMode)(self)
 
     """
-    view available courses
+    view available programmes
     """
-    def viewCourses(self):
+    def viewProgrammes(self):
         # call view programmes method of utils
         Utils.viewProgrammes()
 
@@ -193,8 +193,7 @@ class Shell:
             'info': self.info,
             'login': self.login,
             'apply': self.apply,
-            'view courses': self.viewCourses,
-            'view programmes': self.viewCourses
+            'view programmes': self.viewProgrammes
         }
 
         # set user native commands to be handled by user classes

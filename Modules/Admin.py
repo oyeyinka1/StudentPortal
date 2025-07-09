@@ -61,6 +61,70 @@ class Admin:
             self.adminCommands.get(self.command)()
 
     """
+    get registration data of new admin
+    """
+    def getAdminData(self):
+        # get and validate first name
+        while True:
+            firstname = input("Enter First Name: ")
+            check = Utils.validateName(firstname)
+
+            if check:
+                console.print(f"[red]{check}[/red]")
+            else:
+                break
+
+        # get and validate last name
+        while True:
+            lastname = input("Enter Last Name: ")
+            check = Utils.validateName(lastname)
+
+            if check:
+                console.print(f"[red]{check}[/red]")
+            else:
+                break
+
+        # get and validate email
+        while True:
+            email = input("Enter Email: ")
+            email = Utils.cleanString(email)
+
+            if Utils.isValidEmail(email):
+                break
+            else:
+                console.print("[red]Invalid email. Try again![/red]")
+
+        # get and validate username
+        while True:
+            username = input("Enter Username: ")
+            username = Utils.cleanString(username)
+            check = Utils.validateUsername(username)
+
+            if check:
+                console.print(f"[red]{check}[/red]")
+            else:
+                break
+
+        # get and validate password
+        while True:
+            password = input("Enter Password: ")
+            check = Utils.validatePassword(password)
+
+            if check:
+                console.print(f"[red]{check}[/red]")
+            else:
+                break
+
+        # hash password
+        password = hashlib.md5(password.encode()).hexdigest()
+
+        # assign collected data to new list
+        adminData = [firstname, lastname, email, username, password]
+
+        # return admin data
+        return adminData
+
+        """
     add a new admin with priviledges
     """
     def addAdmin(self):
@@ -69,41 +133,16 @@ class Admin:
             console.print("\n[red]Only the root admin can do this![/red]\n")
             return
 
-        # collect data for new admin
-        while True:
-            firstname = input("Enter First Name: ")
-            firstname = Utils.cleanString(firstname)
-
-            if " " in firstname:
-                console.print("\n[red]Invalid name![/red]\n")
-                continue
-            if len(firstname) < 3:
-                console.print("\n[red]Name is too short![/red]\n"\
-                              "[yellow]Minimum length: 3[/yellow]\n")
-                continue
-            if len(firstname) > 30:
-                console.print("\n[red]Name is too long![/red]\n"\
-                              "[yellow]Maximum length: 3[/yellow]\n")
-                continue
-
-            break
-                
-            
-        middlename = input("Enter Middle Name (optional): ")
-        lastname = input("Enter Last Name: ")
-        email = input("Enter Email: ")
-        username = input("Enter Username: ")
-        password = input("Enter Password: ")
-        password = hashlib.md5(password.encode()).hexdigest()
+        # get info of new admin
+        adminData = self.getAdminData()
 
         # new admin dictionary
         admin = {
-            'username': username,
-            'password': password,
-            'email': f"{username}@fut.com",
-            'firstName': firstname,
-            'lastName':  lastname,
-            'middleName': middlename
+            'username': adminData[3],
+            'password': adminData[4],
+            'email': adminData[2],
+            'firstName': adminData[0],
+            'lastName':  adminData[1]
         }
 
         # add new admin to main handle dictionary for admins

@@ -1,4 +1,4 @@
-import json, re, hashlib
+import json, re, hashlib, string
 from rich.console import Console
 
 # create object instance of console
@@ -152,7 +152,6 @@ class Utils:
             handle.loggedInUser = None
             handle.prompt = handle.defaultPrompt
 
-
     """
     purge given string of excess whitespace
     """
@@ -161,6 +160,76 @@ class Utils:
         string = " ".join(string)
 
         return string
+
+    """
+    validate given name
+    """
+    def validateName(self, name):
+        lowercase = string.ascii_lowercase
+        uppercase = string.ascii_uppercase
+        alphanumeric = "-'"
+
+        # valid characters
+        acceptedCharacters = f"{lowercase}{uppercase}{alphanumeric}"
+
+        # check for whitespace in naem
+        name = self.cleanString(name)
+        if " " in name:
+            return "Name cannot contain whitespace!"
+
+        # check for minimum length
+        if len(name) < 3:
+            return "Minimum name length is 3!"
+
+        # check for maximum length
+        if len(name) > 30:
+            return "Maximum name length is 30!"
+
+        # check characters in name
+        for character in name:
+            if character not in acceptedCharacters:
+                return "Invalid character in name!"
+
+        # return False if no issue was found with name
+        return False
+
+    """
+    validate username
+    """
+    def validateUsername(self, username):
+        username = self.cleanString(username)
+
+        lowercase = string.ascii_lowercase
+        uppercase = string.ascii_uppercase
+        alphanumeric = "-'"
+
+        # valid characters
+        acceptedCharacters = f"{lowercase}{uppercase}{alphanumeric}"
+
+        # check for whitespace
+        if " " in username:
+            return "username cannot contain whitespace"
+
+        # check accepted characters
+        for character in username:
+            if character not in acceptedCharacters:
+                return f"Invalid character `{character}` in username!"
+
+        # return false if no issue was found with username
+        return False
+
+    """
+    validate password
+    """
+    def validatePassword(self, password):
+        password = password.strip()
+
+        # check minimum length
+        if len(password) < 6:
+            return "Password must be at least 6 characters long"
+
+        # return false if no issues found with password
+        return False
 
 # create class instance
 Utils = Utils()

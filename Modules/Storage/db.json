@@ -1,90 +1,32 @@
 {
-    "admissionApplications": {
-        "UID3148": {
-            "id": "UID3148",
-            "email": "move@mail.com",
-            "firstName": "Italian",
-            "middleName": "",
-            "lastName": "Move",
-            "dateOfBirth": "12-12-2000",
-            "stateOfOrigin": "Zamfara",
-            "stateOfResidence": "Oyo",
-            "jambScore": 300,
-            "school": "SEET",
-            "courseOfChoice": "Mechatronics Engineering",
-            "courseCode": "MCE",
-            "applicationDate": "09-07-2025 09:12:25",
-            "password": "fa0ff340747bdc3756fc37d9c1027948",
-            "applicationStatus": "admitted",
-            "matricNo": "2025/1/05661MC"
-        },
-        "UID0218": {
-            "id": "UID0218",
-            "email": "here@mail.com",
-            "firstName": "here",
-            "middleName": "where",
-            "lastName": "there",
-            "dateOfBirth": "12-12-2000",
-            "stateOfOrigin": "Abuja",
-            "stateOfResidence": "Oyo",
-            "jambScore": 300,
-            "school": "SICT",
-            "courseOfChoice": "Software Engineering",
-            "courseCode": "SWE",
-            "applicationDate": "09-07-2025 09:52:37",
-            "password": "8b060498673a0c64a2dd6a374e8057df",
-            "applicationStatus": "pending"
-        }
-    },
     "admins": {
         "root": {
             "username": "root",
             "password": "aabb2100033f0352fe7458e412495148",
             "email": "root@fut.com",
             "firstName": "root",
-            "lastName": "root",
-            "middleName": null
-        },
-        "melvin": {
-            "username": "melvin",
-            "password": "43068d9abb922838645660142fb475ab",
-            "email": "melvin@mail.com",
-            "firstName": "Melvin",
-            "lastName": "Enwerem"
-        },
-        "asake": {
-            "username": "asake",
-            "password": "3b930e7c817787f8467999ee5b566805",
-            "email": "asake@gmail.com",
-            "firstName": "Palatable",
-            "lastName": "Asake"
-        },
-        "oluwaburna": {
-            "username": "oluwaburna",
-            "password": "001984ca82a458194c5d17df9cdeebb1",
-            "email": "burna@gmail.co.uk",
-            "firstName": "Burna",
-            "lastName": "Boy"
+            "lastName": "root"
         }
     },
     "students": {
-        "2025/1/05661MC": {
-            "applicationId": "UID3148",
-            "email": "move@mail.com",
-            "firstName": "Italian",
+        "2025/1/41341MC": {
+            "applicationId": "UID3070",
+            "email": "ayanokoji@mail.com",
+            "firstName": "Ayanokoji",
             "middleName": "",
-            "lastName": "Move",
+            "lastName": "Kiyotaka",
             "dateOfBirth": "12-12-2000",
-            "stateOfOrigin": "Zamfara",
-            "stateOfResidence": "Oyo",
-            "jambScore": 300,
+            "stateOfOrigin": "Delta",
+            "stateOfResidence": "Delta",
             "school": "SEET",
             "department": "Mechatronics Engineering",
             "courseCode": "MCE",
-            "applicationDate": "09-07-2025 09:12:25",
-            "password": "fa0ff340747bdc3756fc37d9c1027948",
-            "matricNo": "2025/1/05661MC",
-            "admissionDate": "09-07-2025 09:13:43"
+            "password": "00a94b1ec73fe72ceeaa972f7c37f784",
+            "matricNo": "2025/1/41341MC",
+            "admissionDate": "09-07-2025 11:24:42",
+            "level": 100,
+            "cgpa": 0.0,
+            "studentSetup": true
         }
     }
 }

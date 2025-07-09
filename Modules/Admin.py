@@ -38,7 +38,6 @@ class Admin:
         }
 
         self.mainHandle = mainHandle
-        self.courses = Utils.loadProgrammes()
         self.mainHandleDict = mainHandle.__dict__
         self.command = self.mainHandleDict.get('command')
         self.admissionApplications = self.mainHandleDict.get('admissionApplications')

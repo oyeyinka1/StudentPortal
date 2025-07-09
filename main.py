@@ -2,6 +2,7 @@ from rich.console import Console
 from Modules.FileStorage import Storage
 from Modules.Guest import Guest
 from Modules.Admin import Admin
+from Modules.Student import Student
 from Modules.Utils import Utils
 
 import random, string, hashlib
@@ -199,7 +200,8 @@ class Shell:
         # set user native commands to be handled by user classes
         self.userHandle = {
             'guest': Guest,
-            'admin': Admin
+            'admin': Admin,
+            'student': Student
         }
 
         # set permissions for hierarchy of users
@@ -223,7 +225,6 @@ class Shell:
                 'view admins': True
             },
             'student': {
-                'view': ['students', 'schools', 'departments', 'results', ],
             }
         }
 

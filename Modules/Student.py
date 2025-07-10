@@ -89,8 +89,6 @@ class Student:
         courseLookup.update({'school': self.studentInfo.get('school')})
         courseLookup.update({'courseCode': self.studentInfo.get('courseCode')})
 
-        headers = []
-        tableRows = []
         courses = Utils.loadCourses(courseLookup)
 
         coursesSem1 = []

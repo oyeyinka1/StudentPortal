@@ -1,6 +1,7 @@
 from Modules.Utils import Utils
 import hashlib
 from rich.console import Console
+from rich.table import Table
 from tabulate import tabulate
 
 console = Console()
@@ -88,23 +89,54 @@ class Student:
         courseLookup.update({'school': self.studentInfo.get('school')})
         courseLookup.update({'courseCode': self.studentInfo.get('courseCode')})
 
+        headers = []
+        tableRows = []
         courses = Utils.loadCourses(courseLookup)
 
-        header = []
-        tableRows = []
+        coursesSem1 = []
+        coursesSem2 = []
 
-        # get table data
+        table = Table(title=f"Your {self.studentInfo.get('level')} Level Courses")
+
+        # print dictionary info
         for key, value in courses.items():
-            row = []
-            header.append(key.upper())
+            table.add_column(key.title())
 
-            row.append(f"Total Courses: {value.get('total courses')}")
-            row.append(f"Total Credit Units: {value.get('total units')}")
+        # get total units for both semesters
+        table.add_row(f"Total Units: {courses.get('first semester').get('total units')}", \
+                      f"Total Units: {courses.get('second semester').get('total units')}")
 
-            for course, units in value.get('courses').items():
-                row.append(f"{course.upper()} - {units}")
+        # get total courses for both semesters
+        table.add_row(f"Total Courses: {courses.get('first semester').get('total courses')}", \
+                      f"Total Courses: {courses.get('second semester').get('total courses')}")
 
-            tableRows.append(row)
+        # get the courses for both semesters
+        sem1 = courses.get('first semester').get('courses')
+        sem2 = courses.get('second semester').get('courses')
 
-        print(header, tableRows)
-        print(tabulate(tableRows, headers=header, tablefmt='rounded_outline'))
+        # parse all sem 1 courses
+        for key, value in sem1.items():
+            coursesSem1.append(f"{key.upper()} | [purple]{value} Units[/purple]")
+
+        # parse all sem 2 courses
+        for key, value in sem2.items():
+            coursesSem2.append(f"{key.upper()} | [purple]{value} Units[/purple]")
+
+        # make table length equal for both courses
+        if len(coursesSem1) < len(coursesSem2):
+            while len(coursesSem1) < len(coursesSem2):
+                coursesSem1.append("")
+        elif len(coursesSem2) < len(coursesSem1):
+            while len(coursesSem2) < len(coursesSem1):
+                coursesSem2.append("")
+
+        # add whiteline separator before adding courses
+        table.add_row("\n", "\n")
+
+        # add course data to table rows
+        for sem1Course, sem2Course in zip(coursesSem1, coursesSem2):
+            table.add_row(sem1Course, sem2Course)
+
+        # print table
+        console.print("\n", table, "\n")
+            

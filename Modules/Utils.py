@@ -1,4 +1,4 @@
-import json, re, hashlib, string
+import json, re, hashlib, string, os
 from rich.console import Console
 
 # create object instance of console
@@ -244,6 +244,73 @@ class Utils:
 
         # return false if no issues found with password
         return False
+
+    """
+    save school to school file
+    """
+    def saveSchool(self, schoolName, initials):
+        check = False
+        fileContent = None
+        path = "./Modules/Storage/faculties.json"
+
+        # check if school/faculty already exists
+        if os.path.exists(path):
+            with open(path, 'r') as file:
+                file = file.read()
+                data = json.loads(file)
+
+            for key, value in data.items():
+                if initials == key:
+                    console.print(f"\nFaculty [yellow italic]{initials}[/yellow italic] already "\
+                                  f"exists as [yellow italic]{value}[/yellow italic]\n")
+                elif schoolName == value:
+                    console.print(f"\nFaculty [yellow italic]{schoolName}[/yellow italic] already "\
+                                  f"exists as [yellow italic]{key}[/yellow italic]\n")
+
+                # ask for confirmation to overwrite school
+                if initials == key or schoolName == value:
+                    while True:
+                        confirm = input("Continue to overwrite school? (Y | N)  ").strip().upper()
+
+                        if confirm == "Y":
+                            check = True
+                            break
+                        elif confirm == "N":
+                            console.print("[red]Operation Aborted![/red]\n")
+                            return
+                        else:
+                            console.print("[red]Invalid option[red]")
+
+                    if check:
+                        break
+
+        # write to file 
+        if os.path.exists(path):
+            with open(path, 'r') as file:
+                file = file.read()
+                if file:
+                    fileContent = json.loads(file)
+
+            with open(path, 'w') as file:
+                data = {initials: schoolName}
+
+                if fileContent:
+                    fileContent.update(data)
+                    data = json.dumps(fileContent, indent=4)
+                else:
+                    data = json.dumps(data, indent=4)
+
+                file.write(data)
+        else:
+            with open(path, 'w') as file:
+                data = {initials: schoolName}
+                data = json.dumps(data, indent=4)
+
+                file.write(data)
+
+        # print success message
+        console.print(f"\nSuccessfully added Faculty; [purple]{initials}"\
+                      f"[/purple] - [purple]{schoolName}[/purple]\n")
 
 # create class instance
 Utils = Utils()

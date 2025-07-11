@@ -221,7 +221,8 @@ class Shell:
                 'view school stats': True,
                 'export students': True,
                 'add admin': True,
-                'view admins': True
+                'view admins': True,
+                'add school': True
             },
             'student': {
                 'logout': True,

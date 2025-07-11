@@ -2,7 +2,7 @@ from tabulate import tabulate
 from collections import Counter
 from Modules.Utils import Utils
 from rich.console import Console
-import hashlib, datetime, os, random, csv, platform, subprocess
+import hashlib, datetime, os, random, csv, platform, subprocess, string
 from pathlib import Path
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.lib import colors
@@ -27,6 +27,7 @@ class Admin:
             'logout': self.logout,
             'admit': self.admitStudent,
             'add admin': self.addAdmin,
+            'add school': self.addSchool,
             'reject': self.rejectStudent,
             'view my log': self.viewMyLog,
             'view admins': self.viewAdmins,
@@ -854,3 +855,37 @@ class Admin:
     """
     def logout(self):
         Utils.logout(self.mainHandle)
+
+    """
+    add a new school/faculty to school
+    """
+    def addSchool(self):
+        # get full name of school
+        while True:
+            schoolName = input("Enter full name of school/faculty: ")
+            schoolName = Utils.cleanString(schoolName)
+            check = False
+
+            # check for valid school name
+            for i in schoolName:
+                if i not in f"{string.ascii_letters}'- ":
+                    console.print(f"[red]Invalid characters in school name[/red]")
+                    check = True
+                    break
+
+            if not check:
+                break
+
+        # get school initials
+        while True:
+            initials = input("Enter initials for school: ")
+            initials = Utils.cleanString(initials)
+            check = Utils.validateName(initials)
+
+            if check:
+                console.print(f"[red]{check}[/red]")
+            else:
+                break
+
+        # save school/faculty to dictionary
+        Utils.saveSchool(schoolName, initials)

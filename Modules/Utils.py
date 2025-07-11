@@ -246,6 +246,18 @@ class Utils:
         return False
 
     """
+    write changes to file
+
+    @path: path to file
+    @data: data to be written to file
+    """
+    def writeToFile(self, path, data):
+        # write changes to file
+        with open(path, 'w') as file:
+            data = json.dumps(data, indent=4)
+            file.write(data)
+
+    """
     save school to school file
     """
     def saveSchool(self, schoolName, initials):
@@ -326,6 +338,7 @@ class Utils:
             "./Modules/Storage/tests_and_exams.json"
         ]
 
+        facultyName = faculty
         faculty = {faculty: {}}
 
         for path in paths:
@@ -334,12 +347,168 @@ class Utils:
                 with open(path, 'r') as file:
                     file = file.read()
                     fileContent = json.loads(file)
+
+                    if facultyName in fileContent.keys():
+                        return
+
                     fileContent.update(faculty)
 
                 # write changes to file
                 with open(path, 'w') as file:
                     fileContent = json.dumps(fileContent, indent=4)
                     file.write(fileContent)
+
+    """
+    check if given school/faculty exists
+    """
+    def checkFaculty(self, faculty):
+        path = "./Modules/Storage/faculties.json"
+        faculties = self.loadFromFile(path)
+
+        for key, value in faculties.items():
+            if faculty.upper() == key or faculty.title() == value:
+                return key
+
+        return
+
+    """
+    view available faculties in the school
+    """
+    def viewFaculties(self):
+        path = "./Modules/Storage/faculties.json"
+        faculties = self.loadFromFile(path)
+
+        if faculties:
+            console.print("\n[underline]Available Faculties[/underline]\n")
+            
+            for key, value in faculties.items():
+                console.print(f"\t[purple underline]({key})[/purple underline] - ({value})")
+
+            print()
+
+    """
+    check if entered department already exists
+
+    @ depatment: department name to be checked
+
+    return false if it does not
+    return error message if it does
+    """
+    def checkDepartment(self, department):
+        path = "./Modules/Misc/programmes.json"
+        data = self.loadFromFile(path)
+
+        if not data:
+            return False
+
+        for school, departments in data.items():
+            for deptCode, deptInfo in departments.items():
+                if department == deptInfo.get('course code'):
+                    return "Department/Course code already exists!"
+
+                if department == deptInfo.get('course'):
+                    return "Department already exists!"
+
+        return False
+
+    """
+    check if input is a valid integer
+    @number: number to be checked
+    """
+    def validateNumber(self, number):
+        number = number.strip()
+
+        try:
+            number = int(number)
+            return number
+        except:
+            return False
+
+    """
+    add new department to programems.json
+
+    @faculty: name of faculty/school to add a department to
+    @deptName: name of department/course to be added
+    @deptCode: department code or course code to be added
+    @deptCutOff: cut off mark for new department to be added
+    """
+    def addDepartment(self, faculty, deptName, deptCode, deptCutOff):
+        path = "./Modules/Misc/programmes.json"
+        programmes = self.loadFromFile(path)
+
+        if programmes:
+            newDept = {deptCode: {
+                "cut off": deptCutOff,
+                "course code": deptCode,
+                "course": deptName
+            }}
+
+            # update faculty/school with new department/course and save to file
+            programmes.get(faculty).update(newDept)
+            self.writeToFile(path, programmes)
+
+            # print success  message
+            console.print("\n[green]SUCCESS[/green]\n\nAdded department with info:\n"\
+                          f"Name: {deptName}\nCode: {deptCode}\nCut off mark: {deptCutOff}\n"\
+                          f"School: {faculty}\n")
+
+            # update other storage files with new department
+
+            # --- start update for courses.json
+
+            path = "./Modules/Misc/courses.json"
+
+            deptInfo = {}
+
+            # create department dictionary containing all levels
+            for level in range(100, 600, 100):
+                level = str(level)
+
+                if level == '400':
+                    deptInfo.update({
+                        level: {
+                            'first semester': {
+                                'total units': None,
+                                'total courses': None,
+                                'courses': {}
+                            }
+                        }
+                    })
+                    continue
+
+                deptInfo.update({
+                    level: {
+                        'first semester': {
+                            'total units': None,
+                            'total courses': None,
+                            'courses': {}
+                        },
+                        'second semester': {
+                            'total units': None,
+                            'total courses': None,
+                            'courses': {}
+                        }
+                    }
+                })
+
+            with open(path, 'r') as file:
+                file = file.read()
+                fileData = json.loads(file)
+
+                # abort if department already exists in faculty
+                if deptCode in fileData.get(faculty).keys():
+                    return
+
+                # update file object with new department
+                fileData.get(faculty).update({deptCode.lower(): deptInfo})
+
+            # write changes to file
+            self.writeToFile(path, fileData)
+
+            # --- end update for courses.json
+
+            # --- start update for tests_and_exams.json
+            # --- end update for tests_and_exams.json
 
 # create class instance
 Utils = Utils()

@@ -1,286 +1,115 @@
 {
     "SICT": {
-        "cpt": {
+        "Cyber Security Science": {
             "100": {
                 "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 },
                 "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 }
             },
             "200": {
                 "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 },
                 "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 }
             },
             "300": {
                 "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 },
                 "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 }
             },
             "400": {
                 "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 }
             },
             "500": {
                 "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 },
                 "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 }
             }
         },
-        "swe": {
+        "SWE": {
             "100": {
                 "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 },
                 "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 }
             },
             "200": {
                 "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 },
                 "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 }
             },
             "300": {
                 "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 },
                 "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 }
             },
             "400": {
                 "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 }
             },
             "500": {
                 "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 },
                 "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            }
-        },
-        "ift": {
-            "100": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                },
-                "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            },
-            "200": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                },
-                "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            },
-            "300": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                },
-                "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            },
-            "400": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            },
-            "500": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                },
-                "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            }
-        },
-        "css": {
-            "100": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                },
-                "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            },
-            "200": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                },
-                "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            },
-            "300": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                },
-                "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            },
-            "400": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            },
-            "500": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                },
-                "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            }
-        },
-        "dts": {
-            "100": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                },
-                "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            },
-            "200": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                },
-                "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            },
-            "300": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                },
-                "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            },
-            "400": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                }
-            },
-            "500": {
-                "first semester": {
-                    "total units": 17,
-                    "total courses": 7,
-                    "courses": {}
-                },
-                "second semester": {
-                    "total units": 17,
-                    "total courses": 7,
+                    "total units": null,
+                    "total courses": null,
                     "courses": {}
                 }
             }
@@ -349,7 +178,180 @@
                     "courses": {}
                 }
             }
+        },
+        "eee": {
+            "100": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "200": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "300": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "400": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "500": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            }
         }
     },
-    "SPP": {}
+    "SPP": {
+        "sdp": {
+            "100": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "200": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "300": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "400": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "500": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            }
+        },
+        "CAD": {
+            "100": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "200": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "300": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "400": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "500": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            }
+        }
+    },
+    "SPS": {}
 }

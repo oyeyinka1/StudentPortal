@@ -864,7 +864,7 @@ class Admin:
         # get full name of school
         while True:
             schoolName = input("Enter full name of school/faculty: ")
-            schoolName = Utils.cleanString(schoolName)
+            schoolName = Utils.cleanString(schoolName).title()
             check = False
 
             # check for valid school name
@@ -880,7 +880,7 @@ class Admin:
         # get school initials
         while True:
             initials = input("Enter initials for school: ")
-            initials = Utils.cleanString(initials)
+            initials = Utils.cleanString(initials).upper()
             check = Utils.validateName(initials)
 
             if check:
@@ -891,8 +891,81 @@ class Admin:
         # save school/faculty to dictionary
         Utils.saveSchool(schoolName, initials)
 
+        # save action to admin log
+        self.adminLog(f"added new faculty: {schoolName}")
+
     """
     add a new department under a school/faculty
     """
     def addDepartment(self):
-        pass
+        # get faculty/school name to add department under
+        schoolName = input("Enter name of parent Faculty: ")
+        schoolName = Utils.cleanString(schoolName).upper()
+
+        # check if entered school exists
+        faculty = Utils.checkFaculty(schoolName)
+
+        if not faculty:
+            console.print(f"\nEntered faculty [yellow underline]"\
+                          f"{schoolName}[/yellow underline] does not exist\n")
+
+            console.print("[yellow]OPTIONS[/yellow]\n\n"\
+                          "[yellow bold]1[/yellow bold]  View current faculties\n"\
+                          "[yellow bold]2[/yellow bold]  Add new faculty/school\n")
+
+            option = input("Enter chosen option: ").strip()
+
+            # view current faculties if user chose `1`
+            if option == '1':
+                Utils.viewFaculties()
+            elif option == '2':
+                self.addSchool()
+            else:
+                console.print("[red]Invalid option![/red]")
+                return
+        else:
+            # get full department name
+            while True:
+                deptName = input("Enter full department name: ")
+                deptName = Utils.cleanString(deptName).title()
+                check = Utils.checkDepartment(deptName)
+
+                if check:
+                    console.print(f"[red]{check}[/red]")
+                else:
+                    break
+
+            # get department/course code
+            while True:
+                deptCode = input("Enter department/course code: ")
+                deptCode = Utils.cleanString(deptCode).upper()
+                check = Utils.checkDepartment(deptCode)
+
+                if check:
+                    console.print(f"[red]{check}[/red]")
+                else:
+                    break
+
+
+            # get cut off mark for current department
+            while True:
+                deptCutOff = input("Enter cut off mark for department: ")
+                deptCutOff = Utils.validateNumber(deptCutOff)
+
+                if deptCutOff:
+                    # check if cut off is within min and max range
+                    if deptCutOff < 0:
+                        console.print(f"\n[yellow]Cut off can't be less than 0[/yellow]")
+                    elif deptCutOff > 400:
+                        console.print(f"\n[red]Cut off can't be greater than 400[/red]")
+                    else:
+                        break
+                else:
+                    console.print("\n[red]Invalid number entered![/red]\n")
+
+            # add new department with details
+            Utils.addDepartment(faculty, deptName, deptCode, deptCutOff)
+
+            # save action to admin log
+            self.adminLog(f"added new department [{deptName}] to faculty [{faculty}]")
+

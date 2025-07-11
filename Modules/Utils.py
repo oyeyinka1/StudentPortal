@@ -312,5 +312,34 @@ class Utils:
         console.print(f"\nSuccessfully added Faculty; [purple]{initials}"\
                       f"[/purple] - [purple]{schoolName}[/purple]\n")
 
+        # update faculties in other files
+        self.updateFaculties(initials)
+
+    """
+    add newly added faculty to files that contain them
+    """
+    def updateFaculties(self, faculty):
+        # file paths of files to be updated
+        paths = [
+            "./Modules/Misc/courses.json",
+            "./Modules/Misc/programmes.json",
+            "./Modules/Storage/tests_and_exams.json"
+        ]
+
+        faculty = {faculty: {}}
+
+        for path in paths:
+            if os.path.exists(path):
+                # read and update file content
+                with open(path, 'r') as file:
+                    file = file.read()
+                    fileContent = json.loads(file)
+                    fileContent.update(faculty)
+
+                # write changes to file
+                with open(path, 'w') as file:
+                    fileContent = json.dumps(fileContent, indent=4)
+                    file.write(fileContent)
+
 # create class instance
 Utils = Utils()

@@ -1,37 +1,37 @@
 {
     "SICT": {
-	"cpt": {
-	    "cut off": 180,
-	    "course code": "CPT",
-	    "course": "Computer Science"
-	},
-	"swe": {
-	    "cut off": 180,
-	    "course code": "SWE",
-	    "course": "Software Engineering"
-	},
-	"ift": {
-	    "cut off": 180,
-	    "course code": "IFT",
-	    "course": "Information Technology"
-	},
-	"css": {
-	    "cut off": 180,
-	    "course code": "CSS",
-	    "course": "Cyber Security Science"
-	},
-	"dts": {
-	    "cut off": 180,
-	    "course code": "DTS",
-	    "course": "Data Science"
-	}
+        "cpt": {
+            "cut off": 180,
+            "course code": "CPT",
+            "course": "Computer Science"
+        },
+        "swe": {
+            "cut off": 180,
+            "course code": "SWE",
+            "course": "Software Engineering"
+        },
+        "ift": {
+            "cut off": 180,
+            "course code": "IFT",
+            "course": "Information Technology"
+        },
+        "css": {
+            "cut off": 180,
+            "course code": "CSS",
+            "course": "Cyber Security Science"
+        },
+        "dts": {
+            "cut off": 180,
+            "course code": "DTS",
+            "course": "Data Science"
+        }
     },
-
     "SEET": {
-	"mce": {
-	    "cut off": 250,
-	    "course code": "MCE",
-	    "course": "Mechatronics Engineering"
-	}
-    }
+        "mce": {
+            "cut off": 250,
+            "course code": "MCE",
+            "course": "Mechatronics Engineering"
+        }
+    },
+    "SPP": {}
 }

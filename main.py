@@ -121,13 +121,13 @@ class Shell:
     def info(self):
         # print all available shell native commands
         console.print("[blue]\nAvailable shell commands:[/blue]")
-        for command in self.shellNativeCommands.keys():
+        for command in sorted(list(self.shellNativeCommands.keys()), key=len):
             console.print(f"[green]{command}[/green]")
 
         # print available user commands if logged in
         if self.__dict__.get('user'):
             console.print("\n[blue]Available user commands:[/blue]")
-            for command in self.userPermissions[self.user].keys():
+            for command in sorted(list(self.userPermissions[self.user].keys()), key=len):
                 console.print(f"[green]{command}[/green]")
 
         # print new line
@@ -222,7 +222,8 @@ class Shell:
                 'export students': True,
                 'add admin': True,
                 'view admins': True,
-                'add school': True
+                'add school': True,
+                'add department': True
             },
             'student': {
                 'logout': True,

@@ -33,9 +33,10 @@ class Admin:
             'view admins': self.viewAdmins,
             'view students': self.viewStudents,
             'view admin log': self.viewAdminLog,
+            'add department': self.addDepartment,
             'view school stats': self.schoolStats,
             'export students': self.exportStudents,
-            'view applications': self.viewApplications            
+            'view applications': self.viewApplications
         }
 
         self.mainHandle = mainHandle
@@ -889,3 +890,9 @@ class Admin:
 
         # save school/faculty to dictionary
         Utils.saveSchool(schoolName, initials)
+
+    """
+    add a new department under a school/faculty
+    """
+    def addDepartment(self):
+        pass

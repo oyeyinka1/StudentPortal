@@ -2,7 +2,7 @@ from tabulate import tabulate
 from collections import Counter
 from Modules.Utils import Utils
 from rich.console import Console
-import hashlib, datetime, os, random, csv, platform, subprocess, string
+import hashlib, datetime, os, random, csv, platform, subprocess, string, subprocess
 from pathlib import Path
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.lib import colors
@@ -71,7 +71,7 @@ class Admin:
     """
     def viewCommands(self):
         console.print("\n[blue]Available Admin Commands:[/blue]\n")
-        for cmd in self.adminCommands.keys():
+        for cmd in sorted(self.adminCommands.keys(), key=len):
             console.print(f"[green]{cmd}[/green]")
         print()
 
@@ -589,9 +589,15 @@ class Admin:
         checkFile = os.path.exists(filepath)
 
         if checkFile:
-            with open(filepath, 'r') as file:
-                content = file.read()
-                print('\n', content, sep="")
+            # use the <less> to view admin log
+            try:
+                subprocess.run(['less', filepath], check=True)
+            except:
+                console.print("[red]\nError loading logs!\n[/red]")
+
+            # with open(filepath, 'r') as file:
+            #     content = file.read()
+            #     print('\n', content, sep="")
         else:
             console.print("[yellow]Oops, no logs have "\
                           "been kept for admins quite yet[/yellow]")

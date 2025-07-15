@@ -25,10 +25,10 @@ class Admin:
         self.adminCommands = {
             'login': self.login,
             'logout': self.logout,
-            'admit': self.admitStudent,
+            'admit applicants': self.admitStudent,
             'add admin': self.addAdmin,
             'add school': self.addSchool,
-            'reject': self.rejectStudent,
+            'reject applicants': self.rejectStudent,
             'view my log': self.viewMyLog,
             'view admins': self.viewAdmins,
             'view students': self.viewStudents,
@@ -36,7 +36,11 @@ class Admin:
             'add department': self.addDepartment,
             'view school stats': self.schoolStats,
             'export students': self.exportStudents,
-            'view applications': self.viewApplications
+            'view applications': self.viewApplications,
+            'view commands': self.viewCommands,
+            'expel student': self.expelStudent,
+            'suspend student': self.suspendStudent,
+            'unsuspend student': self.unsuspendStudent
         }
 
         self.mainHandle = mainHandle
@@ -61,6 +65,15 @@ class Admin:
     def executeCommand(self):
         if self.command in self.adminCommands.keys():
             self.adminCommands.get(self.command)()
+
+    """
+    view list of available commands
+    """
+    def viewCommands(self):
+        console.print("\n[blue]Available Admin Commands:[/blue]\n")
+        for cmd in self.adminCommands.keys():
+            console.print(f"[green]{cmd}[/green]")
+        print()
 
     """
     get registration data of new admin
@@ -522,7 +535,8 @@ class Admin:
                 self.setLoggedInData(admins.get(username))
 
                 # print login successful message
-                console.print("\n[green]Login Succesful![green]\n")
+                console.print(f"\n[green] Welcome {self.username}![/green]")
+                console.print("[blue]Type 'view commands' to see a list of available commands[/blue]\n")
             else:
                 console.print("\n[red]Invalid username or password![/red]\n")
         else:
@@ -545,6 +559,8 @@ class Admin:
         self.mainHandle.loggedIn = True
         self.mainHandle.loggedInUser = admin
         self.mainHandle.prompt = f"[red]({self.username}@admin):  [/red]"
+
+        
 
     """
     write admin action to the log file
@@ -629,16 +645,18 @@ class Admin:
 
         sn = 1
         table = []
-        header = ["SN", "MATRIC NO.", "NAME", "COURSE", "EMAIL"]
+        header = ["SN", "MATRIC NO.", "NAME", "COURSE", "EMAIL", "STATUS"]
 
         for uid, student in students.items():
             fullName = f"{student.get('firstName')} {student.get('lastName')}"
+            status = "Suspended" if student.get('suspended') else "Active"
             table.append([
                 sn,
                 student.get('matricNo'),
                 fullName,
                 student.get('department'),
-                student.get('email')
+                student.get('email'),
+                status
             ])
             sn += 1
 
@@ -969,3 +987,75 @@ class Admin:
             # save action to admin log
             self.adminLog(f"added new department [{deptName}] to faculty [{faculty}]")
 
+    """
+    expel a student
+    """
+    def expelStudent(self):
+        students = self.mainHandleDict.get('students')
+
+        if not students:
+            console.print("\n[yellow]No students to expel![/yellow]\n")
+            return
+
+        matricNo = input("Enter Matric Number of student to expel: ").strip()
+
+        if matricNo in students:
+            student = students[matricNo]
+            fullName = f"{student.get('firstName')} {student.get('lastName')}"
+
+            console.print(f"\n[red bold]WARNING![/red bold] You are about to [red]EXPEL[/red] {fullName} (Matric No: {matricNo}).")
+            confirm = input("Are you sure? Type 'yes' to confirm: ").strip().lower()
+
+            if confirm == 'yes':
+                students.pop(matricNo)
+
+                console.print(f"\n[red]Student {matricNo} has been expelled.[/red]\n")
+                self.adminLog(f"expelled student {matricNo} ({fullName})")
+            else:
+                console.print("\n[yellow]Action cancelled. No student was expelled.[/yellow]\n")
+        else:
+            console.print(f"\n[yellow]No student found with Matric No {matricNo}[/yellow]\n")
+
+    """
+    suspend a student
+    """
+    def suspendStudent(self):
+        students = self.mainHandleDict.get('students')
+
+        if not students:
+            console.print("\n[yellow]No students to suspend![/yellow]\n")
+            return
+
+        matricNo = input("Enter Matric Number of student to suspend: ").strip()
+
+        if matricNo in students:
+            student = students[matricNo]
+            student['suspended'] = True 
+            console.print(f"\n[yellow]Student {matricNo} has been suspended.[/yellow]\n")
+            self.adminLog(f"suspended student {matricNo} ({student.get('firstName')} {student.get('lastName')})")
+        else:
+            console.print(f"\n[yellow]No student found with Matric No {matricNo}[/yellow]\n")
+
+    """
+    unsuspend a student
+    """
+    def unsuspendStudent(self):
+        students = self.mainHandleDict.get('students')
+
+        if not students:
+            console.print("\n[yellow]No students available![/yellow]\n")
+            return
+
+        matricNo = input("Enter Matric Number of student to unsuspend: ").strip()
+
+        if matricNo in students:
+            student = students[matricNo]
+
+            if student.get('suspended'):
+                student['suspended'] = False
+                console.print(f"\n[green]Student {matricNo} has been unsuspended.[/green]\n")
+                self.adminLog(f"unsuspended student {matricNo} ({student.get('firstName')} {student.get('lastName')})")
+            else:
+                console.print(f"\n[yellow]Student {matricNo} is not suspended.[/yellow]\n")
+        else:
+            console.print(f"\n[yellow]No student found with Matric No {matricNo}[/yellow]\n")

@@ -9,6 +9,11 @@
             "cut off": 180,
             "course code": "SWE",
             "course": "Software Engineering"
+        },
+        "SKI101": {
+            "cut off": 240,
+            "course code": "SKI101",
+            "course": "Skidepartment"
         }
     },
     "SEET": {

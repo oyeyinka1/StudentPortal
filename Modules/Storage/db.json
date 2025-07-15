@@ -7,44 +7,5 @@
             "firstName": "root",
             "lastName": "root"
         }
-    },
-    "students": {
-        "2025/1/41341MC": {
-            "applicationId": "UID3070",
-            "email": "ayanokoji@mail.com",
-            "firstName": "Ayanokoji",
-            "middleName": "",
-            "lastName": "Kiyotaka",
-            "dateOfBirth": "12-12-2000",
-            "stateOfOrigin": "Delta",
-            "stateOfResidence": "Delta",
-            "school": "SEET",
-            "department": "Mechatronics Engineering",
-            "courseCode": "MCE",
-            "password": "00a94b1ec73fe72ceeaa972f7c37f784",
-            "matricNo": "2025/1/41341MC",
-            "admissionDate": "09-07-2025 11:24:42",
-            "level": 100,
-            "cgpa": 0.0,
-            "studentSetup": true
-        },
-        "2025/1/79704MC": {
-            "applicationId": "UID7276",
-            "email": "heron@demigod.earth",
-            "firstName": "Heron",
-            "middleName": null,
-            "lastName": "Xeus",
-            "dateOfBirth": "12-12-2000",
-            "stateOfOrigin": "Yobe",
-            "stateOfResidence": "Kebbi",
-            "school": "SEET",
-            "department": "Mechatronics Engineering",
-            "courseCode": "MCE",
-            "password": "86c70d2cad24261b813fcfa4037dad6c",
-            "matricNo": "2025/1/79704MC",
-            "admissionDate": "09-07-2025 12:06:30",
-            "level": 100,
-            "cgpa": 0.0
-        }
     }
 }

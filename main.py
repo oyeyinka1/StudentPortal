@@ -211,8 +211,8 @@ class Shell:
                 'cancel application': True,
             },
             'admin': {
-                'admit': True,
-                'reject': True,
+                'admit applicants': True,
+                'reject applicants': True,
                 'logout': True,
                 'view my log': True,
                 'view admin log': True,
@@ -223,7 +223,11 @@ class Shell:
                 'add admin': True,
                 'view admins': True,
                 'add school': True,
-                'add department': True
+                'add department': True,
+                'view commands': True,
+                'expel student': True,
+                'suspend student': True,
+                'unsuspend student': True
             },
             'student': {
                 'logout': True,

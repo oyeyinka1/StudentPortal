@@ -40,8 +40,11 @@ class Admin:
             'view commands': self.viewCommands,
             'expel student': self.expelStudent,
             'suspend student': self.suspendStudent,
-            'unsuspend student': self.unsuspendStudent
+            'unsuspend student': self.unsuspendStudent,
+            'add course': self.addCourse
         }
+
+        self.levels = ['100', '200', '300', '400', '500']
 
         self.mainHandle = mainHandle
         self.mainHandleDict = mainHandle.__dict__
@@ -1065,3 +1068,145 @@ class Admin:
                 console.print(f"\n[yellow]Student {matricNo} is not suspended.[/yellow]\n")
         else:
             console.print(f"\n[yellow]No student found with Matric No {matricNo}[/yellow]\n")
+
+    """
+    add a new course to a faculty or department
+    """
+    def addCourse(self):
+        department = None
+
+        # print options
+        console.print(
+            "\nOPTIONS:\n\n",
+            "[yellow bold]1[yellow bold] Set course for entire faculty\n",
+            "[yellow bold]2[yellow bold] Set course for specific department\n"
+        )
+
+        # check chosen option
+        option = input("Enter option: ").strip()
+        if option != '1' and option != '2':
+            console.print("Invalid option entered!")
+            return
+
+        # ask to view available faculties in the school
+        if input("View faculties in the school? (Yes | No)  ").strip().lower() == 'yes':
+            Utils.viewFaculties()
+
+        # get school/faculty name
+        while True:
+            school = Utils.cleanString(input("Enter school: "))
+            checkFaculty = Utils.checkFaculty(school)
+            if checkFaculty:
+                school = checkFaculty
+                break
+            console.print("[yellow]Invalid faculty entered![/yellow]")
+
+        # ask for department if chosen option is 2
+        while True and option == '2':
+            department = Utils.cleanString(input("Enter department: ")).upper()
+            if Utils.checkDepartment(department):
+                break
+            console.print("[yellow]Invalid department entered![/yellow]")
+
+        # get level
+        while True:
+            level = input("Enter level: ").strip()
+            if level in self.levels:
+                break
+            console.print("[yellow]Invalid level entered![/yellow]")
+
+        # get semester to set course for
+        if level == '400':
+            semester = 'first semester'
+        else:
+            console.print("\nSemesters: (first, second)\n")
+            while True:
+                semester = input("Enter semester: ")
+                semester = Utils.cleanString(semester).lower()
+
+                if semester == 'first' or semester == 'second':
+                    semester = f"{semester} semester"
+                    break
+
+                if semester == 'first semester' or semester == 'second semester':
+                    break
+
+                console.print("[yellow]Invalid semester entered![/yellow]")
+
+        # get all available courses
+        courses = Utils.loadCourses()
+        console.rule(style="dim white", characters="-")
+
+        # get course name
+        while True:
+            courseName = Utils.cleanString(input("Enter full course name: "))
+            if courseName:
+                break
+
+        # get course code
+        while True:
+            courseCode = Utils.cleanString(input("Enter Course code: ")).lower()
+            if courseCode:
+                break
+
+        # get course units
+        while True:
+            courseUnit = Utils.validateNumber(input("Enter course units: "))
+            if courseUnit:
+                break
+
+            console.print("[yellow]Invalid unit entered![/yellow]")
+
+        # set new course dictionary
+        newCourse = {
+            courseCode: {
+                'name': courseName,
+                'code': courseCode,
+                'unit': courseUnit
+            }
+        }
+
+        # set course for specific department if department entered
+        if department:
+            courses[school][department][level][semester]['courses'].update(newCourse)
+
+            # update total units
+            if not courses[school][department][level][semester]['total units']:
+                courses[school][department][level][semester]['total units'] = courseUnit
+            else:
+                courses[school][department][level][semester]['total units'] += courseUnit
+
+            # update total courses
+            if not courses[school][department][level][semester]['total courses']:
+                courses[school][department][level][semester]['total courses'] = 1
+            else:
+                courses[school][department][level][semester]['total courses'] += 1
+        else:
+            for key, value in courses[school].items():
+                value[level][semester]['courses'].update(newCourse)
+
+                # update total units
+                if not value[level][semester]['total units']:
+                    value[level][semester]['total units'] = courseUnit
+                else:
+                    value[level][semester]['total units'] += courseUnit
+
+                # update total courses
+                if not value[level][semester]['total courses']:
+                    value[level][semester]['total courses'] = 1
+                else:
+                    value[level][semester]['total courses'] += 1
+
+        # save changes to file
+        Utils.writeToFile("./Modules/Misc/courses.json", courses)
+
+        # save to admin log
+        if department:
+            message = f"added Course: {courseCode} to "\
+                f"Faculty: {school} | Department: {department} | Level: {level}"
+        else:
+            message = f"added Course: {courseCode} to "\
+                f"all departments in School: {school} and Level: {level}"
+
+        self.adminLog(message)
+            

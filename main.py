@@ -227,7 +227,8 @@ class Shell:
                 'view commands': True,
                 'expel student': True,
                 'suspend student': True,
-                'unsuspend student': True
+                'unsuspend student': True,
+                'add course': True
             },
             'student': {
                 'logout': True,

@@ -30,15 +30,16 @@ class Utils:
     """
     load courses for given department and level
     """
-    def loadCourses(self, studentInfo):
+    def loadCourses(self, studentInfo=None):
         path = "./Modules/Misc/courses.json"
         retVal = self.loadFromFile(path)
 
-        school = studentInfo.get('school')
-        level = str(studentInfo.get('level'))
-        department = studentInfo.get('courseCode').lower()
+        if studentInfo:
+            school = studentInfo.get('school')
+            level = str(studentInfo.get('level'))
+            department = studentInfo.get('courseCode').lower()
 
-        retVal = retVal.get(school).get(department).get(level)
+            retVal = retVal.get(school).get(department).get(level)
 
         # return courses for current student
         return retVal

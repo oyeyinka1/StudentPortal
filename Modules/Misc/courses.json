@@ -3,9 +3,20 @@
         "Cyber Security Science": {
             "100": {
                 "first semester": {
-                    "total units": null,
-                    "total courses": null,
-                    "courses": {}
+                    "total units": 5,
+                    "total courses": 2,
+                    "courses": {
+                        "GST101": {
+                            "name": "Communication in English",
+                            "code": "GST101",
+                            "unit": 2
+                        },
+                        "COS101": {
+                            "name": "Computer Science",
+                            "code": "COS101",
+                            "unit": 3
+                        }
+                    }
                 },
                 "second semester": {
                     "total units": null,
@@ -60,9 +71,25 @@
         "SWE": {
             "100": {
                 "first semester": {
-                    "total units": null,
-                    "total courses": null,
-                    "courses": {}
+                    "total units": 8,
+                    "total courses": 3,
+                    "courses": {
+                        "GST101": {
+                            "name": "Communication in English",
+                            "code": "GST101",
+                            "unit": 2
+                        },
+                        "COS101": {
+                            "name": "Computer Science",
+                            "code": "COS101",
+                            "unit": 3
+                        },
+                        "spp101": {
+                            "name": "Software and Programming Principles",
+                            "code": "SPP101",
+                            "unit": 3
+                        }
+                    }
                 },
                 "second semester": {
                     "total units": null,
@@ -117,9 +144,20 @@
         "ski101": {
             "100": {
                 "first semester": {
-                    "total units": null,
-                    "total courses": null,
-                    "courses": {}
+                    "total units": 5,
+                    "total courses": 2,
+                    "courses": {
+                        "GST101": {
+                            "name": "Communication in English",
+                            "code": "GST101",
+                            "unit": 2
+                        },
+                        "COS101": {
+                            "name": "Computer Science",
+                            "code": "COS101",
+                            "unit": 3
+                        }
+                    }
                 },
                 "second semester": {
                     "total units": null,

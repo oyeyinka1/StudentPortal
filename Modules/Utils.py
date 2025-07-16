@@ -550,5 +550,36 @@ class Utils:
 
         return
 
+    """
+    delete faculty from files
+    """
+    def deleteFaculty(self, faculty):
+        paths = [
+            self.paths.get('courses'),
+            self.paths.get('faculties'),
+            self.paths.get('programmes'),
+            self.paths.get('tests_and_exams')
+        ]
+
+        for path in paths:
+            # check if file exists
+            if not os.path.exists(path):
+                continue
+
+            # load file content
+            with open(path, 'r') as file:
+                fileContent = file.read()
+                fileContent = json.loads(fileContent)
+
+            # delete school and write changes to gile if file not empty
+            if fileContent:
+                fileContent.pop(faculty)
+
+                # write to file
+                with open(path, 'w') as file:
+                    fileContent = json.dumps(fileContent, indent=4)
+                    file.write(fileContent)
+                
+
 # create class instance
 Utils = Utils()

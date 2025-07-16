@@ -22,3 +22,8 @@
 [ADMIN] - (root@root@fut.com) - (exported students list as PDF to /home/mceesquare/Documents/StudentPortal/Modules/Misc/students.pdf) on (16-July-2025) at (12:20 PM)
 [ADMIN] - (root@root@fut.com) - (exported students list as PDF to /home/mceesquare/Downloads/students_20250716_130847.pdf) on (16-July-2025) at (01:08 PM)
 [ADMIN] - (root@root@fut.com) - (unsuspended student 2025/1/49940ds (melvin enwerem)) on (16-July-2025) at (01:30 PM)
+[ADMIN] - (root@root@fut.com) - (added new faculty: school of engineering and electrical technology) on (16-July-2025) at (02:01 PM)
+[ADMIN] - (root@root@fut.com) - (added new department [mechatronics engineering] to faculty [seet]) on (16-July-2025) at (02:01 PM)
+[ADMIN] - (root@root@fut.com) - (added new faculty: school of life science) on (16-July-2025) at (02:04 PM)
+[ADMIN] - (root@root@fut.com) - (added new department [architecture] to faculty [sls]) on (16-July-2025) at (02:04 PM)
+[ADMIN] - (root@root@fut.com) - (removed faculty: sls from school) on (16-July-2025) at (02:04 PM)

@@ -1,3 +1,4 @@
+from Modules.User import User
 from Modules.Utils import Utils
 import hashlib
 from rich.console import Console
@@ -9,7 +10,7 @@ console = Console()
 """
 student class
 """
-class Student:
+class Student(User):
     """
     constructor function
     """
@@ -20,11 +21,8 @@ class Student:
             'view courses': self.viewCourses
         }
 
-        self.mainHandle = mainHandle
-        self.mainHandleDict = self.mainHandle.__dict__
-        self.command = self.mainHandleDict.get('command')
-        self.students = self.mainHandleDict.get('students')
-        self.admissionApplications = self.mainHandleDict.get('admissionApplications', {})
+        # call constructor of base class
+        super().__init__(mainHandle)
 
         # set login data if user is logged in
         self.studentInfo = None
@@ -78,12 +76,6 @@ class Student:
                 console.print("[red]\nInvalid Matriculation Number or Password[/red]\n")
         else:
             console.print("[red]\nInvalid Matriculation Number or Password[/red]\n")
-
-    """
-    log the current user out of the portal
-    """
-    def logout(self):
-        Utils.logout(self.mainHandle)
 
     """
     view first and second semester courses for current level
@@ -143,4 +135,3 @@ class Student:
 
         # print table
         console.print("\n", table, "\n")
-            

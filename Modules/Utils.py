@@ -21,6 +21,7 @@ class Utils:
             "courses": "./Modules/Storage/courses.json",
             "faculties": "./Modules/Storage/faculties.json",
             "programmes": "./Modules/Storage/programmes.json",
+            "admin_logs": "./Modules/Storage/admin_logs.json",
             "tests_and_exams": "./Modules/Storage/tests_and_exams.json",
             "states_and_cities": "./Modules/Misc/states_and_cities.json"
         }

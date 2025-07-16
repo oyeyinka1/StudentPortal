@@ -1,6 +1,7 @@
 from rich.console import Console
 from rich.table import Table
 import random, string, hashlib, datetime, re, json
+from Modules.User import User
 from Modules.Utils import Utils
 from Modules.Login import Login
 
@@ -12,7 +13,7 @@ console = Console()
 guest class to handle guest native commands
 """
 
-class Guest:
+class Guest(User):
     """
     constructor
     """
@@ -25,11 +26,8 @@ class Guest:
             'cancel application': self.cancelApplication,
         }
 
-        self.mainHandle = mainHandle
-        self.mainHandleDict = mainHandle.__dict__
-        self.loginCheck = self.mainHandleDict.get('loggedIn')
-        self.command = self.mainHandleDict.get('command')
-        self.admissionApplications = self.mainHandleDict.get('admissionApplications')
+        # call constructor of base class
+        super().__init__(mainHandle)
 
         # check if there is a logged in user and set user data
         if self.loginCheck:
@@ -448,13 +446,6 @@ class Guest:
         login = Login(self.mainHandle)
         login.loginGuest()
 
-
-    """
-    log the current user out of the portal
-    """
-    def logout(self):
-        Utils.logout(self.mainHandle)
-
     """
     refresh data if user is logged in
     """
@@ -487,9 +478,3 @@ class Guest:
             self.mainHandle.user = 'guest'
             self.mainHandle.loggedIn = True            
             self.mainHandle.prompt = f"[yellow]({userId.upper()})   [/yellow]"
-
-    """
-    unset values upon destruction
-    """
-    def __del__(self):
-        self.mainHandle.saveStorage()

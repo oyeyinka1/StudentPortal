@@ -1,5 +1,6 @@
 from tabulate import tabulate
 from collections import Counter
+from Modules.User import User
 from Modules.Utils import Utils
 from rich.console import Console
 import hashlib, datetime, os, random, csv, platform, subprocess, string, subprocess
@@ -17,7 +18,7 @@ console = Console()
 class to handle admin commands and \
 functionalities
 """
-class Admin:
+class Admin(User):
     """
     contructor function of class
     """
@@ -44,21 +45,8 @@ class Admin:
             'add course': self.addCourse
         }
 
-        self.levels = ['100', '200', '300', '400', '500']
-
-        self.paths = {
-            "db": "./Modules/Storage/db.json",
-            "courses": "./Modules/Storage/courses.json",
-            "faculties": "./Modules/Storage/faculties.json",
-            "programmes": "./Modules/Storage/programmes.json",
-            "tests_and_exams": "./Modules/Storage/tests_and_exams.json",
-            "states_and_cities": "./Modules/Misc/states_and_cities.json"
-        }
-
-        self.mainHandle = mainHandle
-        self.mainHandleDict = mainHandle.__dict__
-        self.command = self.mainHandleDict.get('command')
-        self.admissionApplications = self.mainHandleDict.get('admissionApplications')
+        # call constructor of base class
+        super().__init__(mainHandle)
 
         # set root admin if db file does not exist
         if not self.mainHandleDict.get('admins'):
@@ -180,7 +168,7 @@ class Admin:
         # return admin data
         return adminData
 
-        """
+    """
     add a new admin with priviledges
     """
     def addAdmin(self):
@@ -401,7 +389,7 @@ class Admin:
             # log admin action
             self.adminLog(f"rejected {applicantId}")
             
-            Utils.saveData("./Modules/Storage/db.json", self.mainHandleDict)
+            Utils.saveData(self.paths.get('db'), self.mainHandleDict)
 
             return True
 
@@ -575,9 +563,7 @@ class Admin:
         self.mainHandle.user = 'admin'
         self.mainHandle.loggedIn = True
         self.mainHandle.loggedInUser = admin
-        self.mainHandle.prompt = f"[red]({self.username}@admin):  [/red]"
-
-        
+        self.mainHandle.prompt = f"[red]({self.username}@admin):  [/red]"        
 
     """
     write admin action to the log file
@@ -587,7 +573,7 @@ class Admin:
         dateObject = datetime.datetime.now()
         date = dateObject.strftime("%d-%B-%Y")
         time = dateObject.strftime("%I:%M %p")
-        filepath = "./Modules/Storage/admin_logs.txt"
+        filepath = self.paths.get('admin_logs')
 
         # format message to be logged
         message = f"[ADMIN] - ({self.username}@{self.email})"\
@@ -602,7 +588,7 @@ class Admin:
     """
     def viewAdminLog(self):
         # check if log file exists
-        filepath = "./Modules/Storage/admin_logs.txt"
+        filepath = self.paths.get('admin_logs')
         checkFile = os.path.exists(filepath)
 
         if checkFile:
@@ -611,10 +597,6 @@ class Admin:
                 subprocess.run(['less', filepath], check=True)
             except:
                 console.print("[red]\nError loading logs!\n[/red]")
-
-            # with open(filepath, 'r') as file:
-            #     content = file.read()
-            #     print('\n', content, sep="")
         else:
             console.print("[yellow]Oops, no logs have "\
                           "been kept for admins quite yet[/yellow]")
@@ -625,7 +607,7 @@ class Admin:
     def viewMyLog(self):
         myActions = []
         myKey = f"{self.username}@{self.email}"
-        filepath = "./Modules/Storage/admin_logs.txt"
+        filepath = self.paths.get('admin_logs')
         checkFile = os.path.exists(filepath)
 
         if checkFile:
@@ -660,9 +642,8 @@ class Admin:
     view all students
     """
     def viewStudents(self):
-        students = self.mainHandleDict.get('students')
         # check if there are students
-        if not students:
+        if not self.students:
             console.print("\n[yellow]There are no students admitted yet![/yellow]\n")
             return
 
@@ -670,7 +651,7 @@ class Admin:
         table = []
         header = ["SN", "MATRIC NO.", "NAME", "COURSE", "EMAIL", "STATUS"]
 
-        for uid, student in students.items():
+        for uid, student in self.students.items():
             fullName = f"{student.get('firstName')} {student.get('lastName')}"
             status = "Suspended" if student.get('suspended') else "Active"
             table.append([
@@ -686,24 +667,18 @@ class Admin:
         print(tabulate(table, headers=header, tablefmt="grid"))
 
     """
-    put comment here
+    view school statistics
     """
     def schoolStats(self):
-        """
-        View school statistics
-        """
-        students = self.mainHandleDict.get('students', {})
-        print(students)
-
-        if not students:
+        if not self.students:
             console.print("\n[yellow]No student data available[/yellow]\n")
             return
 
-        totalStudents = len(students)
+        totalStudents = len(self.students)
         per_course = {}
         per_school = {}
 
-        for s in students.values():
+        for s in self.students.values():
             course = s.get('courseOfChoice')
             school = s.get('school')
 
@@ -718,7 +693,7 @@ class Admin:
                 per_school[school] = 1
 
         # loop through students and count course enrollments
-        for s in students.values():
+        for s in self.students.values():
             course = s.get('courseOfChoice')
             if course in per_course:
                 per_course[course] += 1
@@ -729,7 +704,7 @@ class Admin:
 
         console.print("\n[green]School Statistics[/green]\n")
         for school, count in per_school.items():
-            print(f"{school}: {count} student(s)\n")
+            print(f"{school.upper()}: {count} student(s)\n")
 
     """
     put comment here
@@ -749,9 +724,7 @@ class Admin:
     put comment here
     """
     def exportStudents(self):
-        students = self.mainHandleDict.get('students')
-
-        if not students:
+        if not self.students:
             console.print("\n[yellow]No students available to export.[/yellow]\n")
             return
 
@@ -773,14 +746,14 @@ class Admin:
             file_path = suggested_path
 
         if fileFormat == 'pdf':
-            self.exportStudentsAsPDF(students, file_path)
+            self.exportStudentsAsPDF(file_path)
         elif fileFormat == 'csv':
-            self.exportStudentsAsCSV(students, file_path)
+            self.exportStudentsAsCSV(file_path)
 
     """
     put comment here
     """
-    def exportStudentsAsPDF(self, students, filepath):
+    def exportStudentsAsPDF(self, filepath):
         try:
             doc = SimpleDocTemplate(
                 filepath,
@@ -812,7 +785,7 @@ class Admin:
                 "Admission Date"
             ]]
 
-            for index, student in enumerate(students.values(), 1):
+            for index, student in enumerate(self.students.values(), 1):
                 fullName = " ".join([
                     student.get("firstName", ""),
                     student.get("middleName", ""),
@@ -840,7 +813,7 @@ class Admin:
 
             elements.append(table)
             elements.append(Spacer(1,12))
-            elements.append(Paragraph(f"Total students: {len(students)}", styleSheet['Normal']))
+            elements.append(Paragraph(f"Total students: {len(self.students)}", styleSheet['Normal']))
 
             doc.build(elements)
 
@@ -854,7 +827,7 @@ class Admin:
     """
     put comment here
     """
-    def exportStudentsAsCSV(self, students, filepath):
+    def exportStudentsAsCSV(self, filepath):
         headers = [
             "Matric Number", 
             "First Name", 
@@ -871,7 +844,7 @@ class Admin:
                 writer = csv.DictWriter(csvfile, fieldnames=headers)
                 writer.writeheader()
 
-                for student in students.values():
+                for student in self.students.values():
                     writer.writerow({
                         "Matric Number": student.get("matricNo"),
                         "First Name": student.get("firstName"),
@@ -884,7 +857,7 @@ class Admin:
                     })
 
                 writer.writerow({})
-                writer.writerow({"Matric Number": f"Total Students: {len(students)}"})
+                writer.writerow({"Matric Number": f"Total Students: {len(self.students)}"})
 
             console.print(f"\n[green]SUCCESS[/green] Exported students to [blue]{filepath}[/blue]\n")
             self.adminLog(f"exported students list as CSV to {filepath}")
@@ -892,12 +865,6 @@ class Admin:
 
         except Exception as e:
             console.print(f"\n[red]ERROR[/red] Failed to export students: {e}\n")
-
-    """
-    log current admin out
-    """
-    def logout(self):
-        Utils.logout(self.mainHandle)
 
     """
     add a new school/faculty to school
@@ -1025,23 +992,21 @@ class Admin:
     expel a student
     """
     def expelStudent(self):
-        students = self.mainHandleDict.get('students')
-
-        if not students:
+        if not self.students:
             console.print("\n[yellow]No students to expel![/yellow]\n")
             return
 
         matricNo = input("Enter Matric Number of student to expel: ").strip()
 
-        if matricNo in students:
-            student = students[matricNo]
+        if matricNo in self.students:
+            student = self.students[matricNo]
             fullName = f"{student.get('firstName')} {student.get('lastName')}"
 
             console.print(f"\n[red bold]WARNING![/red bold] You are about to [red]EXPEL[/red] {fullName} (Matric No: {matricNo}).")
             confirm = input("Are you sure? Type 'yes' to confirm: ").strip().lower()
 
             if confirm == 'yes':
-                students.pop(matricNo)
+                self.students.pop(matricNo)
 
                 console.print(f"\n[red]Student {matricNo} has been expelled.[/red]\n")
                 self.adminLog(f"expelled student {matricNo} ({fullName})")
@@ -1054,16 +1019,14 @@ class Admin:
     suspend a student
     """
     def suspendStudent(self):
-        students = self.mainHandleDict.get('students')
-
-        if not students:
+        if not self.students:
             console.print("\n[yellow]No students to suspend![/yellow]\n")
             return
 
         matricNo = input("Enter Matric Number of student to suspend: ").strip().lower()
 
-        if matricNo in students:
-            student = students[matricNo]
+        if matricNo in self.students:
+            student = self.students[matricNo]
             student['suspended'] = True 
             console.print(f"\n[yellow]Student {matricNo.upper()} has been suspended.[/yellow]\n")
             self.adminLog(f"suspended student {matricNo} ({student.get('firstName')} {student.get('lastName')})")
@@ -1074,16 +1037,14 @@ class Admin:
     unsuspend a student
     """
     def unsuspendStudent(self):
-        students = self.mainHandleDict.get('students')
-
-        if not students:
+        if not self.students:
             console.print("\n[yellow]No students available![/yellow]\n")
             return
 
         matricNo = input("Enter Matric Number of student to unsuspend: ").strip().lower()
 
-        if matricNo in students:
-            student = students[matricNo]
+        if matricNo in self.students:
+            student = self.students[matricNo]
 
             if student.get('suspended'):
                 student['suspended'] = False

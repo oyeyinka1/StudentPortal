@@ -414,11 +414,12 @@ class Utils:
     check if entered department already exists
 
     @ depatment: department name to be checked
+    @verbose: return department key if false
 
     return false if it does not
     return error message if it does
     """
-    def checkDepartment(self, department):
+    def checkDepartment(self, department, verbose=True):
         path = self.paths.get('programmes')
         data = self.loadFromFile(path)
 
@@ -428,9 +429,19 @@ class Utils:
         for school, departments in data.items():
             for deptCode, deptInfo in departments.items():
                 if department == deptInfo.get('course code'):
+
+                    # dont return verbose message if verbose false
+                    if not verbose:
+                        return deptInfo.get('course code')
+
                     return "Department/Course code already exists!"
 
                 if department == deptInfo.get('course'):
+
+                    # dont return verbose message if verbose false
+                    if not verbose:
+                        return deptInfo.get('course code')
+
                     return "Department already exists!"
 
         return False
@@ -572,14 +583,48 @@ class Utils:
                 fileContent = json.loads(fileContent)
 
             # delete school and write changes to gile if file not empty
-            if fileContent:
+            if fileContent and fileContent.get(faculty):
                 fileContent.pop(faculty)
 
                 # write to file
                 with open(path, 'w') as file:
                     fileContent = json.dumps(fileContent, indent=4)
                     file.write(fileContent)
-                
+
+    """
+    delete department from files
+    """
+    def deleteDepartment(self, department):
+        paths = [
+            self.paths.get('courses'),
+            self.paths.get('programmes'),
+            self.paths.get('tests_and_exams')
+        ]
+
+        for path in paths:
+            # check if file exists
+            if not os.path.exists(path):
+                continue
+
+            # load file content
+            with open(path, 'r') as file:
+                fileContent = file.read()
+                fileContent = json.loads(fileContent)
+
+            # delete school and write changes to gile if file not empty
+            if fileContent:
+                for key, value in fileContent.items():
+                    if not value:
+                        continue
+
+                    if department in value.keys():
+                        fileContent[key].pop(department)
+
+                # write to file
+                with open(path, 'w') as file:
+                    fileContent = json.dumps(fileContent, indent=4)
+                    file.write(fileContent)
+
 
 # create class instance
 Utils = Utils()

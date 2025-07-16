@@ -27,3 +27,8 @@
 [ADMIN] - (root@root@fut.com) - (added new faculty: school of life science) on (16-July-2025) at (02:04 PM)
 [ADMIN] - (root@root@fut.com) - (added new department [architecture] to faculty [sls]) on (16-July-2025) at (02:04 PM)
 [ADMIN] - (root@root@fut.com) - (removed faculty: sls from school) on (16-July-2025) at (02:04 PM)
+[ADMIN] - (root@root@fut.com) - (removed department: dss from school) on (16-July-2025) at (02:22 PM)
+[ADMIN] - (root@root@fut.com) - (removed department: swe from school) on (16-July-2025) at (02:22 PM)
+[ADMIN] - (root@root@fut.com) - (added new faculty: school of life science) on (16-July-2025) at (02:23 PM)
+[ADMIN] - (root@root@fut.com) - (added new department [physics] to faculty [sls]) on (16-July-2025) at (02:23 PM)
+[ADMIN] - (root@root@fut.com) - (removed faculty: sls from school) on (16-July-2025) at (02:23 PM)

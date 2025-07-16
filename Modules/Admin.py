@@ -43,7 +43,8 @@ class Admin(User):
             'suspend student': self.suspendStudent,
             'unsuspend student': self.unsuspendStudent,
             'add course': self.addCourse,
-            'remove school': self.removeSchool
+            'remove school': self.removeSchool,
+            'remove department': self.removeDepartment
         }
 
         # call constructor of base class
@@ -1295,6 +1296,30 @@ class Admin(User):
 
         # write to admin log
         self.adminLog(f"removed faculty: {schoolName} from school")
+
+        # print success message
+        console.print(f"\n[green bold]SUCCESS[/green bold]\nOperations Completed!\n")
+
+    """
+    remove department
+    """
+    def removeDepartment(self):
+        department = Utils.cleanString(input("Enter Department Name: ")).lower()
+
+        # check if faculty/school exists
+        checkDepartment = Utils.checkDepartment(department, False)
+
+        if not checkDepartment:
+            console.print("\n[red bold]ERROR[/red bold]\n"\
+                          f"Entered department {department.upper()} doesn't exist!\n")
+            return
+
+        # delete school from all records
+        department = checkDepartment
+        Utils.deleteDepartment(department)
+
+        # write to admin log
+        self.adminLog(f"removed department: {department} from school")
 
         # print success message
         console.print(f"\n[green bold]SUCCESS[/green bold]\nOperations Completed!\n")

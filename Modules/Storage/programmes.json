@@ -4,16 +4,6 @@
             "cut off": 200,
             "course code": "css",
             "course": "cyber security science"
-        },
-        "swe": {
-            "cut off": 180,
-            "course code": "swe",
-            "course": "software engineering"
-        },
-        "dss": {
-            "cut off": 180,
-            "course code": "dss",
-            "course": "data science"
         }
     }
 }

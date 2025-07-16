@@ -229,7 +229,8 @@ class Shell:
                 'suspend student': True,
                 'unsuspend student': True,
                 'add course': True,
-                'remove school': True
+                'remove school': True,
+                'remove department': True
             },
             'student': {
                 'logout': True,

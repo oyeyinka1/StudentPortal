@@ -107,7 +107,7 @@ class Admin:
             
         # get and validate first name
         while True:
-            firstname = input("Enter First Name: ").title()
+            firstname = input("Enter First Name: ").lower()
             check = Utils.validateName(firstname)
 
             if check:
@@ -117,7 +117,7 @@ class Admin:
 
         # get and validate last name
         while True:
-            lastname = input("Enter Last Name: ").title()
+            lastname = input("Enter Last Name: ").lower()
             check = Utils.validateName(lastname)
 
             if check:
@@ -128,7 +128,7 @@ class Admin:
         # get and validate email
         while True:
             email = input("Enter Email: ")
-            email = Utils.cleanString(email)
+            email = Utils.cleanString(email).lower()
 
             if Utils.isValidEmail(email):
                 if email in adminEmails:
@@ -143,7 +143,7 @@ class Admin:
         # get and validate username
         while True:
             username = input("Enter Username: ")
-            username = Utils.cleanString(username)
+            username = Utils.cleanString(username).lower()
             check = Utils.validateUsername(username)
 
             if check:
@@ -190,7 +190,7 @@ class Admin:
             return
 
         # get info of new admin
-        adminData = [x.lower() for x in self.getAdminData()]
+        adminData = self.getAdminData()
 
         # new admin dictionary
         admin = {
@@ -285,9 +285,9 @@ class Admin:
             self.mainHandleDict['students'].update({matric: student})
                 
             # print success message
-            console.print(f"\n[green]SUCCESS[/green]\n{applicantInfo.get('firstName')} "\
-                          f"{applicantInfo.get('lastName')} has been admitted successfully!\n"
-                          f"Matric No: {matric}\n")
+            console.print(f"\n[green]SUCCESS[/green]\n{applicantInfo.get('firstName').title()} "\
+                          f"{applicantInfo.get('lastName').title()} has been admitted successfully!\n"
+                          f"Matric No: {matric.upper()}\n")
 
             # log admin action
             self.adminLog(f"admitted {applicantId} "\
@@ -299,12 +299,17 @@ class Admin:
     admit student
     """
     def admitStudent(self):
+        check = False
         modeList = ['single', 'batch', 'all']
 
         # check if there are current admission applications
-        if not self.admissionApplications:
-            console.print("\n[yellow]INFO[/yellow]\nThere"\
-                          " are no applications currently!\n")
+        for key, value in self.admissionApplications.items():
+            if value.get('applicationStatus') == 'pending':
+                check = True
+                break
+
+        if not check:
+            console.print("\n[yellow]INFO[/yellow]\nThere are no pending applications!\n")
             return
 
         # print mode of admission
@@ -670,9 +675,9 @@ class Admin:
             status = "Suspended" if student.get('suspended') else "Active"
             table.append([
                 sn,
-                student.get('matricNo'),
-                fullName,
-                student.get('department'),
+                student.get('matricNo').upper(),
+                fullName.title(),
+                student.get('department').title(),
                 student.get('email'),
                 status
             ])
@@ -688,6 +693,7 @@ class Admin:
         View school statistics
         """
         students = self.mainHandleDict.get('students', {})
+        print(students)
 
         if not students:
             console.print("\n[yellow]No student data available[/yellow]\n")
@@ -811,14 +817,14 @@ class Admin:
                     student.get("firstName", ""),
                     student.get("middleName", ""),
                     student.get("lastName", "")
-                ]).strip()
+                ]).strip().title()
                 row = ([
                     index,
-                    student.get("matricNo"),
+                    student.get("matricNo").upper(),
                     fullName,
                     student.get("email"),
-                    student.get("department"),
-                    student.get("school"),
+                    student.get("department").title(),
+                    student.get("school").upper(),
                     student.get("admissionDate"),
                 ])
                 data.append(row)
@@ -1054,12 +1060,12 @@ class Admin:
             console.print("\n[yellow]No students to suspend![/yellow]\n")
             return
 
-        matricNo = input("Enter Matric Number of student to suspend: ").strip()
+        matricNo = input("Enter Matric Number of student to suspend: ").strip().lower()
 
         if matricNo in students:
             student = students[matricNo]
             student['suspended'] = True 
-            console.print(f"\n[yellow]Student {matricNo} has been suspended.[/yellow]\n")
+            console.print(f"\n[yellow]Student {matricNo.upper()} has been suspended.[/yellow]\n")
             self.adminLog(f"suspended student {matricNo} ({student.get('firstName')} {student.get('lastName')})")
         else:
             console.print(f"\n[yellow]No student found with Matric No {matricNo}[/yellow]\n")
@@ -1074,19 +1080,19 @@ class Admin:
             console.print("\n[yellow]No students available![/yellow]\n")
             return
 
-        matricNo = input("Enter Matric Number of student to unsuspend: ").strip()
+        matricNo = input("Enter Matric Number of student to unsuspend: ").strip().lower()
 
         if matricNo in students:
             student = students[matricNo]
 
             if student.get('suspended'):
                 student['suspended'] = False
-                console.print(f"\n[green]Student {matricNo} has been unsuspended.[/green]\n")
+                console.print(f"\n[green]Student {matricNo.upper()} has been unsuspended.[/green]\n")
                 self.adminLog(f"unsuspended student {matricNo} ({student.get('firstName')} {student.get('lastName')})")
             else:
-                console.print(f"\n[yellow]Student {matricNo} is not suspended.[/yellow]\n")
+                console.print(f"\n[yellow]Student {matricNo.upper()} is not suspended.[/yellow]\n")
         else:
-            console.print(f"\n[yellow]No student found with Matric No {matricNo}[/yellow]\n")
+            console.print(f"\n[yellow]No student found with Matric No {matricNo.upper()}[/yellow]\n")
 
     """
     add a new course to a faculty or department

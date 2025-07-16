@@ -24,6 +24,7 @@ class Student:
         self.mainHandleDict = self.mainHandle.__dict__
         self.command = self.mainHandleDict.get('command')
         self.students = self.mainHandleDict.get('students')
+        self.admissionApplications = self.mainHandleDict.get('admissionApplications', {})
 
         # set login data if user is logged in
         self.studentInfo = None
@@ -45,7 +46,7 @@ class Student:
     """
     def login(self):
         matric = input("Enter your matriculation number: ")
-        matric = Utils.cleanString(matric)
+        matric = Utils.cleanString(matric).lower()
 
         password = input("Enter your password: ")
         password = Utils.cleanString(password)
@@ -54,11 +55,16 @@ class Student:
         if matric in self.students.keys():
             self.studentInfo = self.students.get(matric)
 
+            # check if user is still in admission applications and has not setup student account
+            if self.studentInfo.get('applicationId') in self.admissionApplications.keys():
+                console.print("\n[red]ERROR[/red]\nYou must FIRST setup your student account!\n")
+                return
+
             if hashedPassword == self.studentInfo['password']:
                 # Set login data in main handle
                 self.mainHandleDict['loggedIn'] = True
                 self.mainHandleDict['user'] = 'student'
-                self.mainHandle.prompt = f"[purple]({matric})   [/purple]"
+                self.mainHandle.prompt = f"[purple]({matric.upper()})   [/purple]"
 
                 console.print(f"[green]\n<< Welcome back, {self.studentInfo['firstName']}! >>\n[/green]")
 
@@ -114,11 +120,11 @@ class Student:
 
         # parse all sem 1 courses
         for key, value in sem1.items():
-            coursesSem1.append(f"{key.upper()} | [purple]{value} Units[/purple]")
+            coursesSem1.append(f"{value.get('code').upper()} | [purple]{value.get('unit')} Units[/purple]")
 
         # parse all sem 2 courses
         for key, value in sem2.items():
-            coursesSem2.append(f"{key.upper()} | [purple]{value} Units[/purple]")
+            coursesSem2.append(f"{value.get('code').upper()} | [purple]{value.get('unit')} Units[/purple]")
 
         # make table length equal for both courses
         if len(coursesSem1) < len(coursesSem2):

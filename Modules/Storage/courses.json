@@ -3,20 +3,36 @@
         "css": {
             "100": {
                 "first semester": {
-                    "total units": 2,
-                    "total courses": 1,
+                    "total units": 7,
+                    "total courses": 3,
                     "courses": {
                         "gst111": {
                             "name": "communication in english",
                             "code": "gst111",
                             "unit": 2
+                        },
+                        "mth101": {
+                            "name": "general mathematics",
+                            "code": "mth101",
+                            "unit": 3
+                        },
+                        "phy101": {
+                            "name": "elementary physics",
+                            "code": "phy101",
+                            "unit": 2
                         }
                     }
                 },
                 "second semester": {
-                    "total units": null,
-                    "total courses": null,
-                    "courses": {}
+                    "total units": 3,
+                    "total courses": 1,
+                    "courses": {
+                        "cos102": {
+                            "name": "introduction to problem solving",
+                            "code": "cos102",
+                            "unit": 3
+                        }
+                    }
                 }
             },
             "200": {
@@ -66,20 +82,36 @@
         "swe": {
             "100": {
                 "first semester": {
-                    "total units": 2,
-                    "total courses": 1,
+                    "total units": 7,
+                    "total courses": 3,
                     "courses": {
                         "gst111": {
                             "name": "communication in english",
                             "code": "gst111",
                             "unit": 2
+                        },
+                        "mth101": {
+                            "name": "general mathematics",
+                            "code": "mth101",
+                            "unit": 3
+                        },
+                        "phy101": {
+                            "name": "elementary physics",
+                            "code": "phy101",
+                            "unit": 2
                         }
                     }
                 },
                 "second semester": {
-                    "total units": null,
-                    "total courses": null,
-                    "courses": {}
+                    "total units": 3,
+                    "total courses": 1,
+                    "courses": {
+                        "cos102": {
+                            "name": "introduction to problem solving",
+                            "code": "cos102",
+                            "unit": 3
+                        }
+                    }
                 }
             },
             "200": {
@@ -129,20 +161,36 @@
         "dss": {
             "100": {
                 "first semester": {
-                    "total units": 2,
-                    "total courses": 1,
+                    "total units": 7,
+                    "total courses": 3,
                     "courses": {
                         "gst111": {
                             "name": "communication in english",
                             "code": "gst111",
                             "unit": 2
+                        },
+                        "mth101": {
+                            "name": "general mathematics",
+                            "code": "mth101",
+                            "unit": 3
+                        },
+                        "phy101": {
+                            "name": "elementary physics",
+                            "code": "phy101",
+                            "unit": 2
                         }
                     }
                 },
                 "second semester": {
-                    "total units": null,
-                    "total courses": null,
-                    "courses": {}
+                    "total units": 3,
+                    "total courses": 1,
+                    "courses": {
+                        "cos102": {
+                            "name": "introduction to problem solving",
+                            "code": "cos102",
+                            "unit": 3
+                        }
+                    }
                 }
             },
             "200": {

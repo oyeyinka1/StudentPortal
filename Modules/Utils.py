@@ -1,5 +1,6 @@
 import json, re, hashlib, string, os
 from rich.console import Console
+from rich.table import Table
 
 # create object instance of console
 console = Console()
@@ -15,13 +16,20 @@ class Utils:
     constructor function
     """
     def __init__(self):
-        pass
+        self.paths = {
+            "db": "./Modules/Storage/db.json",
+            "courses": "./Modules/Storage/courses.json",
+            "faculties": "./Modules/Storage/faculties.json",
+            "programmes": "./Modules/Storage/programmes.json",
+            "tests_and_exams": "./Modules/Storage/tests_and_exams.json",
+            "states_and_cities": "./Modules/Misc/states_and_cities.json"
+        }
 
     """
     load available programmes in the university
     """
     def loadProgrammes(self):
-        path = "./Modules/Misc/programmes.json"
+        path = self.paths.get('programmes')
         retVal = self.loadFromFile(path)
 
         # return content of function call
@@ -31,7 +39,7 @@ class Utils:
     load courses for given department and level
     """
     def loadCourses(self, studentInfo=None):
-        path = "./Modules/Misc/courses.json"
+        path = self.paths.get('courses')
         retVal = self.loadFromFile(path)
 
         if studentInfo:
@@ -49,7 +57,7 @@ class Utils:
     load states and cities in Nigeria
     """
     def loadStates(self, key=None):
-        path = "./Modules/Misc/states-and-cities.json"
+        path = self.paths.get('states_and_cities')
         retVal = self.loadFromFile(path)
 
         if key:
@@ -84,7 +92,7 @@ class Utils:
     """
     def ensureUniqueEmail(self, email):
         
-        dataBase = self.loadFromFile("./Modules/Storage/db.json")
+        dataBase = self.loadFromFile(self.paths.get('db'))
 
         if not dataBase:
             return
@@ -109,6 +117,12 @@ class Utils:
     """
     def viewProgrammes(self):
         programInfo = self.loadProgrammes()
+
+        # check if file is programme was loaded
+        if not programInfo:
+            console.print("[yellow]There are no programmes yet![/yellow]")
+            return
+
         schools = programInfo.keys()
 
         print("\nHere's a list of available programmes:")
@@ -120,7 +134,7 @@ class Utils:
             school = programInfo.get(x)
 
             # print school/faculty name
-            console.print(f"\n[green]{x}[/green]")
+            console.print(f"\n[green]{x.upper()}[/green]")
 
             for y in school:
                 # get department dict
@@ -131,7 +145,7 @@ class Utils:
                 courseCode = dept.get('course code')
 
                 # print departments in the school
-                print(f"\t\t\t({courseCode}) - {deptName}")
+                print(f"\t\t\t({courseCode.upper()}) - {deptName.title()}")
 
     """
     create root admin
@@ -264,7 +278,7 @@ class Utils:
     def saveSchool(self, schoolName, initials):
         check = False
         fileContent = None
-        path = "./Modules/Storage/faculties.json"
+        path = self.paths.get('faculties')
 
         # check if school/faculty already exists
         if os.path.exists(path):
@@ -334,15 +348,19 @@ class Utils:
     def updateFaculties(self, faculty):
         # file paths of files to be updated
         paths = [
-            "./Modules/Misc/courses.json",
-            "./Modules/Misc/programmes.json",
-            "./Modules/Storage/tests_and_exams.json"
+            self.paths.get('courses'),
+            self.paths.get('programmes'),
+            self.paths.get('tests_and_exams')
         ]
 
         facultyName = faculty
         faculty = {faculty: {}}
 
         for path in paths:
+            # initialize file content
+            fileContent = {}
+            fileContent.update(faculty)
+            
             if os.path.exists(path):
                 # read and update file content
                 with open(path, 'r') as file:
@@ -354,20 +372,23 @@ class Utils:
 
                     fileContent.update(faculty)
 
-                # write changes to file
-                with open(path, 'w') as file:
-                    fileContent = json.dumps(fileContent, indent=4)
-                    file.write(fileContent)
+            # write changes to file
+            with open(path, 'w') as file:
+                fileContent = json.dumps(fileContent, indent=4)
+                file.write(fileContent)
 
     """
     check if given school/faculty exists
     """
     def checkFaculty(self, faculty):
-        path = "./Modules/Storage/faculties.json"
+        path = self.paths.get('faculties')
         faculties = self.loadFromFile(path)
 
+        if not faculties:
+            return
+
         for key, value in faculties.items():
-            if faculty.upper() == key or faculty.title() == value:
+            if faculty == key or faculty == value:
                 return key
 
         return
@@ -376,16 +397,17 @@ class Utils:
     view available faculties in the school
     """
     def viewFaculties(self):
-        path = "./Modules/Storage/faculties.json"
+        path = self.paths.get('faculties')
         faculties = self.loadFromFile(path)
+        table = Table(title="Available Faculties")
 
         if faculties:
-            console.print("\n[underline]Available Faculties[/underline]\n")
-            
-            for key, value in faculties.items():
-                console.print(f"\t[purple underline]({key})[/purple underline] - ({value})")
+            table.add_column("___")
 
-            print()
+            for key, value in faculties.items():
+                table.add_row(key.upper(), value.title())
+
+            console.print("\n", table, "\n")
 
     """
     check if entered department already exists
@@ -396,7 +418,7 @@ class Utils:
     return error message if it does
     """
     def checkDepartment(self, department):
-        path = "./Modules/Misc/programmes.json"
+        path = self.paths.get('programmes')
         data = self.loadFromFile(path)
 
         if not data:
@@ -434,7 +456,7 @@ class Utils:
     @deptCutOff: cut off mark for new department to be added
     """
     def addDepartment(self, faculty, deptName, deptCode, deptCutOff):
-        path = "./Modules/Misc/programmes.json"
+        path = self.paths.get('programmes')
         programmes = self.loadFromFile(path)
 
         if programmes:
@@ -450,14 +472,14 @@ class Utils:
 
             # print success  message
             console.print("\n[green]SUCCESS[/green]\n\nAdded department with info:\n"\
-                          f"Name: {deptName}\nCode: {deptCode}\nCut off mark: {deptCutOff}\n"\
-                          f"School: {faculty}\n")
+                          f"Name: {deptName.title()}\nCode: {deptCode.upper()}\nCut off mark: {deptCutOff}\n"\
+                          f"School: {faculty.upper()}\n")
 
             # update other storage files with new department
 
             # --- start update for courses.json
 
-            path = "./Modules/Misc/courses.json"
+            path = self.paths.get('courses')
 
             deptInfo = {}
 
@@ -510,6 +532,22 @@ class Utils:
 
             # --- start update for tests_and_exams.json
             # --- end update for tests_and_exams.json
+
+    """
+    check if a given shcool/faculty is empty
+    """
+    def checkNotEmptyFaculty(self, faculty=None):
+        if not faculty:
+            return
+
+        path = self.paths.get('courses')
+        courses = self.loadFromFile(path)
+
+        if faculty in courses.keys():
+            if not courses.get(faculty):
+                return True
+
+        return
 
 # create class instance
 Utils = Utils()

@@ -46,6 +46,15 @@ class Admin:
 
         self.levels = ['100', '200', '300', '400', '500']
 
+        self.paths = {
+            "db": "./Modules/Storage/db.json",
+            "courses": "./Modules/Storage/courses.json",
+            "faculties": "./Modules/Storage/faculties.json",
+            "programmes": "./Modules/Storage/programmes.json",
+            "tests_and_exams": "./Modules/Storage/tests_and_exams.json",
+            "states_and_cities": "./Modules/Misc/states_and_cities.json"
+        }
+
         self.mainHandle = mainHandle
         self.mainHandleDict = mainHandle.__dict__
         self.command = self.mainHandleDict.get('command')
@@ -181,7 +190,7 @@ class Admin:
             return
 
         # get info of new admin
-        adminData = self.getAdminData()
+        adminData = [x.lower() for x in self.getAdminData()]
 
         # new admin dictionary
         admin = {
@@ -891,7 +900,7 @@ class Admin:
         # get full name of school
         while True:
             schoolName = input("Enter full name of school/faculty: ")
-            schoolName = Utils.cleanString(schoolName).title()
+            schoolName = Utils.cleanString(schoolName).lower()
             check = False
 
             # check for valid school name
@@ -904,16 +913,26 @@ class Admin:
             if not check:
                 break
 
+        # check if school already exists
+        if Utils.checkFaculty(schoolName):
+            console.print(f"\nSchool [yellow italic]{schoolName.title()}[/yellow italic] already exists!\n")
+            return
+
         # get school initials
         while True:
             initials = input("Enter initials for school: ")
-            initials = Utils.cleanString(initials).upper()
+            initials = Utils.cleanString(initials).lower()
             check = Utils.validateName(initials)
 
             if check:
                 console.print(f"[red]{check}[/red]")
             else:
                 break
+
+        # check if school already exists
+        if Utils.checkFaculty(initials):
+            console.print(f"\nSchool with initials: [yellow]{initials.upper()}[/yellow] already exists!\n")
+            return
 
         # save school/faculty to dictionary
         Utils.saveSchool(schoolName, initials)
@@ -927,7 +946,7 @@ class Admin:
     def addDepartment(self):
         # get faculty/school name to add department under
         schoolName = input("Enter name of parent Faculty: ")
-        schoolName = Utils.cleanString(schoolName).upper()
+        schoolName = Utils.cleanString(schoolName).lower()
 
         # check if entered school exists
         faculty = Utils.checkFaculty(schoolName)
@@ -954,7 +973,7 @@ class Admin:
             # get full department name
             while True:
                 deptName = input("Enter full department name: ")
-                deptName = Utils.cleanString(deptName).title()
+                deptName = Utils.cleanString(deptName).lower()
                 check = Utils.checkDepartment(deptName)
 
                 if check:
@@ -965,7 +984,7 @@ class Admin:
             # get department/course code
             while True:
                 deptCode = input("Enter department/course code: ")
-                deptCode = Utils.cleanString(deptCode).upper()
+                deptCode = Utils.cleanString(deptCode).lower()
                 check = Utils.checkDepartment(deptCode)
 
                 if check:
@@ -1073,7 +1092,7 @@ class Admin:
     add a new course to a faculty or department
     """
     def addCourse(self):
-        department = None
+        department = subtractUnits = None
 
         # print options
         console.print(
@@ -1097,13 +1116,18 @@ class Admin:
             school = Utils.cleanString(input("Enter school: "))
             checkFaculty = Utils.checkFaculty(school)
             if checkFaculty:
-                school = checkFaculty
+                school = checkFaculty.lower()
                 break
             console.print("[yellow]Invalid faculty entered![/yellow]")
 
+        # end execution if school has no departments
+        if Utils.checkNotEmptyFaculty(school):
+            console.print("\n[red]There are no current departments in chosen faculty![/red]\n")
+            return
+
         # ask for department if chosen option is 2
         while True and option == '2':
-            department = Utils.cleanString(input("Enter department: ")).upper()
+            department = Utils.cleanString(input("Enter department: ")).lower()
             if Utils.checkDepartment(department):
                 break
             console.print("[yellow]Invalid department entered![/yellow]")
@@ -1118,6 +1142,7 @@ class Admin:
         # get semester to set course for
         if level == '400':
             semester = 'first semester'
+            console.print("\nSemester: (first)\n")
         else:
             console.print("\nSemesters: (first, second)\n")
             while True:
@@ -1139,10 +1164,56 @@ class Admin:
 
         # get course name
         while True:
-            courseName = Utils.cleanString(input("Enter full course name: "))
-            if courseName:
-                break
+            courseName = Utils.cleanString(input("Enter full course name: ")).lower()
 
+            if courseName:
+                if department:
+                    # check if course exists and prompt to overwrite
+                    checkCourse = courses[school][department][level][semester]['courses']
+
+                    for key, value in checkCourse.items():
+                        if courseName == value.get('name'):
+                            console.print(f"\n[yellow]Course {courseName.title()} already exists![/yellow]")
+
+                            while True:
+                                confirm = input("Continue to overwrite (Yes | No)?  ").lower()
+
+                                if confirm == "no":
+                                    console.print("[red]Operation Aborted![/red]")
+                                    return
+                                elif confirm == 'yes':
+                                    popCourseCode = courses[school][department][level][semester]['courses'][courseName]['code']
+                                    subtractUnits = courses[school][department][level][semester]['courses'][courseName]['unit']
+                                    break
+                                else:
+                                    console.print("[red]Invalid Input![/red]")
+                            break
+                else:
+                    # loop through departments and check for a duplicate course
+                    for key, value in courses[school].items():
+                        for key, value in value[level][semester]['courses'].items():
+                            if courseName == value.get('name'):
+                                console.print(f"\n[yellow]Course {courseName.title()} already exists![/yellow]")
+
+                                while True:
+                                    confirm = input("Continue to overwrite (Yes | No)?  ").lower()
+
+                                    if confirm == "no":
+                                        console.print("[red]Operation Aborted![/red]")
+                                        return
+                                    elif confirm == 'yes':
+                                        popCourseCode = value.get('code')
+                                        subtractUnits = value.get('unit')
+                                        break
+                                    else:
+                                        console.print("[red]Invalid Input![/red]")
+                                break
+
+                        # break outer loop if subtractUnits is set
+                        if subtractUnits:
+                            break
+                break
+                            
         # get course code
         while True:
             courseCode = Utils.cleanString(input("Enter Course code: ")).lower()
@@ -1181,6 +1252,13 @@ class Admin:
                 courses[school][department][level][semester]['total courses'] = 1
             else:
                 courses[school][department][level][semester]['total courses'] += 1
+
+            # check if course already exists and subtract its units and total
+            if subtractUnits:
+                courses[school][department][level][semester]['total units'] -= subtractUnits
+                courses[school][department][level][semester]['total courses'] -= 1
+                courses[school][department][level][semester]['courses'].pop(popCourseCode)
+
         else:
             for key, value in courses[school].items():
                 value[level][semester]['courses'].update(newCourse)
@@ -1197,16 +1275,34 @@ class Admin:
                 else:
                     value[level][semester]['total courses'] += 1
 
+                # check if course already exists and subtract its units and total
+                if subtractUnits:
+                    value[level][semester]['total units'] -= subtractUnits
+                    value[level][semester]['total courses'] -= 1
+                    value[level][semester]['courses'].pop(popCourseCode)
+
         # save changes to file
-        Utils.writeToFile("./Modules/Misc/courses.json", courses)
+        Utils.writeToFile(self.paths.get('courses'), courses)
 
         # save to admin log
         if department:
             message = f"added Course: {courseCode} to "\
                 f"Faculty: {school} | Department: {department} | Level: {level}"
+            departmentInfo = department
         else:
             message = f"added Course: {courseCode} to "\
                 f"all departments in School: {school} and Level: {level}"
+            departmentInfo = "all"
 
         self.adminLog(message)
             
+
+        # print success message
+        console.print(
+            f"\n[green bold]SUCCESS[/green bold]\n\n"\
+            f"Added new course [yellow]{courseName.title()}[/yellow]\n"\
+            f"To school: [yellow]{school.upper()}[/yellow]\n"\
+            f"To department: [yellow]{departmentInfo.upper()}[/yellow]\n"\
+            f"Level: [yellow]{level}[/yellow]\n"\
+            f"Semester: [yellow]{semester.title()}[/yellow]\n"
+        )

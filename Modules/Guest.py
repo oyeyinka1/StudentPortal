@@ -292,7 +292,7 @@ class Guest:
 
         # get and check first name
         while True:
-            firstName = input("Enter your First Name: ").strip()
+            firstName = input("Enter your First Name: ").strip().title()
             check = Utils.validateName(firstName)
 
             if check:
@@ -303,7 +303,7 @@ class Guest:
 
         # get and check last name
         while True:
-            lastName = input("Enter your Last name: ").strip()
+            lastName = input("Enter your Last name: ").strip().title()
             check = Utils.validateName(lastName)
 
             if check:
@@ -314,7 +314,7 @@ class Guest:
 
         # get and check middle name
         while True:
-            middleName = input("Enter your Middle name: ").strip()
+            middleName = input("Enter your Middle name: ").strip().title()
 
             if middleName == "":
                 middleName = None
@@ -333,7 +333,7 @@ class Guest:
         # validate email
         while not Utils.isValidEmail(email):
             print("Invalid email address. Please enter a valid email.")
-            email = input("Enter your email address: ").strip()
+            email = input("Enter your email address: ").strip().lower()
         
         # ensure email is unique
         Utils.ensureUniqueEmail(email)
@@ -347,8 +347,8 @@ class Guest:
         for state in self.states:
             console.print(f"\t- {state}")
 
-        stateOfOrigin = self.getValidState("Enter your State of Origin: ")
-        stateOfResidence = self.getValidState("Enter your State of Residence: ")
+        stateOfOrigin = self.getValidState("Enter your State of Origin: ").lower()
+        stateOfResidence = self.getValidState("Enter your State of Residence: ").lower()
 
         # collect and validate date of birth
         while True:
@@ -398,8 +398,8 @@ class Guest:
 
         # cast application date to str to pass json serialization
         applicationDate = datetime.datetime.now()
-        school = self.chosenCourseInfo.get('school')
-        courseCode = self.chosenCourseInfo.get('course code')
+        school = self.chosenCourseInfo.get('school').lower()
+        courseCode = self.chosenCourseInfo.get('course code').lower()
 
         userApplication = {
             id: {

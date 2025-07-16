@@ -1,0 +1,194 @@
+{
+    "sict": {
+        "css": {
+            "100": {
+                "first semester": {
+                    "total units": 2,
+                    "total courses": 1,
+                    "courses": {
+                        "gst111": {
+                            "name": "communication in english",
+                            "code": "gst111",
+                            "unit": 2
+                        }
+                    }
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "200": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "300": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "400": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "500": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            }
+        },
+        "swe": {
+            "100": {
+                "first semester": {
+                    "total units": 2,
+                    "total courses": 1,
+                    "courses": {
+                        "gst111": {
+                            "name": "communication in english",
+                            "code": "gst111",
+                            "unit": 2
+                        }
+                    }
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "200": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "300": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "400": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "500": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            }
+        },
+        "dss": {
+            "100": {
+                "first semester": {
+                    "total units": 2,
+                    "total courses": 1,
+                    "courses": {
+                        "gst111": {
+                            "name": "communication in english",
+                            "code": "gst111",
+                            "unit": 2
+                        }
+                    }
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "200": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "300": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "400": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "500": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            }
+        }
+    },
+    "sps": {}
+}

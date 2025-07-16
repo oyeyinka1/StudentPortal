@@ -41,7 +41,10 @@ class Admin:
             'expel student': self.expelStudent,
             'suspend student': self.suspendStudent,
             'unsuspend student': self.unsuspendStudent,
-            'add course': self.addCourse
+            'add course': self.addCourse,
+            'bulk expel': self.bulkExpelStudents,
+            'bulk suspend': self.bulkSuspendStudents,
+            'bulk unsuspend': self.bulkUnsuspendStudents
         }
 
         self.levels = ['100', '200', '300', '400', '500']
@@ -1045,6 +1048,46 @@ class Admin:
             console.print(f"\n[yellow]No student found with Matric No {matricNo}[/yellow]\n")
 
     """
+    bulk expel
+    """
+    def bulkExpelStudents(self):
+        students = self.mainHandleDict.get('students')
+        if not students:
+            console.print("\n[yellow]No students available![/yellow]\n")
+            return
+
+        file_path = Utils.promptFileSelection()
+        if not file_path:
+            return
+
+        matric_nos = Utils.extractMatricNumbers(file_path)
+        if not matric_nos:
+            console.print("[red]No valid matric numbers found in the file.[/red]")
+            return
+
+        expelled, not_found = [], []
+
+        for matric in matric_nos:
+            if matric in students:
+                student = students.pop(matric)
+                expelled.append((matric, f"{student.get('firstName')} {student.get('lastName')}"))
+                self.adminLog(f"bulk expelled student {matric} ({student.get('firstName')} {student.get('lastName')})")
+            else:
+                not_found.append(matric)
+
+
+        if expelled:
+            console.print("\n[red bold]Expelled Students:[/red bold]")
+            for m, name in expelled:
+                console.print(f"[red]{m} - {name}[/red]")
+
+        if not_found:
+            console.print("\n[yellow bold]Matric numbers not found:[/yellow bold]")
+            for m in not_found:
+                console.print(f"[yellow]{m}[/yellow]")
+
+
+    """
     suspend a student
     """
     def suspendStudent(self):
@@ -1063,6 +1106,47 @@ class Admin:
             self.adminLog(f"suspended student {matricNo} ({student.get('firstName')} {student.get('lastName')})")
         else:
             console.print(f"\n[yellow]No student found with Matric No {matricNo}[/yellow]\n")
+
+
+    """
+    bulk suspend
+    """
+    def bulkSuspendStudents(self):
+        students = self.mainHandleDict.get('students')
+        if not students:
+            console.print("\n[yellow]No students available![/yellow]\n")
+            return
+
+        file_path = Utils.promptFileSelection()
+        if not file_path:
+            return
+
+        matric_nos = Utils.extractMatricNumbers(file_path)
+        if not matric_nos:
+            console.print("[red]No valid matric numbers found in the file.[/red]")
+            return
+
+        suspended, not_found = [], []
+
+        for matric in matric_nos:
+            if matric in students:
+                students[matric]['suspended'] = True
+                suspended.append((matric, f"{students[matric].get('firstName')} {students[matric].get('lastName')}"))
+                self.adminLog(f"suspended student {matric} ({students[matric].get('firstName')} {students[matric].get('lastName')})")
+            else:
+                not_found.append(matric)
+
+
+        if suspended:
+            console.print("\n[yellow bold]Suspended Students:[/yellow bold]")
+            for m, name in suspended:
+                console.print(f"[yellow]{m} - {name}[/yellow]")
+
+        if not_found:
+            console.print("\n[red bold]Matric numbers not found:[/red bold]")
+            for m in not_found:
+                console.print(f"[red]{m}[/red]")
+
 
     """
     unsuspend a student
@@ -1087,6 +1171,55 @@ class Admin:
                 console.print(f"\n[yellow]Student {matricNo} is not suspended.[/yellow]\n")
         else:
             console.print(f"\n[yellow]No student found with Matric No {matricNo}[/yellow]\n")
+
+
+    """
+    bulk unsusend
+    """
+    def bulkUnsuspendStudents(self):
+        students = self.mainHandleDict.get('students')
+        if not students:
+            console.print("\n[yellow]No students available![/yellow]\n")
+            return
+
+        file_path = Utils.promptFileSelection()
+        if not file_path:
+            return
+
+        matric_nos = Utils.extractMatricNumbers(file_path)
+        if not matric_nos:
+            console.print("[red]No valid matric numbers found in the file.[/red]")
+            return
+
+        unsuspended, not_found, already_active = [], [], []
+
+        for matric in matric_nos:
+            if matric in students:
+                if students[matric].get('suspended'):
+                    students[matric]['suspended'] = False
+                    unsuspended.append((matric, f"{students[matric].get('firstName')} {students[matric].get('lastName')}"))
+                    self.adminLog(f"unsuspended student {matric} ({students[matric].get('firstName')} {students[matric].get('lastName')})")
+                else:
+                    already_active.append(matric)
+            else:
+                not_found.append(matric)
+
+
+        if unsuspended:
+            console.print("\n[green bold]Unsuspended Students:[/green bold]")
+            for m, name in unsuspended:
+                console.print(f"[green]{m} - {name}[/green]")
+
+        if already_active:
+            console.print("\n[yellow bold]These students were not suspended:[/yellow bold]")
+            for m in already_active:
+                console.print(f"[yellow]{m}[/yellow]")
+
+        if not_found:
+            console.print("\n[red bold]Matric numbers not found:[/red bold]")
+            for m in not_found:
+                console.print(f"[red]{m}[/red]")
+
 
     """
     add a new course to a faculty or department

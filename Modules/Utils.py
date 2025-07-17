@@ -1,9 +1,15 @@
 import json, re, hashlib, string, os
 from rich.console import Console
 from rich.table import Table
+import PyPDF2
+from pathlib import Path
 
 # create object instance of console
 console = Console()
+
+# accepted file formats
+ACCEPTED_EXTENSIONS = ['.txt', '.csv', '.pdf']
+
 
 """
 utility class to handle import of json stored \
@@ -561,6 +567,55 @@ class Utils:
 
         return
 
+    
+    """
+    prompt user to select file
+    """
+    def promptFileSelection(self):
+        console.print("\n[blue]Select a file containing matric numbers[/blue]")
+        console.print(f"[green]Accepted formats:[/green] {', '.join(ACCEPTED_EXTENSIONS)}")
+        console.print("[dim]Hint: Drag and drop the file or paste the full path.[/dim]\n")
+
+        file_path = input("Enter file path: ").strip().strip('"')
+
+        if not os.path.isfile(file_path):
+            console.print(f"[red]File not found: {file_path}[/red]")
+            return None
+
+        ext = os.path.splitext(file_path)[1].lower()
+        if ext not in ACCEPTED_EXTENSIONS:
+            console.print(f"[red]Invalid file type: {ext}[/red]")
+            return None
+
+        return file_path
+
+    """
+    extract matric no. from file
+    """
+    def extractMatricNumbers(self, file_path):
+        ext = os.path.splitext(file_path)[1].lower()
+        matric_nos = []
+
+        try:
+            if ext in ['.txt', '.csv']:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    lines = f.readlines()
+                    matric_nos = [line.strip() for line in lines if line.strip()]
+            elif ext == '.pdf':
+                with open(file_path, 'rb') as f:
+                    reader = PyPDF2.PdfReader(f)
+                    for page in reader.pages:
+                        text = page.extract_text()
+                        if text:
+                            for line in text.splitlines():
+                                if line.strip():
+                                    matric_nos.append(line.strip())
+        except Exception as e:
+            console.print(f"[red]Error reading file: {e}[/red]")
+            return []
+
+        return matric_nos
+        
     """
     delete faculty from files
     """

@@ -568,8 +568,10 @@ class Utils:
         return
 
     
-
-    def promptFileSelection():
+    """
+    prompt user to select file
+    """
+    def promptFileSelection(self):
         console.print("\n[blue]Select a file containing matric numbers[/blue]")
         console.print(f"[green]Accepted formats:[/green] {', '.join(ACCEPTED_EXTENSIONS)}")
         console.print("[dim]Hint: Drag and drop the file or paste the full path.[/dim]\n")
@@ -587,7 +589,10 @@ class Utils:
 
         return file_path
 
-    def extractMatricNumbers(file_path):
+    """
+    extract matric no. from file
+    """
+    def extractMatricNumbers(self, file_path):
         ext = os.path.splitext(file_path)[1].lower()
         matric_nos = []
 
@@ -610,6 +615,7 @@ class Utils:
             return []
 
         return matric_nos
+        
     """
     delete faculty from files
     """

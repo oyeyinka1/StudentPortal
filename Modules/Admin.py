@@ -45,7 +45,7 @@ class Admin(User):
             'add course': self.addCourse,
             'bulk expel': self.bulkExpelStudents,
             'bulk suspend': self.bulkSuspendStudents,
-            'bulk unsuspend': self.bulkUnsuspendStudents
+            'bulk unsuspend': self.bulkUnsuspendStudents,
             'remove school': self.removeSchool,
             'remove department': self.removeDepartment
         }

@@ -231,7 +231,7 @@ class Shell:
                 'add course': True,
                 'bulk expel': True,
                 'bulk suspend': True,
-                'bulk unsuspend': True
+                'bulk unsuspend': True,
                 'remove school': True,
                 'remove department': True
             },

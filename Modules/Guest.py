@@ -1,5 +1,7 @@
 from rich.console import Console
+from rich.table import Table
 import random, string, hashlib, datetime, re, json
+from Modules.User import User
 from Modules.Utils import Utils
 from Modules.Login import Login
 
@@ -11,7 +13,7 @@ console = Console()
 guest class to handle guest native commands
 """
 
-class Guest:
+class Guest(User):
     """
     constructor
     """
@@ -24,11 +26,8 @@ class Guest:
             'cancel application': self.cancelApplication,
         }
 
-        self.mainHandle = mainHandle
-        self.mainHandleDict = mainHandle.__dict__
-        self.loginCheck = self.mainHandleDict.get('loggedIn')
-        self.command = self.mainHandleDict.get('command')
-        self.admissionApplications = self.mainHandleDict.get('admissionApplications')
+        # call constructor of base class
+        super().__init__(mainHandle)
 
         # check if there is a logged in user and set user data
         if self.loginCheck:
@@ -59,7 +58,7 @@ class Guest:
         elif self.applicationStatus == 'rejected':
             self.deleteStudent()
         else:
-            console.print(f"\nHello, {self.firstName}! \nYour application status is: "\
+            console.print(f"\nHello, {self.firstName.title()}! \nYour application status is: "\
                           f"[red]{self.applicationStatus}[/red]\n")
 
     """
@@ -81,13 +80,18 @@ class Guest:
     register newly admitted student
     """
     def registerStudent(self):
-        console.print(f"\n[green]CONGRATULATIONS, {self.firstName}![/green] \n\n"\
-                      f"Your application is successful!\n\n"\
-                      f"[purple](SCHOOL) [/purple]{self.school}\n"\
-                      f"[purple](COURSE) [/purple]{self.courseOfChoice}\n"\
-                      f"[purple](COURSE CODE) [/purple]{self.courseCode}\n\n"
-                      f"Your Matric Number is: [green]{self.matricNo}[/green]\n"\
-                      f"[red]Take note of it as you'd need it to login to your student account[/red]\n")
+        console.print(f"\n[green]CONGRATULATIONS, {self.firstName.title()}![/green] \n\n"\
+                      f"Your application is successful!\n")
+        table = Table(title="Programme Details")
+        table.add_column('___')
+
+        table.add_row("School", self.school.upper())
+        table.add_row("Course", self.courseOfChoice.title())
+        table.add_row("Course Code", self.courseCode.upper())
+        table.add_row("Matric Number", self.matricNo.upper())
+
+        console.print("\n", table, "\n")
+        console.print("[red bold]Store your matric number safely![/red bold]\n")
 
         # ask to setup new password for student
         while True:
@@ -183,7 +187,7 @@ class Guest:
 
         # get and validate school under which course is
         while True:
-            schoolName = input("Enter School to apply to: ").upper()
+            schoolName = input("Enter School to apply to: ").lower()
             schoolName = Utils.cleanString(schoolName)
 
             if schoolName in schoolList:
@@ -198,13 +202,17 @@ class Guest:
                 # get course if chosen school has departments under it
                 if departments:
                     # print courses/departments in chosen school
-                    console.print(f"\n[yellow]COURSES IN  ({schoolName})[/yellow]\n")
+                    table = Table(title=f"[yellow italic]Courses in {schoolName.upper()}[/yellow italic]")
+                    table.add_column('___')
+
                     for dept, code in departments.items():
-                        print(f"\t({code}) - {dept}")
+                        table.add_row(code.upper(), dept.title())
+
+                    console.print("\n", table, "\n")
 
                     while True:
                         course = input("Enter course to apply for: ")
-                        course = Utils.cleanString(course)
+                        course = Utils.cleanString(course).lower()
 
                         """
                         check if entered course is a department key or value \
@@ -214,20 +222,17 @@ class Guest:
                         add the school key to it to hold the school name \
                         and instantiate class attribute to hold course info
                         """
-                        if course.title() in departments.keys():
-                            course = course.title()
-                            chosenCourse = school.get(departments.get(course).lower())
+                        if course in departments.keys():
+                            chosenCourse = school.get(departments.get(course))
                             chosenCourse.update({'school': schoolName})
 
                             self.chosenCourseInfo = chosenCourse
                             return chosenCourse.get('course')
-                        elif course.upper() in departments.values():
-                            course = course.upper()
-
+                        elif course in departments.values():
                             # get course info
                             for key, value in departments.items():
                                 if value == course:
-                                    chosenCourse = school.get(course.lower())
+                                    chosenCourse = school.get(course)
                                     chosenCourse.update({'school': schoolName})
 
                                     self.chosenCourseInfo = chosenCourse
@@ -279,11 +284,11 @@ class Guest:
             console.print(f"[red]\nOops, you can't apply while logged in!\n[/red]")
             return
 
-        id = f"UID{random.randint(0,9999):04}"
+        id = f"uid{random.randint(0,9999):04}"
 
         # ensure generated ID is unique
         while id in self.admissionApplications.keys():
-            id = f"UID{random.randint(0,9999):04}"
+            id = f"uid{random.randint(0,9999):04}"
 
         # randomly generate and hash generated password for user
         password = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
@@ -292,7 +297,7 @@ class Guest:
 
         # get and check first name
         while True:
-            firstName = input("Enter your First Name: ").strip().title()
+            firstName = input("Enter your First Name: ").strip().lower()
             check = Utils.validateName(firstName)
 
             if check:
@@ -303,7 +308,7 @@ class Guest:
 
         # get and check last name
         while True:
-            lastName = input("Enter your Last name: ").strip().title()
+            lastName = input("Enter your Last name: ").strip().lower()
             check = Utils.validateName(lastName)
 
             if check:
@@ -314,7 +319,7 @@ class Guest:
 
         # get and check middle name
         while True:
-            middleName = input("Enter your Middle name: ").strip().title()
+            middleName = input("Enter your Middle name: ").strip().lower()
 
             if middleName == "":
                 middleName = None
@@ -328,7 +333,7 @@ class Guest:
 
             break
 
-        email = input("Enter your email address: ").strip()
+        email = input("Enter your email address: ").strip().lower()
 
         # validate email
         while not Utils.isValidEmail(email):
@@ -441,13 +446,6 @@ class Guest:
         login = Login(self.mainHandle)
         login.loginGuest()
 
-
-    """
-    log the current user out of the portal
-    """
-    def logout(self):
-        Utils.logout(self.mainHandle)
-
     """
     refresh data if user is logged in
     """
@@ -479,10 +477,4 @@ class Guest:
             # set main handle class attributes
             self.mainHandle.user = 'guest'
             self.mainHandle.loggedIn = True            
-            self.mainHandle.prompt = f"[yellow]({userId})   [/yellow]"
-
-    """
-    unset values upon destruction
-    """
-    def __del__(self):
-        self.mainHandle.saveStorage()
+            self.mainHandle.prompt = f"[yellow]({userId.upper()})   [/yellow]"

@@ -232,6 +232,8 @@ class Shell:
                 'bulk expel': True,
                 'bulk suspend': True,
                 'bulk unsuspend': True
+                'remove school': True,
+                'remove department': True
             },
             'student': {
                 'logout': True,

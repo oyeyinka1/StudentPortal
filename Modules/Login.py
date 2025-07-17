@@ -45,7 +45,7 @@ class Login:
     """
     def loginGuest(self):
         userId = input("Enter your application ID: ")
-        userId = Utils.cleanString(userId)
+        userId = Utils.cleanString(userId).lower()
 
         # check if user with user ID has been admitted
         if self.checkAdmittedStudent(userId):
@@ -66,9 +66,9 @@ class Login:
                 self.mainHandleDict['loggedInUser']['id'] = userId
                 self.mainHandleDict['loggedIn'] = True
                 self.mainHandleDict['user'] = 'guest'
-                self.mainHandle.prompt = f"[yellow]({userId})   [/yellow]"
+                self.mainHandle.prompt = f"[yellow]({userId.upper()})   [/yellow]"
 
-                console.print(f"[green]\n<< Welcome back, {user['firstName']}! >>\n[/green]")
+                console.print(f"[green]\n<< Welcome back, {user['firstName'].title()}! >>\n[/green]")
                 return True
             else:
                 console.print("[red]\nInvalid ID or Password[/red]\n")

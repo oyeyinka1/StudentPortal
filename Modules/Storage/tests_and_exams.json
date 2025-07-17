@@ -1,4 +1,111 @@
 {
     "sict": {},
-    "sls": {}
+    "sls": {},
+    "esof": {
+        "100": {
+            "tests": {
+                "first semester": {
+                    "soj": []
+                },
+                "second semester": {}
+            },
+            "exams": {
+                "first semester": {
+                    "soj": [
+                        {
+                            "question": "who went",
+                            "options": {
+                                "a": "they",
+                                "b": "them",
+                                "c": "their",
+                                "d": "so"
+                            },
+                            "correct option": "d"
+                        },
+                        {
+                            "question": "who stayed",
+                            "options": {
+                                "a": "i",
+                                "b": "they",
+                                "c": "them",
+                                "d": "me"
+                            },
+                            "correct option": "b"
+                        },
+                        {
+                            "question": "who will go",
+                            "options": {
+                                "a": "me",
+                                "b": "them",
+                                "c": "they",
+                                "d": "i"
+                            },
+                            "correct option": "c"
+                        },
+                        {
+                            "question": "will i stay",
+                            "options": {
+                                "a": "yes",
+                                "b": "no",
+                                "c": "maybe",
+                                "d": "sure"
+                            },
+                            "correct option": "c"
+                        },
+                        {
+                            "question": "what next",
+                            "options": {
+                                "a": "nothing",
+                                "b": "something",
+                                "c": "something else",
+                                "d": "who knows"
+                            },
+                            "correct option": "d"
+                        }
+                    ]
+                },
+                "second semester": {}
+            }
+        },
+        "200": {
+            "tests": {
+                "first semester": {},
+                "second semester": {}
+            },
+            "exams": {
+                "first semester": {},
+                "second semester": {}
+            }
+        },
+        "300": {
+            "tests": {
+                "first semester": {},
+                "second semester": {}
+            },
+            "exams": {
+                "first semester": {},
+                "second semester": {}
+            }
+        },
+        "400": {
+            "tests": {
+                "first semester": {},
+                "second semester": {}
+            },
+            "exams": {
+                "first semester": {},
+                "second semester": {}
+            }
+        },
+        "500": {
+            "tests": {
+                "first semester": {},
+                "second semester": {}
+            },
+            "exams": {
+                "first semester": {},
+                "second semester": {}
+            }
+        }
+    }
 }

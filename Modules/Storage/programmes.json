@@ -5,5 +5,12 @@
             "course code": "css",
             "course": "cyber security science"
         }
+    },
+    "esof": {
+        "soop": {
+            "cut off": 100,
+            "course code": "soop",
+            "course": "soap operan"
+        }
     }
 }

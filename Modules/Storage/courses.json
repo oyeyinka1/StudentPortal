@@ -79,5 +79,75 @@
                 }
             }
         }
+    },
+    "esof": {
+        "soop": {
+            "100": {
+                "first semester": {
+                    "total units": 4,
+                    "total courses": 2,
+                    "courses": {
+                        "jie111": {
+                            "name": "jeopardy in english",
+                            "code": "jie111",
+                            "unit": 2
+                        },
+                        "soj": {
+                            "name": "school of jeopardy",
+                            "code": "soj",
+                            "unit": 2
+                        }
+                    }
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "200": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "300": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "400": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            },
+            "500": {
+                "first semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                },
+                "second semester": {
+                    "total units": null,
+                    "total courses": null,
+                    "courses": {}
+                }
+            }
+        }
     }
 }

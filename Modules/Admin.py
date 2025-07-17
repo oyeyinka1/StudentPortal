@@ -3,6 +3,7 @@ from collections import Counter
 from Modules.User import User
 from Modules.Utils import Utils
 from rich.console import Console
+from rich.panel import Panel
 import hashlib, datetime, os, random, csv, platform, subprocess, string, subprocess
 from pathlib import Path
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
@@ -47,7 +48,9 @@ class Admin(User):
             'bulk suspend': self.bulkSuspendStudents,
             'bulk unsuspend': self.bulkUnsuspendStudents,
             'remove school': self.removeSchool,
-            'remove department': self.removeDepartment
+            'remove department': self.removeDepartment,
+            'set test': self.setTest,
+            'set exam': self.setExam
         }
 
         # call constructor of base class
@@ -1409,6 +1412,17 @@ class Admin(User):
             f"Semester: [yellow]{semester.title()}[/yellow]\n"
         )
 
+        # --- update course in tests and exams json file
+
+        # load and update file content
+        content = Utils.loadFromFile(self.paths.get('tests_and_exams'))
+        content[school][level]['tests'][semester].update({courseCode: []})
+        content[school][level]['exams'][semester].update({courseCode: []})
+
+        # write updated content to file
+        Utils.writeToFile(self.paths.get('tests_and_exams'), content)
+        
+        # --- end update of course in tests and exams file
     """
     remove a schoo/faculty from school
     """
@@ -1456,3 +1470,151 @@ class Admin(User):
 
         # print success message
         console.print(f"\n[green bold]SUCCESS[/green bold]\nOperations Completed!\n")
+
+    """
+    set tests 
+    """
+    def setTest(self):
+        self.setQuestions("tests")
+
+    """
+    set exams
+    """
+    def setExam(self):
+        self.setQuestions("exams")
+
+    """
+    set test or exam questions
+    @setKey: used in access to set test or exam
+    """
+    def setQuestions(self, setKey=None):
+        if not setKey:
+            return
+
+        # get faculty/school
+        while True:
+            school = Utils.cleanString(input("Enter School/Faculty: ")).lower()
+            if not Utils.checkFaculty(school):
+                console.print(f"\n[red]ERROR[/red]\nInvalid School/Faculty!\n")
+                continue
+
+            break
+
+        # get level
+        while True:
+            level = Utils.cleanString(input("Enter level: "))
+            if level not in self.levels:
+                console.print(f"\n[red]ERROR[/red]\nInvalid Level!\n")
+                continue
+
+            break
+
+        # get semester to set questions for
+        while True:
+            semester = Utils.cleanString(input("Enter semester: ")).lower()
+
+            if semester == "first":
+                semester = "first semester"
+                break
+
+            if semester == "second":
+                semester = "second semester"
+                break
+
+            if semester == "first semester" or\
+               semester == "second semester":
+                break
+
+            console.print(f"\n[red]ERROR[/red]\nInvalid Semester!\n")
+
+        # get course code
+        while True:
+            course = Utils.cleanString(input("Enter Course Code: ")).lower()
+            course = Utils.checkCourse(course)
+
+            if not course:
+                console.print(f"\n[red]ERROR[/red]\nInvalid Course!\n")
+                continue
+
+            break
+
+        # get number of questions to be set
+        while True:
+            number = Utils.validateNumber(input("Enter number of questions: "))
+
+            if not number:
+                console.print(f"\n[red]ERROR[/red]\nInvalid Number!\n")
+                continue
+
+            if number < 5 or number > 100:
+                console.print(f"\n[red]ERROR[/red]\nMin: 5 | Max: 100\n")
+                continue
+
+            break
+
+        # get questions
+        questionList = []
+
+        for sn in range(1, number + 1):
+            # setup panel
+            panel = Panel("", title="[bold]Question[/bold]", subtitle=f"[italic]{sn} of {number}[/italic]")
+            console.print(panel)
+
+            # get question
+            options = {}
+            question = Utils.cleanString(input("Question: ")).lower()
+
+            # get options
+            for letter in range(ord('a'), ord('a') + 4):
+                if chr(letter) == 'a':
+                    console.print("\n[bold]Options:[/bold]\n")
+
+                while True:
+                    option = Utils.cleanString(input(f"Option {chr(letter)}: ")).lower()
+
+                    if not option:
+                        console.print(f"\n[red]ERROR[/red]\nType in an option!\n")
+                        continue
+
+                    break
+
+                # update options dictionary for current question
+                options.update({chr(letter): option})
+
+            # get correct answer to question
+            while True:
+                correctOption = input("\nEnter correct option (a-d): ").strip().lower()
+
+                # ensure string length is exactly 1
+                if len(correctOption) != 1:
+                    console.print(f"\n[red]ERROR[/red]\nInvalid option!\n")
+                    continue                    
+
+                # check if entered option is within range
+                if ord(correctOption) not in range(ord('a'), ord('a') + 4):
+                    console.print(f"\n[red]ERROR[/red]\nInvalid option!\n")
+                    continue
+
+                break
+
+            # setup the question dict
+            questionList.append({
+                'question': question,
+                'options': options,
+                'correct option': correctOption
+            })
+
+        # --- set question in tests and exams dictionary
+        try:
+            content = Utils.loadFromFile(self.paths.get('tests_and_exams'))
+            content[school][level][setKey][semester].update({course: questionList})
+
+            Utils.writeToFile(self.paths.get('tests_and_exams'), content)
+
+            # print success message
+            console.print(f"\n[green bold]SUCCESS[/green bold]\nSuccessfuly set {setKey[:-1]} questions!\n")
+
+            # add to admin log
+            self.adminLog(f"set {setKey[:-1]} questions for course: {course} and level: {level}")
+        except:
+            console.print("\n[red]ERROR[/red]\nAn Error occured! \nYou cannot perform this operation!\n")

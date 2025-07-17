@@ -363,11 +363,34 @@ class Utils:
         facultyName = faculty
         faculty = {faculty: {}}
 
+        # --- structure for tests and exams
+        tneStructure = {facultyName: {}}
+
+        for level in range(100, 600, 100):
+            tneStructure[facultyName].update({
+                level: {
+                    "tests": {
+                        "first semester": {},
+                        "second semester": {}
+                    },
+                    "exams": {
+                        "first semester": {},
+                        "second semester": {}
+                    }
+                }
+            })
+        # --- end structure for tests and exams
+
         for path in paths:
             # initialize file content
             fileContent = {}
-            fileContent.update(faculty)
-            
+
+            # reset file content for tests and exams
+            if path == self.paths.get('tests_and_exams'):
+                fileContent = tneStructure
+            else:
+                fileContent.update(faculty)
+
             if os.path.exists(path):
                 # read and update file content
                 with open(path, 'r') as file:
@@ -377,7 +400,11 @@ class Utils:
                     if facultyName in fileContent.keys():
                         return
 
-                    fileContent.update(faculty)
+                    # update with different dictionary for tests and exams
+                    if path == self.paths.get('tests_and_exams'):
+                        fileContent.update(tneStructure)
+                    else:
+                        fileContent.update(faculty)
 
             # write changes to file
             with open(path, 'w') as file:
@@ -548,9 +575,6 @@ class Utils:
 
             # --- end update for courses.json
 
-            # --- start update for tests_and_exams.json
-            # --- end update for tests_and_exams.json
-
     """
     check if a given shcool/faculty is empty
     """
@@ -680,6 +704,24 @@ class Utils:
                     fileContent = json.dumps(fileContent, indent=4)
                     file.write(fileContent)
 
+    """
+    check if given course exists in any department in school
+    """
+    def checkCourse(self, course=None):
+        courses = self.loadFromFile(self.paths.get('courses'))
+
+        if not courses or not course:
+            return
+
+        for school, schoolInfo in courses.items():
+            for dept, deptInfo in schoolInfo.items():
+                for level, levelInfo in deptInfo.items():
+                    for semester, semesterInfo in levelInfo.items():
+                        # check course
+                        if course in semesterInfo.get("courses", {}).keys():
+                            return course
+
+        return
 
 # create class instance
 Utils = Utils()

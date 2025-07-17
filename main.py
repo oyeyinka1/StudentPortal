@@ -233,7 +233,9 @@ class Shell:
                 'bulk suspend': True,
                 'bulk unsuspend': True,
                 'remove school': True,
-                'remove department': True
+                'remove department': True,
+                'set exam': True,
+                'set test': True
             },
             'student': {
                 'logout': True,

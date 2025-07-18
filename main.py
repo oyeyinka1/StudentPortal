@@ -69,6 +69,10 @@ class Shell:
         # trim excess whitespace from user input
         self.command = Utils.cleanString(self.userInput)
 
+        # return if input string is empty
+        if not self.command:
+            return
+
         userCommands = []
         users = ['guest', 'admin', 'student']
         shellCommands = self.shellNativeCommands.keys()

@@ -38,3 +38,5 @@
 [ADMIN] - (root@root@fut.com) - (added Course: soj to all departments in School: esof and Level: 100) on (17-July-2025) at (05:31 PM)
 [ADMIN] - (root@root@fut.com) - (set exam questions for course: soj and level: 100) on (17-July-2025) at (05:40 PM)
 [ADMIN] - (root@root@fut.com) - (set exam questions for course: soj and level: 100) on (17-July-2025) at (05:42 PM)
+[ADMIN] - (root@root@fut.com) - (added Course: dwtst101 to Faculty: esof | Department: soop | Level: 100) on (18-July-2025) at (07:52 AM)
+[ADMIN] - (root@root@fut.com) - (set exam questions for course: dwtst101 and level: 100) on (18-July-2025) at (08:12 AM)

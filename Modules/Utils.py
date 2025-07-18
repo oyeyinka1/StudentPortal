@@ -461,21 +461,14 @@ class Utils:
 
         for school, departments in data.items():
             for deptCode, deptInfo in departments.items():
-                if department == deptInfo.get('course code'):
+                if department == deptInfo.get('course code') or \
+                   department == deptInfo.get('course'):
 
                     # dont return verbose message if verbose false
                     if not verbose:
                         return deptInfo.get('course code')
 
                     return "Department/Course code already exists!"
-
-                if department == deptInfo.get('course'):
-
-                    # dont return verbose message if verbose false
-                    if not verbose:
-                        return deptInfo.get('course code')
-
-                    return "Department already exists!"
 
         return False
 

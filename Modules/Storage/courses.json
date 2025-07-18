@@ -84,8 +84,8 @@
         "soop": {
             "100": {
                 "first semester": {
-                    "total units": 4,
-                    "total courses": 2,
+                    "total units": 7,
+                    "total courses": 3,
                     "courses": {
                         "jie111": {
                             "name": "jeopardy in english",
@@ -96,6 +96,11 @@
                             "name": "school of jeopardy",
                             "code": "soj",
                             "unit": 2
+                        },
+                        "dwtst101": {
+                            "name": "dire wolf and the snow technology",
+                            "code": "dwtst101",
+                            "unit": 3
                         }
                     }
                 },

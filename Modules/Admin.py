@@ -1233,7 +1233,8 @@ class Admin(User):
         # ask for department if chosen option is 2
         while True and option == '2':
             department = Utils.cleanString(input("Enter department: ")).lower()
-            if Utils.checkDepartment(department):
+            department = Utils.checkDepartment(department, False)
+            if department:
                 break
             console.print("[yellow]Invalid department entered![/yellow]")
 
@@ -1494,7 +1495,8 @@ class Admin(User):
         # get faculty/school
         while True:
             school = Utils.cleanString(input("Enter School/Faculty: ")).lower()
-            if not Utils.checkFaculty(school):
+            school = Utils.checkFaculty(school)
+            if not school:
                 console.print(f"\n[red]ERROR[/red]\nInvalid School/Faculty!\n")
                 continue
 
@@ -1546,8 +1548,8 @@ class Admin(User):
                 console.print(f"\n[red]ERROR[/red]\nInvalid Number!\n")
                 continue
 
-            if number < 5 or number > 100:
-                console.print(f"\n[red]ERROR[/red]\nMin: 5 | Max: 100\n")
+            if number < 2 or number > 100:
+                console.print(f"\n[red]ERROR[/red]\nMin: 2 | Max: 100\n")
                 continue
 
             break
@@ -1562,7 +1564,7 @@ class Admin(User):
 
             # get question
             options = {}
-            question = Utils.cleanString(input("Question: ")).lower()
+            question = Utils.cleanString(input("Question: "))
 
             # get options
             for letter in range(ord('a'), ord('a') + 4):
@@ -1570,8 +1572,14 @@ class Admin(User):
                     console.print("\n[bold]Options:[/bold]\n")
 
                 while True:
-                    option = Utils.cleanString(input(f"Option {chr(letter)}: ")).lower()
+                    option = Utils.cleanString(input(f"Option {chr(letter)}: "))
 
+                    # check if option value already exists
+                    if option.lower() in [x.lower() for x in options.values()]:
+                        console.print(f"\n[red]ERROR[/red]\nDuplicate option!\n")
+                        continue
+
+                    # check for empty return
                     if not option:
                         console.print(f"\n[red]ERROR[/red]\nType in an option!\n")
                         continue
@@ -1604,7 +1612,7 @@ class Admin(User):
                 'correct option': correctOption
             })
 
-        # --- set question in tests and exams dictionary
+        # set question in tests and exams dictionary
         try:
             content = Utils.loadFromFile(self.paths.get('tests_and_exams'))
             content[school][level][setKey][semester].update({course: questionList})

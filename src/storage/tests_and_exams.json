@@ -1,0 +1,104 @@
+{
+    "sict": {
+        "100": {
+            "tests": {
+                "first_semester": {
+                    "sta1117": [
+                        {
+                            "question": "asdfadsf",
+                            "options": {
+                                "a": "asfguhaf sdf",
+                                "b": "sdfa",
+                                "c": "shgf",
+                                "d": "sfg"
+                            },
+                            "correct option": "a"
+                        },
+                        {
+                            "question": "asdfajkhs ifduhg lg",
+                            "options": {
+                                "a": "sdfg fg",
+                                "b": "rfgsfdg sfg",
+                                "c": "sfdgs tt",
+                                "d": "sfgag"
+                            },
+                            "correct option": "a"
+                        }
+                    ],
+                    "cod445": []
+                },
+                "second_semester": {
+                    "has119": []
+                }
+            },
+            "exams": {
+                "first_semester": {
+                    "sta1117": [
+                        {
+                            "question": "adsfl usaodf aodf",
+                            "options": {
+                                "a": "adfl alsdfhj asfd",
+                                "b": "sdfl aldhfadsfsd",
+                                "c": "sdflak hhiurh afgs",
+                                "d": "asdfoh jalsalsfha"
+                            },
+                            "correct option": "a"
+                        },
+                        {
+                            "question": "aosdi fpaosfisdfj asas l;asijfd",
+                            "options": {
+                                "a": "aldsfh lasuhfd",
+                                "b": "fsduh oiu f",
+                                "c": "sdfhaldf sd",
+                                "d": "sldhfa fh asd"
+                            },
+                            "correct option": "c"
+                        }
+                    ],
+                    "cod445": []
+                },
+                "second_semester": {
+                    "has119": []
+                }
+            }
+        },
+        "200": {
+            "tests": {
+                "first_semester": {},
+                "second_semester": {}
+            },
+            "exams": {
+                "first_semester": {},
+                "second_semester": {}
+            }
+        },
+        "300": {
+            "tests": {
+                "first_semester": {},
+                "second_semester": {}
+            },
+            "exams": {
+                "first_semester": {},
+                "second_semester": {}
+            }
+        },
+        "400": {
+            "tests": {
+                "first_semester": {}
+            },
+            "exams": {
+                "first_semester": {}
+            }
+        },
+        "500": {
+            "tests": {
+                "first_semester": {},
+                "second_semester": {}
+            },
+            "exams": {
+                "first_semester": {},
+                "second_semester": {}
+            }
+        }
+    }
+}

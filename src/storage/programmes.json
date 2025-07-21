@@ -1,0 +1,9 @@
+{
+    "sict": {
+        "dts": {
+            "cut_off": 150,
+            "course_code": "dts",
+            "course": "data science"
+        }
+    }
+}

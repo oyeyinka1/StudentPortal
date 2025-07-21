@@ -1,0 +1,37 @@
+{
+    "admins": {
+        "root": {
+            "username": "root",
+            "password": "aabb2100033f0352fe7458e412495148",
+            "email": "root@fut.com",
+            "firstName": "root",
+            "lastName": "root"
+        },
+        "melvin": {
+            "username": "melvin",
+            "password": "f1cae6f3f96ee8f61735697b74662b0b",
+            "email": "mail@mail.com",
+            "first_name": "melvin",
+            "last_name": "enwerem"
+        }
+    },
+    "admission_applications": {
+        "uid8882": {
+            "id": "uid8882",
+            "email": "sgasgd@fgas.sc",
+            "first_name": "adf",
+            "middle_name": "adf",
+            "last_name": "sdff",
+            "date_of_birth": "12-12-2000",
+            "state_of_origin": "rivers",
+            "state_of_residence": "rivers",
+            "jamb_score": 200,
+            "school": "sict",
+            "course_of_choice": "data science",
+            "course_code": "dts",
+            "application_date": "21-07-2025 06:34:15",
+            "password": "e0e53e6c547651c8472e43433696e353",
+            "application_status": "pending"
+        }
+    }
+}

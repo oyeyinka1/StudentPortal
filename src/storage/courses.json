@@ -1,0 +1,78 @@
+{
+    "sict": {
+        "dts": {
+            "100": {
+                "first_semester": {
+                    "total_units": 8,
+                    "total_courses": 2,
+                    "courses": {
+                        "sta1117": {
+                            "name": "descriptive statistics",
+                            "code": "sta1117",
+                            "unit": 3
+                        },
+                        "cod445": {
+                            "name": "call of duty simulation",
+                            "code": "cod445",
+                            "unit": 5
+                        }
+                    }
+                },
+                "second_semester": {
+                    "total_units": 1,
+                    "total_courses": 1,
+                    "courses": {
+                        "has119": {
+                            "name": "human anthropology science",
+                            "code": "has119",
+                            "unit": 1
+                        }
+                    }
+                }
+            },
+            "200": {
+                "first_semester": {
+                    "total_units": null,
+                    "total_courses": null,
+                    "courses": {}
+                },
+                "second_semester": {
+                    "total_units": null,
+                    "total_courses": null,
+                    "courses": {}
+                }
+            },
+            "300": {
+                "first_semester": {
+                    "total_units": null,
+                    "total_courses": null,
+                    "courses": {}
+                },
+                "second_semester": {
+                    "total_units": null,
+                    "total_courses": null,
+                    "courses": {}
+                }
+            },
+            "400": {
+                "first_semester": {
+                    "total_units": null,
+                    "total_courses": null,
+                    "courses": {}
+                }
+            },
+            "500": {
+                "first_semester": {
+                    "total_units": null,
+                    "total_courses": null,
+                    "courses": {}
+                },
+                "second_semester": {
+                    "total_units": null,
+                    "total_courses": null,
+                    "courses": {}
+                }
+            }
+        }
+    }
+}

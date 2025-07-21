@@ -1,101 +1,104 @@
-from rich.console import Console
-from Modules.FileStorage import Storage
-from Modules.Guest import Guest
-from Modules.Admin import Admin
-from Modules.Student import Student
-from Modules.Utils import Utils
-
+# standard library imports
 import random, string, hashlib
 
-console = Console()
-"""
-shell class
+# third party imports
+from rich.console import Console
 
-receives user commands, formats, parses and calls \
-corresponding methods/classes to handle user-given \
-command
-"""
+# local app imports
+from src.utils import Utils
+from src.guest import Guest
+from src.admin import Admin
+from src.student import Student
+from src.file_storage import Storage
+
+
+# get console instance
+console = Console()
 
 class Shell:
     """
-    constructor class`
+    receives user commands, formats, parses and calls
+    corresponding methods/classes to handle user-given
+    command
     """
+
     def __init__(self):
         # attributes that should rely solely on file Storage
-        self.admissionApplications = {}
+        self.admission_applications = {}
 
         # load data from file storage
-        self.loadStorage()
+        self.load_storage()
 
         # instantiate class attributes
         self.shell = True
-        self.userInput = ""
+        self.user_input = ""
         self.prompt = f"[blue](pyShell):   [/blue]"
-        self.defaultPrompt = f"[blue](pyShell):   [/blue]"
+        self.default_prompt = f"[blue](pyShell):   [/blue]"
 
         # class attributes to handle login
         self.user = None
-        self.loggedIn = None
-        self.loggedInUser = None
+        self.logged_in = None
+        self.logged_in_user = None
         
         """
-        self.runShell: run the shell of the program
+        self.run_shell: run the shell of the program
         self.setshellEssentialss: instantiates essential \
                                   class attributes
         """
-        self.setShellEssentials()
-        self.runShell()
+        self.set_shell_essentials()
+        self.run_shell()
 
+    def run_shell(self) -> None:
+        """
+        start up the python shell for input
+        """
 
-    """
-    start up the python shell for input
-    """
-    def runShell(self):
         try:
             while self.shell:
-                self.userInput = str(console.input(self.prompt))
+                self.user_input = str(console.input(self.prompt))
 
                 # call method to handle user input
-                self.parseInput()
+                self.parse_input()
         except KeyboardInterrupt:
             # catch keyboard interrupt before exiting shell
             console.print("\n[red]Exiting shell...[/red]")
             self.shell = False
             
-    """
-    route user command to appropriate handler function/class
-    """
-    def parseInput(self):
+    def parse_input(self) -> None:
+        """
+        route user command to appropriate handler function/class
+        """
+
         # trim excess whitespace from user input
-        self.command = Utils.cleanString(self.userInput)
+        self.command = Utils.clean_string(self.user_input)
 
         # return if input string is empty
         if not self.command:
             return
 
-        userCommands = []
+        user_commands = []
         users = ['guest', 'admin', 'student']
-        shellCommands = self.shellNativeCommands.keys()
+        shell_commands = self.shell_native_commands.keys()
 
         # get all user commands
         for i in users:
-            command = self.userPermissions[i].keys()
+            command = self.user_permissions[i].keys()
             for j in command:
-                userCommands.append(j)
+                user_commands.append(j)
 
         # check if command is shell native and run
-        if self.command in shellCommands:
-            self.shellNativeCommands.get(self.command)()
+        if self.command in shell_commands:
+            self.shell_native_commands.get(self.command)()
             return
 
         # check if command is non existent at all
-        if self.command not in shellCommands and \
-           self.command not in userCommands:
+        if self.command not in shell_commands and \
+           self.command not in user_commands:
             console.print("\n[red]ERROR[/red]\nInvalid command entered!\n")
             return
 
         # check if command exists but user is not logged in
-        if self.command in userCommands and not self.loggedIn:
+        if self.command in user_commands and not self.logged_in:
             console.print("\n[red]ERROR[/red]\nYou do not have "\
                   "permissions to run this command!\n")
             return
@@ -104,46 +107,48 @@ class Shell:
         run command if it is not shell native \
         but exists and user is logged in
         """
-        if self.command in userCommands and self.loggedIn:
-            if self.command not in self.userPermissions[self.user].keys():
+        if self.command in user_commands and self.logged_in:
+            if self.command not in self.user_permissions[self.user].keys():
                 console.print("\n[red]ERROR[/red]\nYou do not have "\
                       "permissions to run this command!\n")
                 return
             else:
-                self.userHandle.get(self.user)(self)
+                self.user_handle.get(self.user)(self)
                 return
 
-    """
-    exit the shell
-    """
-    def exit(self):
+    def exit(self) -> None:
+        """
+        exit the shell
+        """
+        
         self.shell = False
 
-    """
-    print all available shell native commands
-    """
-    def info(self):
+    def info(self) -> None:
+        """
+        print all available shell native commands
+        """
+
         # print all available shell native commands
-        console.print("[blue]\nAvailable shell commands:[/blue]")
-        for command in sorted(list(self.shellNativeCommands.keys()), key=len):
+        console.print("[blue]\nShell Commands[/blue]")
+        for command in sorted(list(self.shell_native_commands.keys()), key=len):
             console.print(f"[green]{command}[/green]")
 
         # print available user commands if logged in
         if self.__dict__.get('user'):
-            console.print("\n[blue]Available user commands:[/blue]")
-            for command in sorted(list(self.userPermissions[self.user].keys()), key=len):
+            console.print(f"\n[blue]{self.user.title()} Commands[/blue]")
+            for command in sorted(list(self.user_permissions[self.user].keys()), key=len):
                 console.print(f"[green]{command}[/green]")
 
         # print new line
         print()
 
+    def login(self) -> None:
+        """
+        log the user in
+        """
 
-    """
-    log the user in
-    """
-    def login(self):
         # check if there is a logged in user
-        if self.loggedIn:
+        if self.logged_in:
             console.print("[yellow]\nOops!\nAlready "\
                           "logged in\n[/yellow]")
             return
@@ -156,13 +161,13 @@ class Shell:
                       "[purple]STUDENT[/purple]\n")
 
         while True:
-            userMode = input("Enter user mode: ").lower().strip()
+            user_mode = input("Enter user mode: ").lower().strip()
 
             # allow user to abort login
-            if userMode == 'cancel':
+            if user_mode == 'cancel':
                 return
 
-            if userMode not in users:
+            if user_mode not in users:
                 console.print("\n[red]ERROR[/red]\n"\
                               "Invalid user mode!\n"\
                               "[yellow]Type `cancel` to "\
@@ -171,44 +176,47 @@ class Shell:
                 break
 
         # call appropriate user class to handle login
-        self.userHandle.get(userMode)(self)
+        self.user_handle.get(user_mode)(self)
 
-    """
-    view available programmes
-    """
-    def viewProgrammes(self):
+    def view_programmes(self) -> None:
+        """
+        view available programmes
+        """
+
         # call view programmes method of utils
-        Utils.viewProgrammes()
+        Utils.view_programmes()
 
-    """
-    apply for admission
-    """
-    def apply(self):
+    def apply(self) -> None:
+        """
+        apply for admission
+        """
+        
         # call guest class to handle admission application
         Guest(self)
 
-    """
-    sets shell essential attributes
-    """
-    def setShellEssentials(self):
+    def set_shell_essentials(self) -> None:
+        """
+        sets shell essential attributes
+        """
+
         # set shell native commands to be handled by this class
-        self.shellNativeCommands = {
+        self.shell_native_commands = {
             'exit': self.exit,
             'info': self.info,
             'login': self.login,
             'apply': self.apply,
-            'view programmes': self.viewProgrammes
+            'view programmes': self.view_programmes
         }
 
         # set user native commands to be handled by user classes
-        self.userHandle = {
+        self.user_handle = {
             'guest': Guest,
             'admin': Admin,
             'student': Student
         }
 
         # set permissions for hierarchy of users
-        self.userPermissions = {
+        self.user_permissions = {
             'guest': {
                 'logout': True,
                 'check status': True,
@@ -247,27 +255,30 @@ class Shell:
             }
         }
 
-    """
-    load data from file Storage
-    """
-    def loadStorage(self):
+    def load_storage(self) -> None:
+        """
+        load data from file Storage
+        """
+
         load = Storage.load()
 
         if load:    
             self.__dict__.update(load)
 
-    """
-    strip unwanted values in <self> and save to Storage
-    """
-    def saveStorage(self):
+    def save_storage(self) -> None:
+        """
+        strip unwanted values in <self> and save to Storage
+        """
+
         # save to file Storage
         Storage.save(self)
 
-    """
-    save to file Storage upon exit of program
-    """
-    def __del__(self):
-        self.saveStorage()
+    def __del__(self) -> None:
+        """
+        save to file Storage upon exit of program
+        """
 
-#initialize class 
+        self.save_storage()
+
+# initialize class 
 Shell()

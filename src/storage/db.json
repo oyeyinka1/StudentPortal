@@ -16,21 +16,38 @@
         }
     },
     "admission_applications": {
-        "uid8882": {
-            "id": "uid8882",
-            "email": "sgasgd@fgas.sc",
-            "first_name": "adf",
-            "middle_name": "adf",
-            "last_name": "sdff",
-            "date_of_birth": "12-12-2000",
-            "state_of_origin": "rivers",
-            "state_of_residence": "rivers",
-            "jamb_score": 200,
+        "uid0973": {
+            "id": "uid0973",
+            "email": "skidev101@gmail.com",
+            "first_name": "omo",
+            "middle_name": null,
+            "last_name": "ski",
+            "date_of_birth": "22-11-2002",
+            "state_of_origin": "oyo",
+            "state_of_residence": "oyo",
+            "jamb_score": 300,
             "school": "sict",
             "course_of_choice": "data science",
             "course_code": "dts",
-            "application_date": "21-07-2025 06:34:15",
-            "password": "e0e53e6c547651c8472e43433696e353",
+            "application_date": "04-09-2025 05:28:43",
+            "password": "9eddba8d6747972af2f7863b0139108a",
+            "application_status": "pending"
+        },
+        "uid5588": {
+            "id": "uid5588",
+            "email": "mikestilfresh1@gmail.com",
+            "first_name": "michael",
+            "middle_name": null,
+            "last_name": "oyeyinka",
+            "date_of_birth": "25-02-2005",
+            "state_of_origin": "kwara",
+            "state_of_residence": "kwara",
+            "jamb_score": 300,
+            "school": "sict",
+            "course_of_choice": "data science",
+            "course_code": "dts",
+            "application_date": "04-09-2025 17:29:25",
+            "password": "a3eb89ec52d47b748894e7d2166961bd",
             "application_status": "pending"
         }
     }

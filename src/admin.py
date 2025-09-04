@@ -1,6 +1,6 @@
 # standard library imports
 import hashlib, datetime, os, random, csv, \
-    platform, subprocess, string, subprocess
+    platform, subprocess, string, subprocess, smtplib 
 
 # third party imports
 from typing import Union
@@ -14,7 +14,7 @@ from reportlab.platypus import SimpleDocTemplate, \
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
-
+from email.mime.text import MIMEText
 # local app imports
 from src.user import User
 from src.utils import Utils
@@ -295,17 +295,45 @@ class Admin(User):
                 self.main_handle_dict['students'] = {}
 
             self.main_handle_dict['students'].update({matric: student})
+
+            # send admission email to applicant
+            email = applicant_info.get('email')
+            subject = "Admission Notification"
+            message =  f"Congratulations {applicant_info.get('first_name').title()}! You have been admitted.\nYour Matric No: {matric.upper()}"
+            self.send_email(email, subject, message)
                 
             # print success message
             CONSOLE.print(f"\n[green]SUCCESS[/green]\n{applicant_info.get('first_name').title()} "\
                           f"{applicant_info.get('last_name').title()} has been admitted successfully!\n"
                           f"Matric No: {matric.upper()}\n")
 
+
             # log admin action
             self.admin_log(f"admitted {applicant_id} "\
                           f"with matric no: {matric}")
 
             return True
+        
+
+    def send_email(self, to_email: str, subject:str, message:str) -> None:
+        """
+        send an email notification to the student.
+        """
+        from_email="oyebiyimichael61@gmail.com"
+        from_password="guogvbxbrvflwjgc"
+        msg = MIMEText(message)
+        msg['Subject']= subject
+        msg['From'] = from_email
+        msg['To'] = to_email
+
+        try:
+            with smtplib.SMTP('smtp.gmail.com',587) as server:
+                server.starttls()
+                server.login(from_email,from_password)
+                server.send_message(msg)
+                print("Email sent successfully.")
+        except Exception as error:
+                print(f"Error sending email:{error}")
 
     def admit_student(self) -> None:
         """
@@ -365,6 +393,7 @@ class Admin(User):
             uid = Utils.clean_string(uid)
 
             self._admit(uid)
+
         elif mode == "batch":
             uids = input("Enter UIDs of applicants to be admitted (separated by commas): ")
             uids = Utils.clean_string(uids).replace(" ", "").split(',')
@@ -373,8 +402,8 @@ class Admin(User):
             for uid in uids:
                 if self._admit(uid):
                     admitted_count += 1
-
-            if admitted_count > 0:
+                    
+        if admitted_count > 0:
                 CONSOLE.print(f"\n[green]SUCCESS[/green]\n{admitted_count} "\
                               "applicant(s) have been admitted successfully!\n")
         elif mode == "all":
@@ -387,10 +416,11 @@ class Admin(User):
 
                 if self._admit(uid):
                     admitted_count += 1
-
+                     
             if admitted_count > 0:
                 CONSOLE.print(f"\n[green]SUCCESS[/green]\n{admitted_count} "\
                               "applicant(s) have been admitted successfully!\n")
+
 
     def _reject(self, applicant_id: str) -> Union[None, True]:
         """
@@ -404,11 +434,22 @@ class Admin(User):
              self.admission_applications.get(applicant_id)['application_status'] == 'rejected':
             CONSOLE.print(f"Applicant with UID: [yellow]{applicant_id}[/yellow]"\
                           " has already been rejected!")
+                      
+            #send rejection email
+
+            applicant_info = self.admission_applications.get(applicant_id)
+            email = applicant_info.get('email')
+            subject="Admission status"
+            message = f"We're sorry,{applicant_info.get('first_name').title()}! Your admission has been rejected!"
+            self.send_email(email,subject, message)
+
+                          
         else:
             # update admission application status
             self.admission_applications[applicant_id]['application_status'] = "rejected"
 
-            # print success message
+             
+             # print success message
             CONSOLE.print(f"\n[green]SUCCESS[/green]\nApplicant with UID: {applicant_id} "\
                           f"has been denied admission!\n")
 
@@ -472,6 +513,7 @@ class Admin(User):
             uid = Utils.clean_string(uid)
 
             self._reject(uid)
+            
         elif mode == "batch":
             uids = input("Enter UIDs of applicants to be rejected (separated by commas): ")
             uids = Utils.clean_string(uids).replace(" ", "").split(',')
@@ -480,7 +522,9 @@ class Admin(User):
             for uid in uids:
                 if self._reject(uid):
                     rejected_count += 1
+                    
 
+            
             if rejected_count > 0:
                 CONSOLE.print(f"\n[green]SUCCESS[/green]\n{rejected_count} "\
                               "applicant(s) have been denied admission!!\n")
@@ -490,6 +534,7 @@ class Admin(User):
             for uid in list(self.admission_applications.keys()):
                 if self._reject(uid):
                     rejected_count += 1
+                    
 
             if rejected_count > 0:
                 CONSOLE.print(f"\n[green]SUCCESS[/green]\n{rejected_count} "\

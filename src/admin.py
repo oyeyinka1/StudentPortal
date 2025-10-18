@@ -320,7 +320,7 @@ class Admin(User):
         send an email notification to the student.
         """
         from_email="oyebiyimichael61@gmail.com"
-        from_password="guogvbxbrvflwjgc"
+        from_password="jmvretmdsfjbyhof"
         msg = MIMEText(message)
         msg['Subject']= subject
         msg['From'] = from_email

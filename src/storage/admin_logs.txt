@@ -46,3 +46,7 @@
 [ADMIN] - (root@root@fut.com) - (rejected uid0973) on (04-September-2025) at (05:30 AM)
 [ADMIN] - (root@root@fut.com) - (viewed admission applications) on (04-September-2025) at (05:30 PM)
 [ADMIN] - (root@root@fut.com) - (admitted uid5588 with matric no: 2025/1/29050dt) on (04-September-2025) at (05:34 PM)
+[ADMIN] - (root@root@fut.com) - (viewed admission applications) on (17-October-2025) at (10:44 AM)
+[ADMIN] - (root@root@fut.com) - (viewed admission applications) on (17-October-2025) at (10:48 AM)
+[ADMIN] - (root@root@fut.com) - (viewed admission applications) on (17-October-2025) at (10:50 AM)
+[ADMIN] - (root@root@fut.com) - (viewed admission applications) on (18-October-2025) at (10:05 AM)

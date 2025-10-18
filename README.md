@@ -52,7 +52,7 @@ StudentPortal/
 ### Prerequisites
 
 - Clone the repository:
-
+ad
    ```
    git clone https://github.com/yourusername/StudentPortal.git
    ```

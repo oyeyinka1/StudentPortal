@@ -33,21 +33,38 @@
             "password": "9eddba8d6747972af2f7863b0139108a",
             "application_status": "pending"
         },
-        "uid5588": {
-            "id": "uid5588",
+        "uid7370": {
+            "id": "uid7370",
             "email": "mikestilfresh1@gmail.com",
             "first_name": "michael",
-            "middle_name": null,
-            "last_name": "oyeyinka",
-            "date_of_birth": "25-02-2005",
+            "middle_name": "oye",
+            "last_name": "yinka",
+            "date_of_birth": "25-05-2005",
             "state_of_origin": "kwara",
-            "state_of_residence": "kwara",
+            "state_of_residence": "abuja",
             "jamb_score": 300,
             "school": "sict",
             "course_of_choice": "data science",
             "course_code": "dts",
-            "application_date": "04-09-2025 17:29:25",
-            "password": "a3eb89ec52d47b748894e7d2166961bd",
+            "application_date": "17-10-2025 10:41:30",
+            "password": "c4fb03d9446a790c6cdad36b4288505b",
+            "application_status": "pending"
+        },
+        "uid7886": {
+            "id": "uid7886",
+            "email": "adebanjoayotomiwa19@gmail.com",
+            "first_name": "michael",
+            "middle_name": "oye",
+            "last_name": "yinka",
+            "date_of_birth": "25-05-2005",
+            "state_of_origin": "ogun",
+            "state_of_residence": "abuja",
+            "jamb_score": 300,
+            "school": "sict",
+            "course_of_choice": "data science",
+            "course_code": "dts",
+            "application_date": "18-10-2025 09:55:17",
+            "password": "96a16c6532839927a8df88123ee31ddd",
             "application_status": "pending"
         }
     }
